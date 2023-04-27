@@ -1,0 +1,67 @@
+.enterMembershipInfo{
+    text-align: center;
+}
+hr{
+    background-color: darkblue;
+    height: 2px;
+    width: 600px;
+}
+label{
+    width: 110px;
+    display: inline-block;
+}
+#logoPic{
+    width: 200px;
+    height: 100px;
+}
+#enterId{
+    width: 300px;
+    height: 30px;
+    border-color: darkblue;
+}
+#enterPassword
+{
+    width: 300px;
+    height: 30px;
+    border-color: darkblue;
+} 
+#againEnterPW
+{
+    width: 300px;
+    height: 30px;
+    border-color: darkblue;
+}
+#enterName{
+    width: 300px;
+    height: 30px;
+    border-color: darkblue;
+}
+#enterNickname{
+    width: 300px;
+    height: 30px;
+    border-color: darkblue;
+}
+#enterPhoneNum{
+    width: 300px;
+    height: 30px;
+    border-color: darkblue;
+}
+#enterVericationCode{
+    width: 400px;
+    height: 30px;
+    border-color: darkblue;
+    margin: 10px;
+}
+#receiveVericationCode{
+    background-color: white;
+    border-color: darkblue;
+    height: 35px;
+    width: 100px;  
+}
+#joinOurWeb{
+    background-color: white;
+    border-color: darkblue;
+    height: 40px;
+    width: 400px; 
+    margin-bottom: 10px;
+}
