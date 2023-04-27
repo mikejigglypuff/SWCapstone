@@ -1,0 +1,74 @@
+.menu{
+    display: inline-block;
+    border-bottom: 2px solid darkblue;
+    margin: 0 auto;
+}
+#menubar{
+    display: inline-block;
+}
+#logoPic{
+    float: left;
+    height: 70px;
+    width: 200px;
+}
+#menubar ul{
+    margin: 0;
+    padding: 0;
+    width: 970px;
+    height: 70px;
+}
+#menubar ul li{
+    display: inline-block;
+    list-style-type: none;
+    padding: 10px 30px;
+}
+#menubar ul li a{
+    text-decoration: none;
+    font-size: 20px;
+    color:darkblue;
+    font-weight: bold;
+}
+#backbtn{
+    background-color: white;
+    height: 70px;
+    width: 71px;
+    font-size: 15px;
+    border: none;
+    border-color: darkblue;
+}
+.enjoySpace{
+    display: inline-block;
+    width: 1230px;
+    height: 200px;
+}
+.choicehealth{
+    border: 2px solid darkblue;
+    display:inline-block;
+    width: 600px;
+    height: 124px;
+}
+#choiceOtherHealth{
+    float: right;
+}
+
+.calWeight{
+    border: 2px solid darkblue;
+    display:inline-block;
+    width: 600px;
+    height: 124px;
+}
+.board {
+    display: inline-block;
+    margin: 40px 40px;
+    height: 200px;
+    width: 300px;
+    color: darkblue;
+}
+#video{
+    margin: 0px 40px;
+}
+#mappic{
+    width: 100px;
+    height: 100px;
+}
+  
