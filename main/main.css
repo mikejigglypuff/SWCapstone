@@ -57,7 +57,7 @@
     width: 600px;
     height: 124px;
 }
-.board {
+.board_summ {
     display: inline-block;
     margin: 40px 40px;
     height: 200px;
@@ -71,4 +71,29 @@
     width: 100px;
     height: 100px;
 }
-  
+#post_id {
+    width: 50px;
+    margin-left: 25px;
+}
+#post_title{
+    width: 700px;
+}
+#post_date, #post_views, #post_recommends {
+    width: 90px;
+}
+.board hr {
+    width: 1230px;
+    margin: 5px 10px;
+}
+.board p {
+    display: inline-block;
+}
+.posts {
+    width: 1230px;
+    margin: 0px 0px 0px 10px;
+    border: 1px solid rgb(200, 200, 200);
+    border-width: 0px 0px 1px 0px;
+}
+.posts:hover {
+    background-color: lightgrey;
+}
