@@ -1,0 +1,51 @@
+.findIDSpace{
+    text-align: center;
+    margin: 0 auto;
+}
+#intro{
+    color: darkblue;
+    font-size: large;
+}
+#logopic{
+    width: 200px;
+    height: 100px;
+}
+hr{
+    background-color: darkblue;
+    height: 1px;
+    width: 500px;
+    text-align: left;
+}
+label{
+    display: inline-block;
+    width: 110px;
+    text-align: center;
+}
+#enterN{
+    width: 300px;
+    height: 30px;
+    border-color: darkblue;
+}
+#enterPhone{
+    width: 300px;
+    height: 30px;
+    border-color: darkblue;
+}
+#receiveCode{
+    background-color: white;
+    border-color: darkblue;
+    height: 35px;
+    width: 100px;  
+}
+#enterVertiCode{
+    width: 300px;
+    height: 30px;
+    border-color: darkblue;
+}
+#receiveMyID{
+    background-color: white;
+    border-color: darkblue;
+    height: 40px;
+    width: 400px; 
+    margin-bottom: 10px;
+}
