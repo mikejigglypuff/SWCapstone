@@ -37,3 +37,24 @@ function calcBMI(){
 
 BMIbtn.addEventListener("click", calcBMI);
 
+const choice = document.getElementById("choiceOtherHealth");
+
+let exerciese = ["등", "가슴", "어깨", "팔", "하체"];
+localStorage.setItem("exercises", JSON.stringify(exerciese));
+
+function OUNCHU(){
+    let talk = document.getElementById("todayExercise");
+    let undong, checkUndong;
+    let num;
+    num = Math.floor(Math.random() * 5);
+    if(localStorage.getItem('exercises') == null){
+        undong = [];
+    }
+    else{
+        undong = JSON.parse(localStorage.getItem('exercises'));
+    }
+    checkUndong = undong[num];
+    talk.innerText = `오늘 운동은 ${checkUndong} 각입니다.`;
+}
+
+choice.addEventListener("click", OUNCHU);
