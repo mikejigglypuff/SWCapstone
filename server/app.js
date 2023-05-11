@@ -2,7 +2,9 @@ const express = require("express");
 const path = require("path");
 
 const pageRouter = require("./routes/page");
+var sequelize = require('./models').sequelize;
 const app = express();
+sequelize.sync();
 
 //8001번 port에서 열림, 템플릿 엔진 사용
 app.engine("html", require("ejs").renderFile);
