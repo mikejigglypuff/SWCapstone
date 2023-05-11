@@ -13,7 +13,7 @@
 hr{
     background-color: darkblue;
     height: 1px;
-    width: 500px;
+    width: 650px;
     text-align: left;
 }
 label{
@@ -25,6 +25,9 @@ label{
     width: 300px;
     height: 30px;
     border-color: darkblue;
+}
+#enterphonenum{
+    margin-left: 105px;
 }
 #enterPhone{
     width: 300px;
@@ -46,6 +49,6 @@ label{
     background-color: white;
     border-color: darkblue;
     height: 40px;
-    width: 400px; 
+    width: 425px; 
     margin-bottom: 10px;
 }

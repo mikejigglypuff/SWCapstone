@@ -37,9 +37,10 @@
     border-color: darkblue;
 }
 .enjoySpace{
-    display: inline-block;
+    display: flex;
     width: 1230px;
-    height: 200px;
+    height: 150px;
+    gap: 20px;
 }
 .choicehealth{
     border: 2px solid darkblue;
