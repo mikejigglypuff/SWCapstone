@@ -46,7 +46,9 @@ function OUNCHU(){
     let talk = document.getElementById("todayExercise");
     let undong, checkUndong;
     let num;
+
     num = Math.floor(Math.random() * 5);
+
     if(localStorage.getItem('exercises') == null){
         undong = [];
     }
@@ -58,3 +60,10 @@ function OUNCHU(){
 }
 
 choice.addEventListener("click", OUNCHU);
+
+
+document.getElementById("backbtn").addEventListener(
+    "click", () => {
+        location.href = "/resources/login/login.html";
+    }
+);
