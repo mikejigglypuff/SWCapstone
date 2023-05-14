@@ -27,3 +27,7 @@ exports.renderFindPW = (req, res) => {
 exports.renderReplacePW = (req, res) => {
   res.render("replacePW");
 };
+
+exports.renderWriteboard = (req, res) => {
+  res.render("writeboard");
+};
