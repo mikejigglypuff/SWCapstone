@@ -1,0 +1,4 @@
+package-lock.json
+node_modules/
+#config.json에 자신의 mysql db 비밀번호 입력할 것
+config/config.json

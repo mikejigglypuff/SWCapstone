@@ -1,7 +1,6 @@
 //라우팅 기능 구현 모듈
 
 const express = require("express");
-var User = require('../models/users');
 const { renderMain, renderBoard, renderLogin, renderFindID, 
   renderJoin, renderFindPW, renderReplacePW, 
   renderWriteboard} = require("../controller/page");
