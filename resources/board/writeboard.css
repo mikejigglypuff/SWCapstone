@@ -1,0 +1,55 @@
+.choiceBoard{
+    border-bottom: 1px solid darkblue;
+    padding: 10px 0px;
+}
+label{
+    color: darkblue;
+    display: inline-block;
+    width:150px;
+    text-align: center;
+}
+#selectboard{
+    width:200px;
+    height: 25px;
+    margin-left: 20px;
+}
+.writeTitle{
+    border-bottom: 1px solid darkblue;
+    padding: 10px 0px;
+}
+#inputTitle{
+    width: 500px;
+    height: 25px;
+    margin-left: 17px;
+}
+.showToolBar{
+    display:flex;
+    gap: 15px;
+    border-bottom: 1px solid darkblue;
+    padding: 10px 0px;
+}
+.writeText *{
+    vertical-align: middle;
+    padding: 10px 0px;
+}
+textarea{
+    width: 1000px;
+    height: 400px;
+    margin-left: 20px;
+    
+}
+.buttonArea{
+    display:flex;
+    justify-content: center;
+    gap: 50px;
+    padding: 10px 0px;
+}
+#write, #cancel{
+    color: darkblue;
+    border-radius: 60px;
+    border-color: darkblue;
+    background-color: white;
+    width: 150px;
+    height: 50px;
+    font-size: 20px;
+}
