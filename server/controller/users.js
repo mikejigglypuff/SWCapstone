@@ -1,5 +1,4 @@
 const User = require("../models/users");
-const { Op } = require("sequelize");
 
 exports.getUser = async (req, res, next) => {
   try {
@@ -8,7 +7,7 @@ exports.getUser = async (req, res, next) => {
         name: req.body.name
       },
     });
-    res.json(user);
+    res.redirect("/login");
   } catch(err) {
     console.log(err);
     next(err);
@@ -22,7 +21,7 @@ exports.postUser = async (req, res, next) => {
       password: req.body.password,
     });
     console.log(user);
-    res.render("login");
+    res.redirect("login");
   } catch(err) {
     console.log(err);
     next(err);

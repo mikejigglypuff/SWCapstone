@@ -2,6 +2,7 @@ const express = require("express");
 const path = require("path");
 
 const pageRouter = require("./routes/page");
+const userRouter = require("./routes/users");
 var sequelize = require('./models').sequelize;
 const app = express();
 sequelize.sync();
@@ -19,6 +20,7 @@ app.use("/join", express.static("../resources/login/joinMembership"));
 app.use("/replace", express.static("../resources/login"));
 app.use("/board", express.static("../resources/board"));
 app.use("/img", express.static("../resources/img"));
+app.user("/user", userRouter);
 app.use("/", pageRouter);
 
 //에러처리
