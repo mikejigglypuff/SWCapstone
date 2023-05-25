@@ -27,4 +27,3 @@ exports.postUser = async (req, res, next) => {
     console.log(err);
     next(err);
   }
-};
