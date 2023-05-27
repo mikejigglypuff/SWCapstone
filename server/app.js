@@ -20,7 +20,7 @@ app.use("/join", express.static("../resources/login/joinMembership"));
 app.use("/replace", express.static("../resources/login"));
 app.use("/board", express.static("../resources/board"));
 app.use("/img", express.static("../resources/img"));
-app.user("/user", userRouter);
+app.use("/user", userRouter);
 app.use("/", pageRouter);
 
 //에러처리
