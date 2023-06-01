@@ -7,6 +7,7 @@ exports.getUser = async (req, res, next) => {
         name: req.body.name
       },
     });
+    console.log(user);
     res.redirect("/login");
   } catch(err) {
     console.log(err);
@@ -21,7 +22,7 @@ exports.postUser = async (req, res, next) => {
       password: req.body.password,
     });
     console.log(user);
-    res.redirect("login");
+    res.redirect("/login");
   } catch(err) {
     console.log(err);
     next(err);

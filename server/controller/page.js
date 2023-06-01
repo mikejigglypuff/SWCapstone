@@ -1,11 +1,20 @@
+const authCheck = require("../authCheck");
 //api 콜백함수 구현 모듈
 
 exports.renderMain = (req, res) => {
-  res.render("main");
+  if(!authCheck.hasSession(req, res)) {
+    res.render("main", {logined: false});
+  } else {
+    res.render("main", {logined: true});
+  }
 };
 
 exports.renderBoard = (req, res) => {
-  res.render("board", { type: 'free'});
+  if(!authCheck.hasSession(req, res)) {
+    res.render("board", {logined: false});
+  } else {
+    res.render("board", {logined: true});
+  }
 };
 
 exports.renderLogin = (req, res) => {

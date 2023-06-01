@@ -1,6 +1,7 @@
 const uheight = document.querySelector("#height");
 const uweight = document.querySelector("#weight");
 const BMIbtn = document.querySelector("#resultbtn");
+const loginRender = require("../loginRender");
 
 function calcBMI(){
     let hei = parseFloat(uheight.value);
@@ -67,3 +68,5 @@ document.getElementById("backbtn").addEventListener(
         location.href = "/resources/login/login.html";
     }
 );
+
+loginRender("/");

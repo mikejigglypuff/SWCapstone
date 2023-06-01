@@ -1,9 +1,16 @@
 const express = require("express");
 const path = require("path");
+const session = require("express-session");
+const bodyParser = require("body-parser");
+const mysqlStore = require("express-mysql-session")(session);
 
 const pageRouter = require("./routes/page");
 const userRouter = require("./routes/users");
-var sequelize = require('./models').sequelize;
+const authRouter = require("./routes/auth");
+const logoutRouter = require("./routes/logout");
+const sessionConfig = require("./config/session.json");
+const sessionStore = new mysqlStore(sessionConfig.connection);
+let sequelize = require('./models').sequelize;
 const app = express();
 sequelize.sync();
 
@@ -11,6 +18,18 @@ sequelize.sync();
 app.engine("html", require("ejs").renderFile);
 app.set("port", process.env.PORT || 8001);
 app.set("view engine", "html");
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(session({
+  secret: sessionConfig.key,
+  resave: false,
+  saveUninitialized: true,
+  store: sessionStore,
+  cookie: {
+    path: "/",
+    httpOnly: true,
+    secure: false
+  }
+}));
 
 // css, frontend js 파일 등 정적 파일에 대한 경로를 제공하는 미들웨어 
 app.use("/", express.static("../resources/main"));
@@ -20,6 +39,9 @@ app.use("/join", express.static("../resources/login/joinMembership"));
 app.use("/replace", express.static("../resources/login"));
 app.use("/board", express.static("../resources/board"));
 app.use("/img", express.static("../resources/img"));
+
+app.use("/login/auth", authRouter);
+app.use("/logout", logoutRouter);
 app.use("/user", userRouter);
 app.use("/", pageRouter);
 
