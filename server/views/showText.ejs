@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>게시물 보기</title>
+    <link rel="stylesheet" href="showText.css">
+</head>
+<body>
+    <div id="extraArea">
+        <div id="showTitle">
+            <h2 id="title">게시글 제목<h2>
+        </div>
+        <div id="extranum">
+            <div style="margin-left: 20px;"> 
+                작성자 <span id="writer">xxx</span>
+            </div>
+            <div> 
+                글 작성일 <span id="writeYear">2xxx년 xx월 xx일</span>
+            </div>
+            <div>
+                조회 수 <span id="watchPeople">xx</span>명  
+            </div>
+            <div>
+                추천 수 <span id="recommandPeople">xx</span>개
+            </div>
+            <div>
+                댓글 수 <span id="commentNum">xx</span>개
+            </div>
+        </div>
+    </div><br>
+    <div id="txtArea">
+        <p id="seeText">text</p>
+    </div><br>
+    <div id="buttonArea">
+        <button id="recommandBtn"><img id="thumbsup" src="../resources/img/thumbsup.jpg">추천<span id="recommandN"></span></button>
+    </div><br>
+    <h3 style="margin-left: 30px; color: darkblue;">댓글 <span id="commentN">N<span></span></h3>
+    <div id="commentArea">
+        <form>
+            <input id="inputComment" type="text" placeholder="댓글을 입력하세요">
+            <button id="loadComment">입력</button>            
+        </form>
+        <hr>
+        <div>
+            <p id="username">사용자</p>
+            <p id="comment">댓글을 남겼다.</p>
+        </div>
+    </div>
+
+</body>
+</html>

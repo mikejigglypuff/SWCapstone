@@ -2,28 +2,30 @@ const express = require("express");
 const path = require("path");
 const session = require("express-session");
 const bodyParser = require("body-parser");
-const mysqlStore = require("express-mysql-session")(session);
+const fileStore = require("session-file-store")(session);
 
 const pageRouter = require("./routes/page");
 const userRouter = require("./routes/users");
 const authRouter = require("./routes/auth");
+const postRouter = require("./routes/posts");
 const logoutRouter = require("./routes/logout");
 const sessionConfig = require("./config/session.json");
-const sessionStore = new mysqlStore(sessionConfig.connection);
 let sequelize = require('./models').sequelize;
 const app = express();
 sequelize.sync();
 
 //8001번 port에서 열림, 템플릿 엔진 사용
+app.set("views", __dirname + "/views");
 app.engine("html", require("ejs").renderFile);
 app.set("port", process.env.PORT || 8001);
-app.set("view engine", "html");
+app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 app.use(session({
   secret: sessionConfig.key,
   resave: false,
   saveUninitialized: true,
-  store: sessionStore,
+  store: new fileStore(),
   cookie: {
     path: "/",
     httpOnly: true,
@@ -35,13 +37,14 @@ app.use(session({
 app.use("/", express.static("../resources/main"));
 app.use("/login", express.static("../resources/login"));
 app.use("/findIDPW", express.static("../resources/login/findIDPW"));
-app.use("/join", express.static("../resources/login/joinMembership"));
+app.use("/joinMembership", express.static("../resources/login/joinMembership"));
 app.use("/replace", express.static("../resources/login"));
 app.use("/board", express.static("../resources/board"));
 app.use("/img", express.static("../resources/img"));
 
 app.use("/login/auth", authRouter);
 app.use("/logout", logoutRouter);
+app.use("/post", postRouter);
 app.use("/user", userRouter);
 app.use("/", pageRouter);
 
@@ -56,7 +59,10 @@ app.use((err, req, res, next) => {
   res.locals.message = err.message;
   res.locals.error = process.env.NODE_ENV !== "production" ? err : {};
   res.status(err.status || 500);
-  res.render("error");
+  res.render("error", {
+    error: err.status + "Error",
+    message: err.message
+  });
 });
 
 app.listen(app.get("port"), () => {

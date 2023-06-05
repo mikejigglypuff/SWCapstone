@@ -1,28 +1,29 @@
 const express = require("express");
 const crypto = require("crypto");
-const User = require("../models/users");
+const DB = require("../models/index");
 const router = express.Router();
 
 router.post("/", async (req, res) => {
   const id = req.body.id;
   const pw = req.body.pw;
+  console.log(req.body);
 
   if(id && pw) {
-    const user = await User.findOne({where: {id: id}});
+    const user = await DB.Users.findOne({where: {username: id}});
+
+    console.log(user);
 
     if(user) {
+      const rand = crypto.randomUUID();
       req.session.is_Logined = true;
-      req.session.name = crypto.randomUUID();
-      req.session.save(() => {
+      req.session.name = rand;
+      req.session.userName = user.username;
+      req.session.save((err) => {
+        if(err) { return next(err); }
         res.redirect("/");
-      })
-
+      });
     } else {
-      res.send(`
-      <script type="text/javascript">
-        alert("로그인 정보가 일치하지 않습니다."); 
-        document.location.href="/login";
-      </script>`);
+      res.redirect("/login");
     }
   }
 });
