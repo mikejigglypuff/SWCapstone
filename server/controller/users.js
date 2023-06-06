@@ -1,14 +1,14 @@
-const User = require("../models/users");
-const { Op } = require("sequelize");
+const DB = require("../models/index");
 
 exports.getUser = async (req, res, next) => {
   try {
-    const user = await User.findAll({
+    const user = await DB.Users.findAll({
       where: {
         name: req.body.name
       },
     });
-    res.json(user);
+    console.log(user);
+    res.send(user);
   } catch(err) {
     console.log(err);
     next(err);
@@ -17,12 +17,14 @@ exports.getUser = async (req, res, next) => {
 
 exports.postUser = async (req, res, next) => {
   try {
-    const user = await User.create({
-      phonenumber: req.body.phonenumber,
-      password: req.body.password,
+    
+    const user = await DB.Users.create({
+      phonenumber: req.body.phoneNum,
+      password: req.body.pw,
+      username: req.body.name,
     });
     console.log(user);
-    res.render("login");
+    res.redirect("/login");
   } catch(err) {
     console.log(err);
     next(err);
