@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>게시판 글 작성</title>
+    <link rel="stylesheet" href="/board/writeBoard.css">
+</head>
+<body>
+    <div class="writeBoard">
+        <div class="choiceBoard">
+            <form>
+                <label>게시판 종류 선택</label>
+                <select id="selectboard" name="boardName">
+                    <option value="free">자유게시판</option>
+                    <option value="free">식단&운동 공유 게시판</option>
+                    <option value="free">공지게시판</option>
+                </select>
+            </form>
+        </div>
+        <div class="writeTitle">
+            <form>
+                <label>제목</label>
+                <input type="text" id="inputTitle" placeholder="제목을 입력하세요">
+            </form>
+        </div>
+        <div class="showToolBar">
+            <form>
+                <select id="selectFontSize" name="fontsize">
+                    <option value="9px">9</option>
+                    <option value="10px" selected>10</option>
+                    <option value="11px">11</option>
+                    <option value="12px">12</option>
+                    <option value="14px">14</option>
+                    <option value="16px">16</option>
+                    <option value="18px">18</option>
+                    <option value="20px">20</option>
+                    <option value="22px">22</option>
+                    <option value="24px">24</option>
+                    <option value="26px">26</option>
+                    <option value="28px">28</option>
+                    <option value="30px">30</option>
+                </select>
+                색 변경 <input type="color" value="black">
+            </form>
+            <button id="changeBold">B</button>
+        </div>
+        <div class="writeText">
+            <form>
+                <label>내용</label>
+                <textarea id="inputText" rows="" cols="" ></textarea>
+            </form>
+        </div><br>
+        <div class="buttonArea">
+            <button id="write">작성</button>
+            <button id="cancel">취소</button>
+        </div>
+    </div>
+    <script src="/board/writeBoard.js?ver=1"></script>
+</body>
+</html>
