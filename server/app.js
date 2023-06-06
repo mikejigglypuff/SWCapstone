@@ -41,6 +41,7 @@ app.use("/joinMembership", express.static("../resources/login/joinMembership"));
 app.use("/replace", express.static("../resources/login"));
 app.use("/board", express.static("../resources/board"));
 app.use("/img", express.static("../resources/img"));
+app.use("/searchFitnessCenter", express.static("../resources/searchFitnessCenter")); 
 
 app.use("/login/auth", authRouter);
 app.use("/logout", logoutRouter);
