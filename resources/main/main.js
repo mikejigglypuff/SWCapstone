@@ -1,6 +1,7 @@
 const uheight = document.querySelector("#height");
 const uweight = document.querySelector("#weight");
 const BMIbtn = document.querySelector("#resultbtn");
+const axios = require("axios");
 
 function calcBMI(){
     let hei = parseFloat(uheight.value);
@@ -61,9 +62,16 @@ function OUNCHU(){
 
 choice.addEventListener("click", OUNCHU);
 
-
-document.getElementById("backbtn").addEventListener(
-    "click", () => {
-        location.href = "/resources/login/login.html";
-    }
-);
+window.onload = axios.get("/")
+.then((res) => {
+  let menu = document.querySelector(".menu");
+  let child = `<a href=`;
+  if(res.json.logined) {
+    child += `"/logout">로그아웃`
+  } else {
+    child += `"/login">로그인`
+  }
+  menu.insertAdjacentElement("beforeend", child);
+}).catch((err) => {
+  console.log(err);
+});

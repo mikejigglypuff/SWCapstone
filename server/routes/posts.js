@@ -1,10 +1,10 @@
 const express = require("express");
-const {getUser, postUser} = require("../controller/users");
+const {getPost, postPost} = require("../controller/posts");
 
 const router = express.Router();
 
 router.route('/')
-  .get(getUser)
-  .post(postUser);
+  .get(getPost)
+  .post(postPost);
 
 module.exports = router;
