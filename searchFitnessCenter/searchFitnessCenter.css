@@ -1,0 +1,20 @@
+#searchplace{
+   text-align: center;
+}
+#inputPlace{
+    width: 500px;
+    height: 30px;
+    margin-left: 15px;
+    border-color: darkblue;
+}
+#enterPlace{
+    width: 100px;
+    height: 35px;
+    border-color: darkblue;
+    background-color: darkblue;
+    color: white;
+}
+label{
+    font-size: 18px;
+    color: darkblue;
+}

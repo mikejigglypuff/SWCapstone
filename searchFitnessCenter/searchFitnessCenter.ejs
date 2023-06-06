@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>내 주변 헬스장 찾기</title>
+    <link rel="stylesheet" href="searchFitnessCenter.css">
+</head>
+<body>
+    <div id="searchplace">
+        <form>
+            <label for="inputPlace">원하는 장소를 입력하세요</label>
+            <input type="text" id="inputPlace" placeholder="~ 근처 헬스장이라 입력하세요">
+            <button id="enterPlace">검색</button>
+        </form>
+    </div><br>
+    <div id="map" style="width:100%;height:550px; border: 1px solid darkblue"></div>
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=	93aff6cbd635e975b5f311f57f298da8&libraries=services"></script>
+    <script src="searchFitnessCenter.js"></script>
+</body>
+</html>
