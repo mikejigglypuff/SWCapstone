@@ -4,7 +4,7 @@ login_btn.addEventListener("click", async () => {
   const ID = document.getElementById("id_input").value;
   const PW = document.getElementById("pw_input").value;
 
-  fetch("./login/auth", {
+  fetch("./auth", {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
