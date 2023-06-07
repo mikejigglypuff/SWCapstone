@@ -102,6 +102,7 @@
 }
 #boardtitle{
     display: flex;
+    width: 1230px;
     justify-content: space-between;
 }
 #writing{
