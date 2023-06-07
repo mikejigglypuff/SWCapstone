@@ -48,3 +48,7 @@ exports.renderWriteboard = (req, res) => {
     res.render("writeboard.ejs");
   }
 };
+
+exports.rendersearchFitnessCenter = (req, res) => {
+  res.render("searchFitnessCenter.ejs");
+};
