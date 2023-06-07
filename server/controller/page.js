@@ -50,5 +50,5 @@ exports.renderWriteboard = (req, res) => {
 };
 
 exports.rendersearchFitnessCenter = (req, res) => {
-  res.render("rendersearchFitnessCenter.ejs");
+  res.render("searchFitnessCenter.ejs");
 };
