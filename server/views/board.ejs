@@ -15,7 +15,7 @@
             <li><a href="/">Home</a></li>
             <li><a href="../board">자유게시판</a></li>
             <li><a href="../board">식단&운동 공유 게시판</a></li>
-            <li><a href="../board">내 주변 헬스장 찾기</a></li>
+            <li><a href="../searchFitnessCenter">내 주변 헬스장 찾기</a></li>
             <li><a href="../board">공지</a></li>
         </ul>
     </nav>
@@ -24,7 +24,7 @@
   <div class="board">
     <div id="boardtitle">
       <p style="margin-left: 10px; font-size: 17px;">자유게시판<p>
-      <button id="writing">글 쓰기</button>
+      <button id="writing" onclick="location.href = '/writeboard'">글 쓰기</button>
     </div>
     <hr>
     <p id="post_id">번호</p>
@@ -33,13 +33,13 @@
     <p id="post_views">조회수</p>
     <p id="post_recommends">추천수</p>
     <hr>
-    <article class="posts" id="post1">
+    <article class="posts" id="post1"><a href="/showText">
       <p id="post_id">1</p>
       <p id="post_title">안녕하세요</p>
       <p id="post_date">04/28</p>
       <p id="post_views">15</p>
       <p id="post_recommends">3</p>
-    </article>
+    </a></article>
   </div>
   <script type="commomjs" src="/board.js"></script>
 </body>

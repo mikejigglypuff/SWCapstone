@@ -37,6 +37,10 @@ exports.renderReplacePW = (req, res) => {
   res.render("replacePW.ejs");
 };
 
+exports.renderShowText = (req, res) => {
+  res.render("showText.ejs");
+}
+
 exports.renderWriteboard = (req, res) => {
   if(!authCheck.hasSession(req, res)) {
     res.status(403);

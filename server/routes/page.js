@@ -2,7 +2,7 @@
 
 const express = require("express");
 const { renderMain, renderBoard, renderLogin, renderFindID, 
-  renderJoin, renderFindPW, renderReplacePW, 
+  renderJoin, renderFindPW, renderReplacePW, renderShowText,
   renderWriteboard, rendersearchFitnessCenter} = require("../controller/page");
 
 const router = express.Router();
@@ -14,6 +14,7 @@ router.get("/join", renderJoin);
 router.get("/findID", renderFindID);
 router.get("/findPW", renderFindPW);
 router.get("/replacePW", renderReplacePW);
+router.get("/showText", renderShowText);
 router.get("/writeboard", renderWriteboard);
 router.get("/searchFitnessCenter", rendersearchFitnessCenter);
 
