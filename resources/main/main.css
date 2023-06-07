@@ -100,3 +100,15 @@
 .posts:hover {
     background-color: lightgrey;
 }
+#boardtitle{
+    display: flex;
+    justify-content: space-between;
+}
+#writing{
+    width: 100px;
+    height: 32px;
+    margin-right: 22px;
+    font-size: 15px;
+    border-color: darkblue;
+    background-color: white;
+}

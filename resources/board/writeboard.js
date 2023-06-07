@@ -1,8 +1,9 @@
 const write_btn = document.getElementById("write");
 
-write_btn.addEventListener("click", () => {
+write_btn.addEventListener("click", async () => {
   const Title = document.getElementById("inputTitle").value;
   const Content = document.getElementById("inputText").value;
+
   fetch("./post", {
     method: "POST",
     headers: {
@@ -18,4 +19,4 @@ write_btn.addEventListener("click", () => {
   }).catch((err) => {
       console.log(err);
   });
-})
+});
