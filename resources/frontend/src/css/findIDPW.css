@@ -1,0 +1,99 @@
+#enterAuthCode{
+    width: 300px;
+    height: 30px;
+    border-color: darkblue;
+}
+#enterName{
+    width: 300px;
+    height: 30px;
+    border-color: darkblue;
+}
+#enterPhone{
+    width: 300px;
+    height: 30px;
+    border-color: darkblue;
+}
+#enterPhonenum{
+    margin-left: 105px;
+}
+#find_PW {
+    display: block;
+    margin-top: 40px;
+    width: 110px;
+}
+#findMyID{
+    background-color: white;
+    border-color: darkblue;
+    height: 40px;
+    width: 425px; 
+    margin-bottom: 10px;
+}
+#getCode{
+    background-color: white;
+    border-color: darkblue;
+    height: 35px;
+    width: 100px;  
+}
+#logopic{
+    width: 200px;
+    height: 100px;
+}
+
+#auth_Input, #find_PW {
+    margin-left: 75px;
+}
+#id_Input, #phone_Input {
+    width: 300px;
+}
+#id_Text, #phone_Text {
+    display: inline-block;
+    width: 70px;
+}
+
+.enterInfo{
+    text-align: center;
+    margin: 0 auto;
+}
+.etc {
+    margin-top: 12px;
+}
+.intro{
+    color: darkblue;
+    font-size: large;
+}
+
+button {
+    width: 100px;
+    height: 30px;
+    background-color: white;
+    border: 2px solid navy;
+}
+div {
+    width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+}
+html {
+    overflow: hidden;
+    white-space: nowrap;
+}
+hr{
+    background-color: darkblue;
+    height: 1px;
+    width: 650px;
+    text-align: left;
+}
+img {
+    display: block;
+    margin: auto;
+}
+input {
+    width: 150px;
+    height: 30px;
+    border: 2px solid navy;
+}
+label{
+    display: inline-block;
+    width: 110px;
+    text-align: center;
+}
