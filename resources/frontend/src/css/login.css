@@ -1,0 +1,54 @@
+.Login{
+    text-align: center;
+    width: 100%;
+    margin-top: 5%;
+}
+.title{
+    border-bottom: 2px solid darkblue;
+    margin: 0 auto;
+    width: 47%;
+}
+.title img{
+    width: 45%;
+    height: 17vh;
+}
+.enterLoginInfo{
+    width: 100%;
+    margin-top: 20px;
+}
+.enterLoginInfo input{
+    width: 35%;
+    height: 6vh;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    border: 2px solid darkblue;
+    border-radius: 5px;
+    padding-left: 10px;
+    font-size: 1rem;
+}
+.enterLoginInfo label {
+	display: inline-block;
+	text-align: center;
+	width: 100px;
+    height: 6vh;
+    font-size: 18px;
+    justify-content: center;
+}
+.btnArea button{
+    margin-top: 20px;
+    margin-left: 100px;
+    border: none;
+    background-color: navy;
+    color:white;
+    font-size: 18px;
+    border-radius: 5px;
+    width: 36%;
+    height: 7vh;
+}
+.movePage{
+    display: flex;
+    justify-content: center;
+    margin-left: 3.5rem;
+    font-size: 1.2rem;
+    gap: 3rem;
+}
