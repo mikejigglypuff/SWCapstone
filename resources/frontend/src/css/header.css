@@ -11,13 +11,14 @@ body{
 }
 .Header img{
     height: 15vh;
-    width: 13%;
+    width: 100%;
 }
 .Header button{
     height: 15vh;
-    width: 10%;
+    width: 150px;
     font-size: 20px;
     color:darkblue;
+    cursor: pointer;
     font-weight: bold;
     background-color: white;
     border: none;

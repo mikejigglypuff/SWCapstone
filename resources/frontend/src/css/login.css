@@ -44,6 +44,7 @@
     border-radius: 5px;
     width: 36%;
     height: 7vh;
+    cursor: pointer;
 }
 .movePage{
     display: flex;
