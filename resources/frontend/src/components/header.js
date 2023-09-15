@@ -1,10 +1,11 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import "../css/header.css";
 
 const Header = () => {
     return(
         <div className="Header">
-            <img src="https://media.discordapp.net/attachments/1083261485498781763/1090877545580343406/image.png?width=510&height=213" />
+            <Link to="/"><img src="https://media.discordapp.net/attachments/1083261485498781763/1090877545580343406/image.png?width=510&height=213" /></Link>
             <nav className = "menubar">
                 <ul>
                     <li><a href="">Home</a></li>
@@ -14,7 +15,7 @@ const Header = () => {
                     <li><a href="">공지</a></li>
                 </ul>
             </nav>
-            <button>로그인</button>
+            <Link style={{textDecoration:"none", color: "navy"}} to="/login"><button>로그인</button></Link>
         </div>
     );
 }

@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import "../css/login.css"
 
 const Login = () => {
@@ -27,9 +28,9 @@ const Login = () => {
             <div className="btnArea">
                 <button>로그인</button>
                 <div className="movePage">
-                    <p>회원가입</p>
-                    <p>ID찾기</p>
-                    <p>PW찾기</p>
+                    <Link style={{textDecoration:"none", color: "navy"}} to='/joinmembership'><p>회원가입</p></Link>
+                    <Link style={{textDecoration:"none", color: "black"}} to='/findID'><p>ID찾기</p></Link>
+                    <Link style={{textDecoration:"none", color: "black"}} to='/findPW'><p>PW찾기</p></Link>
                 </div>
             </div>
         </div>

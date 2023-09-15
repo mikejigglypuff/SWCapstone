@@ -1,28 +1,24 @@
-.findIDPW{
+.JoinMembership{
     text-align: center;
     width: 100%;
     margin-top: 30px;
 }
-.FIPtitle{
+.Jtitle{
     border-bottom: 2px solid darkblue;
     margin: 0 auto;
     width: 43%;
 }
-.FIPtitle img{
+.Jtitle img{
     width: 40%;
     height: 15vh;
 }
-.FIPtitle p{
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: navy;
-}
-.findIDPWInfoArea{
+.enterMembershipInfo{
+    margin-top: 30px;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 20px;
 }
-.findIDPWInfoArea label{
+.inputBox label{
     display: inline-block;
 	text-align: center;
 	width: 140px;
@@ -30,22 +26,30 @@
     font-size: 18px;
     justify-content: center;
 }
-.findIDPWInfoArea input{
+.inputBox input{
     border: 2px solid navy;
     border-radius: 10px;
     width: 30%;
     height: 6vh;
     padding-left: 10px;
-    font-size: 1rem;
+    font-size: 0.9rem;
 }
-#phonenum{
+#phoneNum{
     border: 2px solid navy;
     border-radius: 10px;
     width: 20%;
     height: 6vh;
     padding-left: 10px;
 }
-.getCheckingCode button{
+.enterPhoneNum label{
+    display: inline-block;
+	text-align: center;
+	width: 140px;
+    height: 6vh;
+    font-size: 18px;
+    justify-content: center;
+}
+.enterPhoneNum button{
 	width: 9%;
     height: 6vh;
     border: 2px solid navy;
@@ -56,11 +60,7 @@
     justify-content: center;
     cursor: pointer;
 }
-.getCheckingCode button:hover{
-    background-color: navy;
-    color: white;
-}
-#checkPWCode{
+#inputCheckNum{
     border: 2px solid navy;
     border-radius: 10px;
     width: 30%;
@@ -68,24 +68,16 @@
     padding-left: 10px;
     margin-left: 140px;
 }
-.getCheckingCode label{
-    display: inline-block;
-	text-align: center;
-	width: 140px;
-    height: 6vh;
-    font-size: 18px;
-    justify-content: center;
-}
-.FIPbtnArea button{
+.joinbtn{
     width: 31%;
     height: 7vh;
     border: none;
     background-color: navy;
     color: white;
     border-radius: 10px;
-    font-size: 1.2rem;
+    font-size: 18px;
     margin-left: 140px;
-    margin-top: 1rem;
-    margin-bottom: 1rem;
+    margin-top: 20px;
+    margin-bottom: 10px;
     cursor: pointer;
 }
