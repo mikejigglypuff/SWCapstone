@@ -1,10 +1,12 @@
 const express = require("express");
-const {getUser, postUser} = require("../controller/users");
+const {getUser, postUser, deleteUser, patchUser} = require("../controller/users");
 
 const router = express.Router();
 
 router.route('/')
   .get(getUser)
-  .post(postUser);
+  .post(postUser)
+  .delete(deleteUser)
+  .patch(patchUser);
 
 module.exports = router;

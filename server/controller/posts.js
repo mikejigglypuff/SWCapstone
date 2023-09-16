@@ -12,6 +12,7 @@ exports.getPost = async (req, res, next) => {
     console.log(post);
     res.send(post);
   } catch(err) {
+    err.status = 400;
     console.log(err);
     next(err);
   }
@@ -28,6 +29,7 @@ exports.postPost = async (req, res, next) => {
     console.log(post);
     res.redirect("/board");
   } catch(err) {
+    err.status = 400;
     console.log(err);
     next(err);
   }

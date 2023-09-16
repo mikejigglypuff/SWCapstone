@@ -20,10 +20,10 @@ router.post("/", async (req, res) => {
       req.session.userName = user.username;
       req.session.save((err) => {
         if(err) { return next(err); }
-        res.redirect("/");
+        res.status(201).redirect("/");
       });
     } else {
-      res.redirect("/login");
+      res.status(400).redirect("/login");
     }
   }
 });
