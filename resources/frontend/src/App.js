@@ -7,6 +7,9 @@ import FindID from "./pages/findID";
 import FindPW from "./pages/findPW";
 import ShowText from "./pages/ShowText";
 import ReplacePW from "./pages/ReplacePW";
+import WriteBoard from "./pages/WriteBoard";
+import SearchFitnessCenter from "./pages/SearchFitnessCenter";
+import Board from "./pages/Board";
 import { Route, Routes } from 'react-router-dom';
 
 function App() {
@@ -22,6 +25,9 @@ function App() {
         <Route path="/joinmembership" element ={<JoinMembership />} />
         <Route path="/showtext" element ={<ShowText />} />
         <Route path="/replacePW" element ={<ReplacePW />} />
+        <Route path="/writeboard" element ={<WriteBoard />} />
+        <Route path="/searchfitnesscenter" element ={<SearchFitnessCenter />} />
+        <Route path="/board" element ={<Board />} />
       </Routes>
     </div>
   );

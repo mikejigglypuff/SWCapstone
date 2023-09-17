@@ -8,6 +8,7 @@ body{
     justify-content: space-between;
     align-items: center;
     border-bottom: 2px solid darkblue;
+    background-color: white;
 }
 .Header img{
     height: 15vh;
