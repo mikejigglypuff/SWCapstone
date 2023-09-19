@@ -1,0 +1,109 @@
+.WriteBoard{
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.WBtitle{
+    width: 100%;
+    margin-left: 10%;
+    margin-top: 2%;
+    color: navy;
+}
+.WBtitle h2{
+    text-align: center;
+}
+.choiceBoardKindArea{
+    width: 100%;
+    margin-left: 10%;
+    padding-top: 1.5%;
+    border-bottom: 1px solid navy;
+    border-top: 1px solid navy;
+}
+.choiceBoardKindArea label{
+    display: inline-block;
+	text-align: center;
+	width: 140px;
+    height: 6vh;
+    font-size: 18px;
+    justify-content: center;
+    color: navy;
+}
+.choiceBoardKindArea select{
+    margin-left: 1.2rem;
+    height: 4vh;
+    width: 20%;
+    font-size: 1rem;
+    padding-left: 0.5rem;
+    cursor: pointer;
+}
+.enterTitleArea{
+    width: 100%;
+    margin-left: 10%;
+    border-bottom: 1px solid navy;
+}
+.enterTitleArea label{
+    display: inline-block;
+	text-align: center;
+	width: 140px;
+    height: 6vh;
+    font-size: 18px;
+    justify-content: center;
+    color: navy;
+}
+.enterTitleArea input{
+    margin-left: 1.2rem;
+    padding-left: 0.5rem;
+    height: 5vh;
+    width: 80%;
+    font-size: 1rem;
+    border: none;
+}
+.enterTextArea {
+    width: 100%;
+    display: flex; 
+    align-items: center; 
+    margin-left: 10%;
+}
+.enterTextArea label {
+    text-align: center;
+    width: 140px;
+    font-size: 18px;
+    justify-content: center;
+    color: navy;
+    flex-shrink: 0;
+}
+.enterTextArea textarea {
+    border: 1px solid navy;
+    border-radius: 5px;
+    width: 85%;
+    height: 70vh;
+    padding-top: 0.5rem;
+    padding-left: 0.5rem;
+    font-size: 1.1rem;
+    margin-bottom: 1.2rem;
+    margin-left: 1.2rem;
+    overflow: auto;
+}
+.WBbtnArea{
+    width: 100%;
+    display: flex;
+    gap: 20px; 
+    justify-content: center; 
+    margin-left: 15%;
+    margin-bottom: 2rem;
+}
+.WBbtnArea button{
+    width: 15%;
+    height: 7vh;
+    border-radius: 10px;
+    border: 2px solid navy;
+    background-color: white;
+    color: navy;
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+.WBbtnArea button:hover{
+    background-color: navy;
+    color: white;
+}
