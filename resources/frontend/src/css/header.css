@@ -9,6 +9,7 @@ body{
     align-items: center;
     border-bottom: 2px solid darkblue;
     background-color: white;
+    box-shadow: 5px 5px 10px gray;
 }
 .Header img{
     height: 15vh;
