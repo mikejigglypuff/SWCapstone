@@ -8,23 +8,22 @@ router.post("/", async (req, res) => {
   const pw = req.body.pw;
   console.log(req.body);
 
-  if(id && pw) {
+  try {
     const user = await DB.Users.findOne({where: {username: id}});
-
     console.log(user);
-
-    if(user) {
-      const rand = crypto.randomUUID();
-      req.session.is_Logined = true;
-      req.session.name = rand;
-      req.session.userName = user.username;
-      req.session.save((err) => {
-        if(err) { return next(err); }
-        res.status(201).redirect("/");
-      });
-    } else {
-      res.status(400).redirect("/login");
-    }
+      
+    const rand = crypto.randomUUID();
+    req.session.is_Logined = true;
+    req.session.name = rand;
+    req.session.userName = user.username;
+    req.session.save((err) => {
+      if(err) { return next(err); }
+      res.redirect("/");
+    });
+  } catch(err) {
+    err.status = 404;
+    console.error(err);
+    next(err);
   }
 });
 
