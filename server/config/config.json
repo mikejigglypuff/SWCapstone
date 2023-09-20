@@ -1,23 +1,24 @@
 {
   "development": {
-    "username": "root",
-    "password": "6471",
-    "database": "healthintalk",
-    "host": "127.0.0.1",
-    "dialect": "mysql"
+      "username": "root",
+      "password": "Resession%5",
+      "database": "test",
+      "host": "healthintalk-test.c4quxxjtuknw.ap-northeast-2.rds.amazonaws.com",
+      "port": "3306",
+      "dialect": "mysql"
   },
   "test": {
-    "username": "root",
-    "password": null,
-    "database": "database_test",
-    "host": "127.0.0.1",
-    "dialect": "mysql"
+      "username": "root",
+      "password": "",
+      "host": "127.0.0.1",
+      "port": "",
+      "dialect": "mysql"
   },
   "production": {
-    "username": "root",
-    "password": null,
-    "database": "database_production",
-    "host": "127.0.0.1",
-    "dialect": "mysql"
+      "username": "root",
+      "password": "",
+      "host": "127.0.0.1",
+      "port": "",
+      "dialect": "mysql"
   }
 }
