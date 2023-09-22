@@ -11,7 +11,7 @@ exports.getUser = async (req, res, next) => {
       },
     });
     console.log(user);
-    res.status(200).send(user);
+    res.status(200).json(JSON.stringify(user));
   } catch(err) {
     err.status = 404;
     console.error(err);

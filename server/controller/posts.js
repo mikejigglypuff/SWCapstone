@@ -10,7 +10,7 @@ exports.getPost = async (req, res, next) => {
       },
     });
     console.log(post);
-    res.send(post);
+    res.json(JSON.stringify(post));
   } catch(err) {
     err.status = 404;
     console.error(err);
@@ -26,7 +26,7 @@ exports.getPostByCategory = async (req, res, next) => {
       },
     });
     console.log(post);
-    res.send(post);
+    res.render("board", JSON.stringify(post));
   } catch(err) {
     err.status = 404;
     console.error(err);
