@@ -1,5 +1,5 @@
 const express = require("express");
-const {getPost, getPostByCategory, postPost, deletePost, patchPost} = require("../controller/posts");
+const {getPost, postPost, deletePost, patchPost} = require("../controller/posts");
 
 const router = express.Router();
 
@@ -8,8 +8,5 @@ router.route('/')
   .post(postPost)
   .delete(deletePost)
   .patch(patchPost);
-
-router.route('/:category')
-  .get(getPostByCategory);
 
 module.exports = router;
