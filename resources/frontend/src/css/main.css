@@ -18,30 +18,7 @@
     height: 27vh;
     box-shadow: 3px 3px 8px gray;
 }
-.choiceHealthArea h3, p{
-    text-align: center;
-}
-.choiceHealthArea p{
-    padding-top: 1rem;
-    font-size: 1.3rem;
-}
-.choiceHealthArea button{
-    float: right;
-    border: 2px solid navy;
-    border-radius: 8px;
-    font-size: 1rem;
-    margin-top: 0.5rem;
-    margin-right: 0.6rem;
-    width: 45%;
-    height: 6vh;
-    background-color: white;
-    color:navy;
-    cursor: pointer;
-}
-.choiceHealthArea button:hover{
-    background-color: navy;
-    color: white;
-}
+
 .enjoySpace .calBMIArea{
     border: 2px solid navy;
     border-radius: 5px;
