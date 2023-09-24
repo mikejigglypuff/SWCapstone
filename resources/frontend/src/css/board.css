@@ -33,6 +33,7 @@
     padding-left: 1rem;
     font-size: 1.1rem;
     font-weight: bold;
+    text-align: center;
     align-items: center;
 }
 .boardIntro .items:nth-child(1){
@@ -61,7 +62,13 @@
     width: 87%;
     padding-left: 1rem;
     font-size: 1.1rem;
+    text-align: center;
     align-items: center;
+    cursor: pointer;
+}
+.showBoardInfo:hover{
+    border: 2px solid navy;
+    color: navy;
 }
 .showBoardInfo .infos:nth-child(1){
     flex-grow: 0.4;

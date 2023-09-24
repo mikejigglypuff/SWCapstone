@@ -1,0 +1,24 @@
+.Ounchu h3, p{
+    text-align: center;
+}
+.Ounchu p{
+    padding-top: 1rem;
+    font-size: 1.3rem;
+}
+.Ounchu button{
+    float: right;
+    border: 2px solid navy;
+    border-radius: 8px;
+    font-size: 1rem;
+    margin-top: 0.5rem;
+    margin-right: 0.6rem;
+    width: 45%;
+    height: 6vh;
+    background-color: white;
+    color:navy;
+    cursor: pointer;
+}
+.Ounchu button:hover{
+    background-color: navy;
+    color: white;
+}

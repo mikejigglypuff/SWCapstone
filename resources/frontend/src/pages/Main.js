@@ -1,44 +1,65 @@
 import React from "react";
 import { useState } from "react";
+import BMIs from "../components/BMIs";
+import Ounchu from "../components/Ounchu";
 import "../css/main.css";
 
 const Main = () => {
+    const[height, setHeight] = useState("");
+    const[weight, setWeight] = useState("");
+    const[bmi, setBMI] = useState(null);
+
+    const changeHeightEvent = (e) => {
+        setHeight(e.target.value);
+        setBMI(null);
+    };
+    
+    const changeWeightEvent = (e) => {
+        setWeight(e.target.value);
+        setBMI(null);
+    };
+
+    const calcBMI = () => {
+        const calBMI = (weight/(Math.pow(height, 2)/10000)).toFixed(2);
+        setBMI(calBMI);
+        setHeight("");
+        setWeight("");
+    }
+
     return (
         <div className="Main">
             <div className="video">
-                <iframe width="70%" height="500vh" src="https://www.youtube.com/embed/BIEezW7aPRw" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard_summ-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                <iframe width="82%" height="500vh" src="https://www.youtube.com/embed/BIEezW7aPRw" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard_summ-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen></iframe>
             </div><br></br>
             <div className="enjoySpace">
                 <div className="choiceHealthArea">
-                    <h3>&lt;오.운.추(오늘의 운동 추천)&gt;</h3>
-                    <p>오늘 운동은 <strong style={{color: "navy"}}>등</strong> 각입니다.</p>
-                    <button>아니! 다른 운동 부위 할 건데</button>
+                   <Ounchu />
                 </div>
                 <div className="calBMIArea">
                     <div className="CgridItems">
-                        <h3>&lt;간단한 BMI 측정하기&gt;</h3>
+                        <h3>&lt;간단한 BMI 계산하기&gt;</h3>
                     </div>
                     <div className="CgridItems">
                         <label htmlFor="height">키 입력 : </label>
                         <input 
                             id="height"
                             placeholder="당신의 키를 입력하세요"
-                            // value={}
-                            // onChange={}
+                            value={height}
+                            onChange={changeHeightEvent}
                         /><br/>
                         <label htmlFor="weight">몸무게 입력 : </label>
                         <input 
                             id="weight"
                             placeholder="당신의 몸무게를 입력하세요"
-                            // value={}
-                            // onChange={}
+                            value={weight}
+                            onChange={changeWeightEvent}
                         />
                     </div>
                     <div className="CgridItems">
-                        <button>BMI 계산</button>
+                        <button onClick={calcBMI}>BMI 계산</button>
                     </div>
                     <div className="CgridItems">
-                        <p>당신은 정상입니다</p>
+                        <p>{bmi === null ? "키와 몸무게를 입력해주세요" : <BMIs calcingBMI={bmi}/> }</p>
                     </div>
                 </div>
             </div>
