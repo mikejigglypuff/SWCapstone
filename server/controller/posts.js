@@ -3,11 +3,17 @@ const DB = require("../models/index");
 const { errRes } = require("../utility");
 
 exports.getPost = async (req, res, next) => {
+  const t = DB.sequelize.transaction();
+
   try {
     const post = await DB.Posts.findAll({
       where: {
         post_id: req.body.id
       },
+    }, {
+      isolationLevel: Transaction.ISOLATION_LEVELS.READ_COMMITTED,
+      lock: true, 
+      transaction: t
     });
     console.log(post);
     res.json(JSON.stringify(post));
@@ -19,11 +25,17 @@ exports.getPost = async (req, res, next) => {
 }; //특정 id의 게시글 조회
 
 exports.getPostByCategory = async (req, res, next) => {
+  const t = DB.sequelize.transaction();
+  
   try {
     const post = await DB.Posts.findAll({
       where: {
         category: req.params.category
       },
+    }, {
+      isolationLevel: Transaction.ISOLATION_LEVELS.READ_COMMITTED,
+      lock: true, 
+      transaction: t
     });
     console.log(post);
     res.render("board", JSON.stringify(post));
@@ -35,14 +47,23 @@ exports.getPostByCategory = async (req, res, next) => {
 }; //게시판 별 게시글 조회
 
 exports.postPost = async (req, res, next) => {
+  const t = DB.sequelize.transaction();
+
   const userId = await DB.Users.findOne({
     attributes: ['user_id'],
     where: {
       username: req.body.name
     }
+  }, { 
+    isolationLevel: Transaction.ISOLATION_LEVELS.READ_COMMITTED,
+    lock: true,
+    transaction: t 
   });
 
-  if(!userId) { errRes(res, 404, "user not found"); }
+  if(!userId) { 
+    await t.rollback();
+    errRes(res, 404, "user not found"); 
+  }
 
   try {
     const post = await DB.Posts.create({
@@ -51,45 +72,75 @@ exports.postPost = async (req, res, next) => {
       userId: userId,
       favcnt: 0,
       createdAt: Sequelize.NOW
+    }, { transaction: t });
+
+    t.afterCommit(() => {
+      console.log(post);
+      res.status(302).redirect("/board");
     });
-    console.log(post);
-    res.status(302).redirect("/board");
+    
+    await t.commit();
   } catch(err) {
+    await t.rollback();
     console.error(err);
     next(err);
   }
 }; //게시글 등록
 
 exports.deletePost = async (req, res, next) => {
+  const t = DB.sequelize.transaction();
+
   const post = await DB.Posts.findOne({
     where: {
       post_id: req.body.id
     }
+  }, { 
+    isolationLevel: Transaction.ISOLATION_LEVELS.READ_COMMITTED,
+    lock: true,
+    transaction: t 
   });
 
-  if(post) { errRes(res, 404, "page not found"); }
+  if(post) { 
+    await t.rollback();
+    errRes(res, 404, "page not found"); 
+  }
 
   try {
     await DB.Posts.destroy({
       where: {
         post_id: req.body.id
       }
+    }, { transaction: t });
+
+    t.afterCommit(() => {
+      res.status(302).redirect("/");
     });
-    res.status(302).redirect("/");
+    
+    await t.commit();
   } catch(err) {
+    await t.rollback();
     console.error(err);
     next(err);
   }
 }; //게시글 삭제
 
 exports.patchPost = async (req, res, next) => {
+  const t = DB.sequelize.transaction();
+
   const post = await DB.Posts.findOne({
     where: {
       post_id: req.body.id
     }
+  }, { 
+    isolationLevel: Transaction.ISOLATION_LEVELS.READ_COMMITTED,
+    lock: true,
+    transaction: t 
   });
 
-  if(post.length) { errRes(res, 404, "page not found"); }
+  if(post.length) { 
+    await t.rollback();
+    errRes(res, 404, "page not found"); 
+  }
 
   try {
     await DB.Posts.update({
@@ -100,8 +151,14 @@ exports.patchPost = async (req, res, next) => {
       where: {
         post_id: req.body.id
       }
+    }, { 
+      lock: true,
+      transaction: t 
     });
+
+    await t.commit();
   } catch(err) {
+    await t.rollback();
     console.error(err);
     next(err);
   }
