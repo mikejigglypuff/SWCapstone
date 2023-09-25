@@ -4,6 +4,7 @@ const express = require("express");
 const { renderMain, renderBoard, renderLogin, renderFindID, 
   renderJoin, renderFindPW, renderReplacePW, renderShowText,
   renderWriteboard, rendersearchFitnessCenter} = require("../controller/page");
+const { getPostByCategory } = require("../controller/posts");
 
 const router = express.Router();
 
