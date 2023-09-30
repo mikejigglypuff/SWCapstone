@@ -9,10 +9,11 @@ const userRouter = require("./routes/users");
 const authRouter = require("./routes/auth");
 const postRouter = require("./routes/posts");
 const logoutRouter = require("./routes/logout");
+const commentRouter = require("./routes/comments");
 const sessionConfig = require("./config/session.json");
 let sequelize = require('./models').sequelize;
 const app = express();
-sequelize.sync();
+sequelize.sync({ alter: true });
 
 //8001번 port에서 열림, 템플릿 엔진 사용
 app.set("views", __dirname + "/views");
@@ -28,7 +29,7 @@ app.use(session({
   store: new fileStore(),
   cookie: {
     path: "/",
-    httpOnly: true,
+    httpOnly: false,
     secure: false
   }
 }));
@@ -44,6 +45,7 @@ app.use("/img", express.static("../resources/img"));
 app.use("/searchFitnessCenter", express.static("../resources/searchFitnessCenter")); 
 
 app.use("/login/auth", authRouter);
+app.use("/comment", commentRouter);
 app.use("/logout", logoutRouter);
 app.use("/post", postRouter);
 app.use("/user", userRouter);

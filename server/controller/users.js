@@ -9,7 +9,7 @@ exports.getUser = async (req, res, next) => {
     const t = await DB.sequelize.transaction();
 
     const user = await DB.Users.findAll({
-      attributes: ['username', 'phonenumber', 'regDate'],
+      attributes: { exclude: ['user_id', 'password'] },
       lock: true,
       where: {
         username: req.body.name
@@ -29,30 +29,26 @@ exports.getUser = async (req, res, next) => {
 }; //회원 조회
 
 exports.postUser = async (req, res, next) => {
-  const t = await DB.sequelize.transaction();
-
   const userId = await DB.Users.findOne({
     where: {
       username: req.body.name
     }
-  }, { 
-    isolationLevel: Transaction.ISOLATION_LEVELS.READ_COMMITTED,
-    lock: true,
-    transaction: t 
   });
 
   if(userId) { 
-    await t.rollback();
     errRes(res, 400, "user already exists"); 
   }
 
+  const t = await DB.sequelize.transaction();
   try {
     const user = await DB.Users.create({
       phonenumber: req.body.phoneNum,
       password: req.body.pw,
-      username: req.body.name,
-      regDate: Sequelize.NOW
-    }, { transaction: t });
+      username: req.body.name
+    }, { 
+      lock: true,
+      transaction: t 
+    });
 
     t.afterCommit(() => {
       console.log(user);
@@ -69,31 +65,28 @@ exports.postUser = async (req, res, next) => {
 }; //회원가입
 
 exports.deleteUser = async (req, res, next) => {
-  const t = await DB.sequelize.transaction();
-
   const user = await DB.Users.findOne({
     where: {
       username: req.body.name, 
       password: bcrypt.hash(req.body.pw, salt.salt)
     }
-  }, { 
-    isolationLevel: Transaction.ISOLATION_LEVELS.READ_COMMITTED,
-    lock: true,
-    transaction: t 
   });
 
   if(!user) { 
-    await t.rollback();
     errRes(res, 404, "user not found"); 
   }
     
+  const t = await DB.sequelize.transaction();
   try {
     await DB.Users.destroy({
       where: {
         username: req.body.name,
         password: req.body.pw
       }
-    }, { transaction: t });
+    }, { 
+      lock: true,
+      transaction: t 
+    });
 
     t.afterCommit(() => {
       res.status(302).redirect("/");
@@ -108,17 +101,11 @@ exports.deleteUser = async (req, res, next) => {
 } //회원 탈퇴
 
 exports.patchUser = async (req, res, next) => {
-  const t = await DB.sequelize.transaction();
-
   const user = await DB.Users.findOne({
     where: {
       username: req.body.name,
       password: bcrypt.hash(req.body.pw, salt.salt)
     }
-  }, { 
-    isolationLevel: Transaction.ISOLATION_LEVELS.READ_COMMITTED,
-    lock: true,
-    transaction: t 
   });
 
   if(!user) { 
@@ -126,6 +113,7 @@ exports.patchUser = async (req, res, next) => {
     errRes(res, 404, "user not found"); 
   }
 
+  const t = await DB.sequelize.transaction();
   try {
     await DB.Users.update({
       phonenumber: req.body.phoneNum,
