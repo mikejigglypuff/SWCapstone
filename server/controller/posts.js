@@ -3,10 +3,12 @@ const DB = require("../models/index");
 const { errRes } = require("../utility");
 
 exports.getPost = async (req, res, next) => {
-  const t = DB.sequelize.transaction();
+  const t = await DB.sequelize.transaction();
 
   try {
     const post = await DB.Posts.findAll({
+      raw: true,
+      nest: true,
       where: {
         post_id: req.body.id
       },
@@ -25,10 +27,12 @@ exports.getPost = async (req, res, next) => {
 }; //특정 id의 게시글 조회
 
 exports.getPostByCategory = async (req, res, next) => {
-  const t = DB.sequelize.transaction();
+  const t = await DB.sequelize.transaction();
   
   try {
     const post = await DB.Posts.findAll({
+      raw: true,
+      nest: true,
       where: {
         category: req.params.category
       },
@@ -48,23 +52,25 @@ exports.getPostByCategory = async (req, res, next) => {
 
 exports.postPost = async (req, res, next) => {
   const userId = await DB.Users.findOne({
+    raw: true,
     attributes: ['user_id'],
     where: {
-      username: req.body.name
+      username: req.session.userName
     }
   });
 
   if(!userId) { 
     errRes(res, 404, "user not found"); 
+    return;
   }
 
-  const t = DB.sequelize.transaction();
+  const t = await DB.sequelize.transaction();
   try {
     const post = await DB.Posts.create({
       title: req.body.title,
       content: req.body.content,
       category: req.body.category,
-      userId: userId,
+      user_id: userId.user_id,
       favcnt: 0
     }, { 
       lock: true,
@@ -86,6 +92,7 @@ exports.postPost = async (req, res, next) => {
 
 exports.deletePost = async (req, res, next) => {
   const post = await DB.Posts.findOne({
+    raw: true,
     where: {
       post_id: req.body.id
     }
@@ -93,9 +100,10 @@ exports.deletePost = async (req, res, next) => {
 
   if(post) { 
     errRes(res, 404, "page not found"); 
+    return;
   }
 
-  const t = DB.sequelize.transaction();
+  const t = await DB.sequelize.transaction();
   try {
     await DB.Posts.destroy({
       where: {
@@ -120,16 +128,18 @@ exports.deletePost = async (req, res, next) => {
 
 exports.patchPost = async (req, res, next) => {
   const post = await DB.Posts.findOne({
+    raw: true,
     where: {
       post_id: req.body.id
     }
   });
 
-  if(post.length) { 
+  if(post.length !== 0) { 
     errRes(res, 404, "page not found"); 
+    return;
   }
 
-  const t = DB.sequelize.transaction();
+  const t = await DB.sequelize.transaction();
   try {
     await DB.Posts.update({
       title: req.body.title,

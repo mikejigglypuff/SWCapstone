@@ -13,7 +13,7 @@ const commentRouter = require("./routes/comments");
 const sessionConfig = require("./config/session.json");
 let sequelize = require('./models').sequelize;
 const app = express();
-sequelize.sync({ alter: true });
+sequelize.sync({ alter: false });
 
 //8001번 port에서 열림, 템플릿 엔진 사용
 app.set("views", __dirname + "/views");

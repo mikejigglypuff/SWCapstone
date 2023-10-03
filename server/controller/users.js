@@ -9,6 +9,8 @@ exports.getUser = async (req, res, next) => {
     const t = await DB.sequelize.transaction();
 
     const user = await DB.Users.findAll({
+      raw: true,
+      nest: true,
       attributes: { exclude: ['user_id', 'password'] },
       lock: true,
       where: {
@@ -29,33 +31,35 @@ exports.getUser = async (req, res, next) => {
 }; //회원 조회
 
 exports.postUser = async (req, res, next) => {
+  console.log(req.body);
   const userId = await DB.Users.findOne({
+    raw: true,
     where: {
       username: req.body.name
     }
   });
 
   if(userId) { 
+    console.log(userId);
     errRes(res, 400, "user already exists"); 
+    return;
   }
 
+  const pw = (await bcrypt.hash(req.body.pw, salt.salt)).toString();
   const t = await DB.sequelize.transaction();
   try {
-    const user = await DB.Users.create({
+    await DB.Users.create({
       phonenumber: req.body.phoneNum,
-      password: req.body.pw,
-      username: req.body.name
+      password: pw,
+      username: req.body.name,
+      user_Num: Math.random() * 10000
     }, { 
       lock: true,
       transaction: t 
     });
-
-    t.afterCommit(() => {
-      console.log(user);
-      res.status(302).redirect("/login");
-    });
-
     await t.commit();
+
+    res.status(302).redirect("/login");
   } catch(err) {
     await t.rollback();
     err.status = 400;
@@ -66,6 +70,7 @@ exports.postUser = async (req, res, next) => {
 
 exports.deleteUser = async (req, res, next) => {
   const user = await DB.Users.findOne({
+    raw: true,
     where: {
       username: req.body.name, 
       password: bcrypt.hash(req.body.pw, salt.salt)
@@ -74,6 +79,7 @@ exports.deleteUser = async (req, res, next) => {
 
   if(!user) { 
     errRes(res, 404, "user not found"); 
+    return;
   }
     
   const t = await DB.sequelize.transaction();
@@ -102,6 +108,7 @@ exports.deleteUser = async (req, res, next) => {
 
 exports.patchUser = async (req, res, next) => {
   const user = await DB.Users.findOne({
+    raw: true,
     where: {
       username: req.body.name,
       password: bcrypt.hash(req.body.pw, salt.salt)
@@ -109,8 +116,8 @@ exports.patchUser = async (req, res, next) => {
   });
 
   if(!user) { 
-    await t.rollback();
-    errRes(res, 404, "user not found"); 
+    errRes(res, 404, "user not found");
+    return; 
   }
 
   const t = await DB.sequelize.transaction();

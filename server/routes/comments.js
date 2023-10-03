@@ -1,12 +1,12 @@
 const express = require("express");
-const { getCommentByPost, postComment, deleteComment, patchComment } = require("../controller/comments");
+const { getCommentsByPost, postComments, deleteComments, patchComments } = require("../controller/comments");
 
 const router = express.Router();
 
 router.route("/")
-    .get(getCommentByPost)
-    .post(postComment)
-    .delete(deleteComment)
-    .patch(patchComment);
+    .get(getCommentsByPost)
+    .post(postComments)
+    .delete(deleteComments)
+    .patch(patchComments);
 
 module.exports = router;
