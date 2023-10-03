@@ -3,16 +3,23 @@ const DB = require("../models/index");
 const { errRes } = require("../utility");
 
 exports.getCommentsByPost = async (req, res, next) => {
+    const t = await DB.sequelize.transaction();
     const post = DB.Posts.findOne({
+        raw: true,
         where: {
             post_id: req.body.postId
         }
     });
 
-    if(post) { errRes(res, 404, "post not found"); }
+    if(post) { 
+        errRes(res, 404, "post not found"); 
+        return;
+    }
 
     try {
         const comments = await DB.comments.findAll({
+            raw: true,
+            nest: true,
             where: {
                 post_id: req.body.postId
             }
@@ -38,6 +45,7 @@ exports.getCommentsByPost = async (req, res, next) => {
 
 exports.postComments = async (req, res, next) => {
     const post = DB.Posts.findOne({
+        raw: true,
         where: {
             post_id: req.body.postId
         }
@@ -45,9 +53,10 @@ exports.postComments = async (req, res, next) => {
 
     if(!post) {
         errRes(res, 404, "post not found"); 
+        return;
     }
 
-    const t = DB.sequelize.transaction();
+    const t = await DB.sequelize.transaction();
     try {
         await DB.comments.create({
             post_id: req.body.postId,
@@ -73,6 +82,7 @@ exports.postComments = async (req, res, next) => {
 
 exports.deleteComments = async (req, res, next) => {
     const comment = DB.comments.findOne({
+        raw: true,
         where: {
             comment_id: req.body.commentId
         }
@@ -80,9 +90,10 @@ exports.deleteComments = async (req, res, next) => {
 
     if(!comment) {
         errRes(res, 404, "post not found"); 
+        return;
     }
 
-    const t = DB.sequelize.transaction();
+    const t = await DB.sequelize.transaction();
     try {
         await DB.comments.destroy({
             where: {
@@ -107,17 +118,18 @@ exports.deleteComments = async (req, res, next) => {
 
 exports.patchComments = async (req, res, next) => {
     const comment = DB.comments.findOne({
+        raw: true,
         where: {
             comment_id: req.body.commentId
         }
     });
 
     if(!comment) {
-        await t.rollback();
         errRes(res, 404, "post not found"); 
+        return;
     }
 
-    const t = DB.sequelize.transaction();
+    const t = await DB.sequelize.transaction();
     try {
         await DB.comments.update({
             content: req.body.content,

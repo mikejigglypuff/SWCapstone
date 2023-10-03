@@ -3,11 +3,13 @@ module.exports = function(sequelize, DataTypes) {
   return sequelize.define('users', {
     user_id: {
       type: DataTypes.INTEGER,
+      autoIncrement: true,
       primaryKey: true
     },
     username: {
       type: DataTypes.STRING(45),
-      allowNull: false
+      allowNull: false,
+      unique: true
     },
     phonenumber: {
       type: DataTypes.STRING(45),
@@ -15,12 +17,11 @@ module.exports = function(sequelize, DataTypes) {
       unique: true
     },
     password: {
-      type: DataTypes.STRING(45),
+      type: DataTypes.STRING(100),
       allowNull: false
     },
     user_Num: {
       type: DataTypes.INTEGER,
-      autoIncrement: true,
       allowNull: false
     },
     reg_Date: {

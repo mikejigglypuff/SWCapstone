@@ -26,10 +26,6 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.INTEGER,
       allowNull: false
     },
-    created_At: {
-      type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW
-    },
     category: {
       type: DataTypes.STRING(45),
       allowNull: false

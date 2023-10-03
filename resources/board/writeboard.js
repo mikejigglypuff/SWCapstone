@@ -11,7 +11,8 @@ write_btn.addEventListener("click", async () => {
     },
     body: JSON.stringify({
         title: Title,
-        content: Content
+        content: Content,
+        category: "test"
     })
   }).then((res) => {
     alert("게시글 등록 완료");
