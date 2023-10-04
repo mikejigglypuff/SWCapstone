@@ -35,14 +35,8 @@ app.use(session({
 }));
 
 // css, frontend js 파일 등 정적 파일에 대한 경로를 제공하는 미들웨어 
-app.use("/", express.static("../resources/main"));
-app.use("/login", express.static("../resources/login"));
-app.use("/findIDPW", express.static("../resources/login/findIDPW"));
-app.use("/joinMembership", express.static("../resources/login/joinMembership"));
-app.use("/replace", express.static("../resources/login"));
-app.use("/board", express.static("../resources/board"));
-app.use("/img", express.static("../resources/img"));
-app.use("/searchFitnessCenter", express.static("../resources/searchFitnessCenter")); 
+app.use("/css", express.static("../resources/frontend/build/static/css"));
+app.use("/js", express.static("../resources/frontend/build/static/js"));
 
 app.use("/login/auth", authRouter);
 app.use("/comment", commentRouter);
