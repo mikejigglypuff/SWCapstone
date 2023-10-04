@@ -14,7 +14,7 @@ exports.getUser = async (req, res, next) => {
       attributes: { exclude: ['user_id', 'password'] },
       lock: true,
       where: {
-        username: req.body.name
+        username: req.params.name
       },
     }, { 
       isolationLevel: Transaction.ISOLATION_LEVELS.READ_COMMITTED,

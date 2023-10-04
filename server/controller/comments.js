@@ -7,7 +7,7 @@ exports.getCommentsByPost = async (req, res, next) => {
     const post = DB.Posts.findOne({
         raw: true,
         where: {
-            post_id: req.body.postId
+            post_id: req.params.postId
         }
     });
 

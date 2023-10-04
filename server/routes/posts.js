@@ -3,8 +3,9 @@ const {getPost, postPost, deletePost, patchPost} = require("../controller/posts"
 
 const router = express.Router();
 
+router.get("/:postId", getPost);
+
 router.route('/')
-  .get(getPost)
   .post(postPost)
   .delete(deletePost)
   .patch(patchPost);

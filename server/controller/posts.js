@@ -10,7 +10,7 @@ exports.getPost = async (req, res, next) => {
       raw: true,
       nest: true,
       where: {
-        post_id: req.body.id
+        post_id: req.params.postId
       },
     }, {
       isolationLevel: Transaction.ISOLATION_LEVELS.READ_COMMITTED,
