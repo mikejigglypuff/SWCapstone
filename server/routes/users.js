@@ -3,8 +3,9 @@ const {getUser, postUser, deleteUser, patchUser} = require("../controller/users"
 
 const router = express.Router();
 
+router.get("/:name", getUser);
+
 router.route('/')
-  .get(getUser)
   .post(postUser)
   .delete(deleteUser)
   .patch(patchUser);

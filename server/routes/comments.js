@@ -3,8 +3,9 @@ const { getCommentsByPost, postComments, deleteComments, patchComments } = requi
 
 const router = express.Router();
 
+router.get("/:postId", getCommentsByPost);
+
 router.route("/")
-    .get(getCommentsByPost)
     .post(postComments)
     .delete(deleteComments)
     .patch(patchComments);
