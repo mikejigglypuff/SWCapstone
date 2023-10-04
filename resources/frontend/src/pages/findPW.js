@@ -10,9 +10,9 @@ const findPW = () => {
             </div>
             <div className="findIDPWInfoArea">
                 <div className="enterID">
-                    <label htmlFor="id">아이디</label>
+                    <label htmlFor="ids">아이디</label>
                     <input 
-                        id="id"
+                        id="ids"
                         type="text"  
                         placeholder="아이디를 입력하세요"
                         // value={}

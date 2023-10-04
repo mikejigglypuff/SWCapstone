@@ -9,9 +9,9 @@ const Login = () => {
                 <img src="https://media.discordapp.net/attachments/1083261485498781763/1090877545580343406/image.png?width=510&height=213" />
             </div>
             <div className="enterLoginInfo">
-                <label htmlFor="id">ID</label>
+                <label htmlFor="ID">ID</label>
                 <input 
-                    id="id"
+                    id="ID"
                     placeholder="아이디를 입력하세요"
                     // value={id}
                     // onChange={}

@@ -18,6 +18,36 @@
     flex-direction: column;
     gap: 20px;
 }
+#id{
+    border: 2px solid navy;
+    border-radius: 10px;
+    width: 20%;
+    height: 6vh;
+    padding-left: 10px;
+}
+.enterID label{
+    display: inline-block;
+	text-align: center;
+	width: 140px;
+    height: 6vh;
+    font-size: 18px;
+    justify-content: center;
+}
+.enterID button{
+	width: 9%;
+    height: 6vh;
+    border: 2px solid navy;
+    border-radius: 10px;
+    background-color: white;
+    margin-left: 10px;
+    font-size: 15px;
+    justify-content: center;
+    cursor: pointer;
+}
+.enterID button:hover{
+	background-color: navy;
+    color: white;
+}
 .inputBox label{
     display: inline-block;
 	text-align: center;
