@@ -16,10 +16,9 @@ const app = express();
 sequelize.sync({ alter: false });
 
 //8001번 port에서 열림, 템플릿 엔진 사용
-app.set("views", __dirname + "/views");
-app.engine("html", require("ejs").renderFile);
+app.engine('html', require('ejs').renderFile);
 app.set("port", process.env.PORT || 8001);
-app.set("view engine", "ejs");
+app.set("view engine", "html");
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(session({
@@ -35,19 +34,19 @@ app.use(session({
 }));
 
 // css, frontend js 파일 등 정적 파일에 대한 경로를 제공하는 미들웨어 
-app.use("/css", express.static("../resources/frontend/build/static/css"));
-app.use("/js", express.static("../resources/frontend/build/static/js"));
+app.use("/static/css", express.static(path.resolve(__dirname, "../resources/frontend/build/static/css")));
+app.use("/static/js", express.static(path.resolve(__dirname, "../resources/frontend/build/static/js")));
 
 app.use("/login/auth", authRouter);
 app.use("/comment", commentRouter);
 app.use("/logout", logoutRouter);
 app.use("/post", postRouter);
 app.use("/user", userRouter);
-app.use("/", pageRouter);
+app.use(pageRouter);
 
 //에러처리
 app.use((req, res, next) => {
-  const error =  new Error(`${req.method} ${req.url} 라우터가 없습니다.`);
+  const error = new Error(`${req.method} ${req.url} 라우터가 없습니다.`);
   error.status = 404;
   next(error);
 });
@@ -55,11 +54,7 @@ app.use((req, res, next) => {
 app.use((err, req, res, next) => {
   res.locals.message = err.message;
   res.locals.error = process.env.NODE_ENV !== "production" ? err : {};
-  res.status(err.status || 500);
-  res.render("error", {
-    error: err.status + "Error",
-    message: err.message
-  });
+  res.sendStatus(err.status || 500);
 });
 
 app.listen(app.get("port"), () => {
