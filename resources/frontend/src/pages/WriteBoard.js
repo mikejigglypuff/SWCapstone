@@ -2,6 +2,22 @@ import React from "react"
 import "../css/writeboard.css"
 
 const WriteBoard = () => {
+    
+    // const sendingMembershipData = async() => {
+    //     try {    
+    //             const response = await axios.post('/user', {
+    //                 "phoneNum": phoneNum,
+    //                 "pw": password,
+    //                 "name": name
+    //             });
+        
+    //             console.log('Server response:', response.data);
+    //             alert("회원가입이 완료하였습니다.");
+    //       } catch (error) {
+    //         console.error('Error sending data:', error);
+    //       }
+    // }
+
     return (
         <div className="WriteBoard">
             <div className="WBtitle">
