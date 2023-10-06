@@ -1,6 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import "../css/ounchu.css"
+import ounchuStyled from "../css/ounchu.module.css"
 
 const Ounchu = () => {
     const [parts, setParts] = useState(null);
@@ -28,7 +28,7 @@ const Ounchu = () => {
     }
     
     return(
-        <div className="Ounchu">
+        <div className={ounchuStyled.Ounchu}>
             <h3>&lt;오.운.추(오늘의 운동 추천)&gt;</h3>
             <p>오늘 운동은 <strong style={{color: "navy"}}>{parts === null ? "등" : parts}</strong> 각입니다.</p>
             <button onClick={onOUHbtnClick}>아니! 다른 운동 부위 할 건데</button>

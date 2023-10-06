@@ -1,56 +1,75 @@
-import React from "react"
-import "../css/writeboard.css"
+import React, { useState } from "react"
+import axios from "axios";
+import writeboardStyled from "../css/writeboard.module.css"
 
 const WriteBoard = () => {
+    const [selectedItem, setSelectedItem] = useState("");
+    const [textTitle, setTextTitle] = useState("");
+    const [text, setText] = useState("");
+
+    const onSelectedItemChange = (e) => {
+        console.log(e.target.value);
+        setSelectedItem(e.target.value);
+    };
+
+    const onTextTitleChange = (e) => {
+        console.log(e.target.value);
+        setTextTitle(e.target.value);
+    };
     
-    // const sendingMembershipData = async() => {
-    //     try {    
-    //             const response = await axios.post('/user', {
-    //                 "phoneNum": phoneNum,
-    //                 "pw": password,
-    //                 "name": name
-    //             });
+    const onTextChange = (e) => {
+        console.log(e.target.value);
+        setText(e.target.value);
+    };
+
+    const sendingWriteTextData = async() => {
+        try {    
+                const response = await axios.post('/post', {
+                    "title": textTitle,
+                    "content": text,
+                    "category": selectedItem
+                });
         
-    //             console.log('Server response:', response.data);
-    //             alert("회원가입이 완료하였습니다.");
-    //       } catch (error) {
-    //         console.error('Error sending data:', error);
-    //       }
-    // }
+                console.log('Server response:', response.data);
+                alert("글 작성이 완료되었습니다.");
+          } catch (error) {
+            console.error('Error sending data:', error);
+          }
+    }
 
     return (
-        <div className="WriteBoard">
-            <div className="WBtitle">
+        <div className={writeboardStyled.WriteBoard}>
+            <div className={writeboardStyled.WBtitle}>
                 <h2>게시물 작성 📝</h2>
             </div>
-            <div className="choiceBoardKindArea">
+            <div className={writeboardStyled.choiceBoardKindArea}>
                 <label>게시판 종류 선택</label>
-                <select>
+                <select value={selectedItem} onChange={onSelectedItemChange}>
                     <option value="자유게시판">자유게시판</option>
                     <option value="식단&운동 공유 게시판">식단&운동 공유 게시판</option>
                     <option value="공지게시판">공지게시판</option>
                 </select>
             </div>
-            <div className="enterTitleArea">
+            <div className={writeboardStyled.enterTitleArea}>
                 <label htmlFor="textTitle">제목</label>
                 <input
                     id = "textTitle"
                     placeholder="글 제목을 입력하세요"
-                    // value={}
-                    // onChange={}
+                    value={textTitle}
+                    onChange={onTextTitleChange}
                 />
             </div>
-            <div className="enterTextArea">
+            <div className={writeboardStyled.enterTextArea}>
                 <label htmlFor="enterText">내용</label>
                 <textarea
                     id="enterText"
                     placeholder="내용을 입력하세요"
-                    // value={}
-                    // onChange={}
+                    value={text}
+                    onChange={onTextChange}
                 />
             </div>
-            <div className="WBbtnArea">
-                <button>작성</button>
+            <div className={writeboardStyled.WBbtnArea}>
+                <button onClick={sendingWriteTextData}>작성</button>
                 <button>취소</button>
             </div>
         </div>

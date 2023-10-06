@@ -1,6 +1,6 @@
 import React from "react";
 import { useState } from "react";
-import "../css/replacePW.css"
+import replacePWStyled from "../css/replacePW.module.css"
 
 const ReplacePW = () => {
     const [beforePW, setBeforePW] = useState("");
@@ -48,13 +48,13 @@ const ReplacePW = () => {
     // }
 
     return (
-        <div className="ReplacePW">
-            <div className="RPtitle">
+        <div className={replacePWStyled.ReplacePW}>
+            <div className={replacePWStyled.RPtitle}>
                 <img src="https://media.discordapp.net/attachments/1083261485498781763/1090877545580343406/image.png?width=510&height=213" id="image" />
                 <p id="title">비밀번호 변경</p>
             </div>
-            <div className="enterNewPWArea">
-                <div className="enterPW">
+            <div className={replacePWStyled.enterNewPWArea}>
+                <div className={replacePWStyled.enterPW}>
                     <label>현재 비밀번호</label>
                     <input
                         id="presentPW"
@@ -64,7 +64,7 @@ const ReplacePW = () => {
                         // onChange={onBeforePWChange}
                     />
                 </div>
-                <div className="enterNewPW">
+                <div className={replacePWStyled.enterNewPW}>
                     <label>변경할 비밀번호</label>
                     <input
                         id="changePW"
@@ -74,7 +74,7 @@ const ReplacePW = () => {
                         // onChange={}
                     />
                 </div>
-                <div className="enterNewPW">
+                <div className={replacePWStyled.enterNewPW}>
                     <label>변경할 비밀번호 확인</label>
                     <input
                         id="changePW"
@@ -84,7 +84,7 @@ const ReplacePW = () => {
                         // onChange={}
                     />
                 </div>
-                <div className="RPbtnArea">
+                <div className={replacePWStyled.RPbtnArea}>
                     <button>비밀번호 변경</button>
                 </div>
             </div>

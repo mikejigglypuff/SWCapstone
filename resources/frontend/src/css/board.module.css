@@ -21,6 +21,7 @@
     border: 2px solid navy;
     font-size: 1.1rem;
     font-weight: bold;
+    cursor: pointer;
 }
 .Btitle button:hover{
     background-color: navy;
