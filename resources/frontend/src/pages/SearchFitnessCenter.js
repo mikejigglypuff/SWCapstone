@@ -1,13 +1,13 @@
 import React from "react";
-import "../css/searchfitnesscenter.css"
+import searchfitnesscenterStyled from "../css/searchfitnesscenter.module.css"
 
 const SearchFitnessCenter = () => {
     return (
-        <div className="SearchFitnessCenter">
-            <div className="SFCtitle">
+        <div className={searchfitnesscenterStyled.SearchFitnessCenter}>
+            <div className={searchfitnesscenterStyled.SFCtitle}>
                 <h2>🦾주변 헬스장 검색하기</h2>
             </div>
-            <div className="enterplace">
+            <div className={searchfitnesscenterStyled.enterplace}>
                 <label htmlFor="place">원하는 장소를 입력하세요</label>
                 <input
                     id="place"
@@ -17,7 +17,7 @@ const SearchFitnessCenter = () => {
                 />
                 <button>🔍검색</button>
             </div>
-            <div className="showmap">
+            <div className={searchfitnesscenterStyled.showmap}>
                 <h2>카카오맵 들어갈 자리</h2>
             </div>
         </div>

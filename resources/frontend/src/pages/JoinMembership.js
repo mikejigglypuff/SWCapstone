@@ -1,7 +1,7 @@
 import React from "react";
 import axios from "axios"
 import { useState } from "react";
-import "../css/joinmembership.css"
+import joinMembershipStyled from "../css/joinmembership.module.css"
 
 const JoinMembership = () => {
     const [id, setID] = useState("");
@@ -76,15 +76,15 @@ const JoinMembership = () => {
     }
 
     return (
-        <div className="JoinMembership">
-            <div className="Jtitle">
+        <div className={joinMembershipStyled.JoinMembership}>
+            <div className={joinMembershipStyled.Jtitle}>
                 <img src="https://media.discordapp.net/attachments/1083261485498781763/1090877545580343406/image.png?width=510&height=213" />
             </div>
-            <div className="enterMembershipInfo">
-                <div className="enterID">
+            <div className={joinMembershipStyled.enterMembershipInfo}>
+                <div className={joinMembershipStyled.enterID}>
                     <label htmlFor="id">아이디</label>
                     <input
-                        id = "id"
+                        id = {joinMembershipStyled.id}
                         placeholder="아이디를 입력하세요"
                         value={id}
                         onChange={onIDChange}
@@ -93,7 +93,7 @@ const JoinMembership = () => {
                     <button>아이디 중복 확인</button>
                     <p></p>
                 </div>
-                <div className="inputBox">
+                <div className={joinMembershipStyled.inputBox}>
                     <label htmlFor="password">비밀번호</label>
                     <input
                         id = "password"
@@ -105,7 +105,7 @@ const JoinMembership = () => {
                     </input>
                     <p style={{color: ispw === false ? "red" : "green", marginLeft:"8rem"}}>{pwMessage}</p>
                 </div>
-                <div className="inputBox">
+                <div className={joinMembershipStyled.inputBox}>
                     <label htmlFor="checkPW">비밀번호 확인</label>
                     <input
                         id = "checkPW"
@@ -116,7 +116,7 @@ const JoinMembership = () => {
                     />
                     <p style={{color: ischeckpw === false ? "red" : "green", marginLeft:"8rem"}}>{checkpwMessage}</p>
                 </div>
-                <div style={{marginBottom: "1rem"}}className="inputBox">
+                <div style={{marginBottom: "1rem"}}className={joinMembershipStyled.inputBox}>
                     <label htmlFor="name">이름</label>
                     <input
                         id = "name"
@@ -125,24 +125,24 @@ const JoinMembership = () => {
                         onChange={onNameChange}
                     />
                 </div>
-                <div style={{marginBottom: "1rem"}} className="enterPhoneNum">
+                <div style={{marginBottom: "1rem"}} className={joinMembershipStyled.enterPhoneNum}>
                     <label>휴대폰 번호</label>
                     <input
-                        id="phoneNum"
+                        id={joinMembershipStyled.phoneNum}
                         placeholder="010-1234-5678의 형태로 입력해주세요"
                         value={phoneNum}
                         onChange={onPhoneNumChange}
                     />
                     <button>인증번호 받기</button><br/>
                     <input
-                        id="inputCheckNum"
+                        id={joinMembershipStyled.inputCheckNum}
                         placeholder="인증 번호를 입력하세요"
                         // value={}
                         // onChange={}
                     />
                 </div>
             </div>
-            <button className="joinbtn" onClick={sendingMembershipData}>가입하기</button>
+            <button className={joinMembershipStyled.joinbtn} onClick={sendingMembershipData}>가입하기</button>
         </div>
     );
 }

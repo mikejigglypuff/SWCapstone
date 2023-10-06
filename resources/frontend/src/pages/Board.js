@@ -1,5 +1,7 @@
 import React from "react";
-import "../css/board.css";
+import { useState } from "react";
+import { useParams, Link } from "react-router-dom";
+import boardStyle from "../css/board.module.css"
 
 const Board = () => {
     const dummydata = [
@@ -26,26 +28,28 @@ const Board = () => {
         },
     ]
 
+    const {category} = useParams();
+
     return(
-        <div className="Board">
-            <div className="Btitle">
-                <h2>자유게시판</h2>
-                <button>📝 글 쓰기</button>
+        <div className={boardStyle.Board}>
+            <div className={boardStyle.Btitle}>
+                <h2>{category}</h2>
+                <Link to="writeboard"><button>📝 글 쓰기</button></Link>
             </div>
-            <div className="boardIntro">
-                <div className="items"><p>번호</p></div>
-                <div className="items"><p>제목</p></div>
-                <div className="items"><p>날짜</p></div>
-                <div className="items"><p>조회수</p></div>
-                <div className="items"><p>추천수</p></div>                                                
+            <div className={boardStyle.boardIntro}>
+                <div className={boardStyle.items}><p>번호</p></div>
+                <div className={boardStyle.items}><p>제목</p></div>
+                <div className={boardStyle.items}><p>날짜</p></div>
+                <div className={boardStyle.items}><p>조회수</p></div>
+                <div className={boardStyle.items}><p>추천수</p></div>                                                
             </div>
             {dummydata.map((item) => (
-                <div key={item.id} className="showBoardInfo">
-                    <div className="infos"><p>{item.id}</p></div>
-                    <div className="infos"><p>{item.title}</p></div>
-                    <div className="infos"><p>{item.date}</p></div>
-                    <div className="infos"><p>{item.viewNum}</p></div>
-                    <div className="infos"><p>{item.recommendNum}</p></div>
+                <div key={item.id} className={boardStyle.showBoardInfo}>
+                    <div className={boardStyle.infos}><p>{item.id}</p></div>
+                    <div className={boardStyle.infos}><p>{item.title}</p></div>
+                    <div className={boardStyle.infos}><p>{item.date}</p></div>
+                    <div className={boardStyle.infos}><p>{item.viewNum}</p></div>
+                    <div className={boardStyle.infos}><p>{item.recommendNum}</p></div>
                 </div>
             ))}
         </div>

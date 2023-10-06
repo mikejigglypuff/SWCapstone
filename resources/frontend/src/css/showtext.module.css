@@ -30,6 +30,7 @@
     border-radius: 10px;
     background-color: white;
     font-size: 1.2rem;
+    cursor: pointer;
 }
 .commentArea{
     width: 80%;
@@ -58,4 +59,10 @@
 .inputCommentArea{
     padding-bottom: 1rem;
     border-bottom: 2px solid navy;;
+}
+.inputCommentArea button{
+    cursor: pointer;
+}
+.showCommentArea p{
+    text-align: left;
 }

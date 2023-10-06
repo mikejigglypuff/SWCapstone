@@ -1,8 +1,9 @@
 import React from "react";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import BMIs from "../components/BMIs";
 import Ounchu from "../components/Ounchu";
-import "../css/main.css";
+import mainStyled from "../css/main.module.css";
 
 const Main = () => {
     const[height, setHeight] = useState("");
@@ -27,19 +28,19 @@ const Main = () => {
     }
 
     return (
-        <div className="Main">
-            <div className="video">
+        <div className={mainStyled.Main}>
+            <div className={mainStyled.video}>
                 <iframe width="82%" height="500vh" src="https://www.youtube.com/embed/BIEezW7aPRw" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard_summ-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen></iframe>
             </div><br></br>
-            <div className="enjoySpace">
-                <div className="choiceHealthArea">
+            <div className={mainStyled.enjoySpace}>
+                <div className={mainStyled.choiceHealthArea}>
                    <Ounchu />
                 </div>
-                <div className="calBMIArea">
-                    <div className="CgridItems">
+                <div className={mainStyled.calBMIArea}>
+                    <div className={mainStyled.CgridItems}>
                         <h3>&lt;간단한 BMI 계산하기&gt;</h3>
                     </div>
-                    <div className="CgridItems">
+                    <div className={mainStyled.CgridItems}>
                         <label htmlFor="height">키 입력 : </label>
                         <input 
                             id="height"
@@ -55,49 +56,49 @@ const Main = () => {
                             onChange={changeWeightEvent}
                         />
                     </div>
-                    <div className="CgridItems">
+                    <div className={mainStyled.CgridItems}>
                         <button onClick={calcBMI}>BMI 계산</button>
                     </div>
-                    <div className="CgridItems">
+                    <div className={mainStyled.CgridItems}>
                         <p>{bmi === null ? "키와 몸무게를 입력해주세요" : <BMIs calcingBMI={bmi}/> }</p>
                     </div>
                 </div>
             </div>
-            <div className="showBoardTableArea">
-                <div className="boards">
-                    <div className="boardsHeader">
+            <div className={mainStyled.showBoardTableArea}>
+                <div className={mainStyled.boards}>
+                    <div className={mainStyled.boardsHeader}>
                         <h3>👥 자유 게시판</h3>
-                        <button>+</button>
+                        <Link to="board/자유게시판"><button>+</button></Link>
                     </div>
                     <hr />
                     <p>자유 게시판 제목 1</p>
                     <p>자유 게시판 제목 2</p>
                     <p>자유 게시판 제목 3</p>
                 </div>
-                <div className="boards">
-                    <div className="boardsHeader">
+                <div className={mainStyled.boards}>
+                    <div className={mainStyled.boardsHeader}>
                         <h3>🍴 식단 & 운동 공유 게시판</h3>
-                        <button>+</button>
+                        <Link to="board/식단&운동 공유 게시판"><button>+</button></Link>
                     </div>
                     <hr />
                     <p>식단 & 운동 공유 게시판 제목 1</p>
                     <p>식단 & 운동 공유 게시판 제목 2</p>
                     <p>식단 & 운동 공유 게시판 제목 3</p>
                 </div>
-                <div className="boards">
-                    <div className="boardsHeader">
+                <div className={mainStyled.boards}>
+                    <div className={mainStyled.boardsHeader}>
                         <h3>📢 공지 게시판</h3>
-                        <button>+</button>
+                        <Link Link to="board/공지게시판"><button>+</button></Link>
                     </div>
                     <hr />
                     <p>공지 게시판 제목 1</p>
                     <p>공지 게시판 제목 2</p>
                     <p>공지 게시판 제목 3</p>
                 </div>
-                <div className="boards">
-                    <div className="boardsHeader">
+                <div className={mainStyled.boards}>
+                    <div className={mainStyled.boardsHeader}>
                         <h3>🌏 헬스장 찾기</h3>
-                        <button>+</button>
+                        <Link to="/searchfitnesscenter"><button>+</button></Link>
                     </div>
                     <hr />
                     <div style={{textAlign:"center"}}>

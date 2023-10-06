@@ -1,5 +1,4 @@
 import Header from "./components/header";
-import IDPWHeader from "./components/IDPWHeader";
 import JoinMembership from "./pages/JoinMembership";
 import Main from "./pages/Main";
 import Login from "./pages/Login";
@@ -27,7 +26,7 @@ function App() {
         <Route path="/replacePW" element ={<ReplacePW />} />
         <Route path="/writeboard" element ={<WriteBoard />} />
         <Route path="/searchfitnesscenter" element ={<SearchFitnessCenter />} />
-        <Route path="/board" element ={<Board />} />
+        <Route path="/board/:category" element ={<Board />} />
       </Routes>
     </div>
   );

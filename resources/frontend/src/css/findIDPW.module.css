@@ -30,6 +30,9 @@
     font-size: 18px;
     justify-content: center;
 }
+.enterID input{
+    margin-top: 1rem;
+}
 .findIDPWInfoArea input{
     border: 2px solid navy;
     border-radius: 10px;

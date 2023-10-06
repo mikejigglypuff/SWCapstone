@@ -70,6 +70,7 @@
     width: 20%;
     height: 6vh;
     padding-left: 10px;
+    font-size: 0.9rem;
 }
 .enterPhoneNum label{
     display: inline-block;
@@ -97,6 +98,7 @@
     height: 6vh;
     padding-left: 10px;
     margin-left: 140px;
+    font-size: 0.9rem;
 }
 .joinbtn{
     width: 31%;
