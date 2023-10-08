@@ -1,24 +1,24 @@
 const crypto = require("crypto");
-const bcrypt = require("bcrypt");
 const salt = require("../config/salt.json");
 const DB = require("../models/index");
 const { errRedirect } = require("../utility");
 
 exports.postAuth = async (req, res, next) => {
     const id = req.body.id;
-    const inputPW = (await bcrypt.hash(req.body.pw, salt.salt)).toString();
+    const inputPW = crypto.pbkdf2Sync(
+      req.body.pw, salt.salt, 105735, 64, "sha512"
+    ).toString();
 
     try {
       const userPW = await DB.Users.findOne({
         raw: true,
         attributes: ["password"],
         where: {
-          username: id
+          user_id: id
         }
       });
-      console.log(userPW);
       
-      if(userPW && bcrypt.compare(inputPW, userPW.password)) {
+      if(userPW && inputPW === userPW.password) {
         const rand = crypto.randomUUID();
         req.session.is_Logined = true;
         req.session.name = rand;

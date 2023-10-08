@@ -55,7 +55,7 @@ exports.postPost = async (req, res, next) => {
     raw: true,
     attributes: ['user_id'],
     where: {
-      username: req.session.userName
+      user_id: req.session.userName
     }
   });
 

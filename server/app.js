@@ -3,6 +3,7 @@ const path = require("path");
 const session = require("express-session");
 const bodyParser = require("body-parser");
 const fileStore = require("session-file-store")(session);
+const cors = require("cors");
 
 const pageRouter = require("./routes/page");
 const userRouter = require("./routes/users");
@@ -13,7 +14,7 @@ const commentRouter = require("./routes/comments");
 const sessionConfig = require("./config/session.json");
 let sequelize = require('./models').sequelize;
 const app = express();
-sequelize.sync({ alter: false });
+sequelize.sync();
 
 //8001번 port에서 열림, 템플릿 엔진 사용
 app.engine('html', require('ejs').renderFile);
@@ -31,6 +32,9 @@ app.use(session({
     httpOnly: false,
     secure: false
   }
+}));
+app.use(cors({
+  origin: "*"
 }));
 
 // css, frontend js 파일 등 정적 파일에 대한 경로를 제공하는 미들웨어 
