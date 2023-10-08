@@ -1,6 +1,6 @@
 const { Sequelize, Transaction } = require('sequelize');
 const DB = require("../models/index");
-const bcrypt = require("bcrypt");
+const crypto = require("crypto");
 const salt = require("../config/salt.json");
 const { errRes } = require("../utility");
 
@@ -11,10 +11,10 @@ exports.getUser = async (req, res, next) => {
     const user = await DB.Users.findAll({
       raw: true,
       nest: true,
-      attributes: { exclude: ['user_id', 'password'] },
+      attributes: { exclude: ['password'] },
       lock: true,
       where: {
-        username: req.params.name
+        user_id: req.params.name
       },
     }, { 
       isolationLevel: Transaction.ISOLATION_LEVELS.READ_COMMITTED,
@@ -35,7 +35,7 @@ exports.postUser = async (req, res, next) => {
   const userId = await DB.Users.findOne({
     raw: true,
     where: {
-      username: req.body.name
+      user_id: req.body.name
     }
   });
 
@@ -45,14 +45,16 @@ exports.postUser = async (req, res, next) => {
     return;
   }
 
-  const pw = (await bcrypt.hash(req.body.pw, salt.salt)).toString();
+  const pw = crypto.pbkdf2Sync(
+    req.body.pw, salt.salt, 105735, 64, "sha512"
+  ).toString();
   const t = await DB.sequelize.transaction();
   try {
     await DB.Users.create({
       phonenumber: req.body.phoneNum,
       password: pw,
-      username: req.body.name,
-      user_Num: Math.random() * 10000
+      user_id: req.body.name,
+      username: "test" //추후에 api 수정할 것
     }, { 
       lock: true,
       transaction: t 
@@ -72,7 +74,7 @@ exports.deleteUser = async (req, res, next) => {
   const user = await DB.Users.findOne({
     raw: true,
     where: {
-      username: req.body.name, 
+      user_id: req.body.name, 
       password: bcrypt.hash(req.body.pw, salt.salt)
     }
   });
@@ -86,7 +88,7 @@ exports.deleteUser = async (req, res, next) => {
   try {
     await DB.Users.destroy({
       where: {
-        username: req.body.name,
+        user_id: req.body.name,
         password: req.body.pw
       }
     }, { 
@@ -110,7 +112,7 @@ exports.patchUser = async (req, res, next) => {
   const user = await DB.Users.findOne({
     raw: true,
     where: {
-      username: req.body.name,
+      user_id: req.body.name,
       password: bcrypt.hash(req.body.pw, salt.salt)
     }
   });
@@ -126,7 +128,7 @@ exports.patchUser = async (req, res, next) => {
       phonenumber: req.body.phoneNum,
       password: req.body.pw,
       where: {
-        username: req.body.name
+        user_id: req.body.name
       }
     }, { 
       lock: true,
