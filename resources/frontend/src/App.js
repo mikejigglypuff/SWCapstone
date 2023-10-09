@@ -9,6 +9,9 @@ import ReplacePW from "./pages/ReplacePW";
 import WriteBoard from "./pages/WriteBoard";
 import SearchFitnessCenter from "./pages/SearchFitnessCenter";
 import Board from "./pages/Board";
+import Mypage from "./pages/Mypage";
+import UnRegister from "./pages/UnRegister";
+import CheckWriting from "./pages/CheckWriting";
 import { Route, Routes } from 'react-router-dom';
 
 function App() {
@@ -27,6 +30,9 @@ function App() {
         <Route path="/writeboard" element ={<WriteBoard />} />
         <Route path="/searchfitnesscenter" element ={<SearchFitnessCenter />} />
         <Route path="/board/:category" element ={<Board />} />
+        <Route path="/mypage" element ={<Mypage />} />
+        <Route path="/unregister" element ={<UnRegister />} />
+        <Route path="/checkwriting" element ={<CheckWriting />} />
       </Routes>
     </div>
   );

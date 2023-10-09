@@ -1,5 +1,6 @@
 import React from "react";
 import { useState } from "react";
+import Sidebar from "../components/Sidebar";
 import replacePWStyled from "../css/replacePW.module.css"
 
 const ReplacePW = () => {
@@ -7,10 +8,10 @@ const ReplacePW = () => {
     const [newPW, setNewPW] = useState("");
     const [checkNewPW, setcheckNewPW] = useState("");
 
-    const [pwMessage, setPwMessage] = useState("");
+    const [newpwMessage, setNewPwMessage] = useState("");
     const [checkpwMessage, setCheckPwMessage] = useState("");
 
-    const [isnewPW, setnewPW] = useState(false);
+    const [isnewPW, setIsnewPW] = useState(false);
     const [ischeckNewPW, setIscheckNewPW] = useState(false);
 
     const onBeforePWChange = (e) =>{
@@ -19,73 +20,82 @@ const ReplacePW = () => {
     };
     
      // 비밀번호 유효성 검사 함수
-    //  const onPassWordChange = (e) => {
-    //     const currentNewPW = e.target.value;
-    //     setNewPW(currentNewPW);
-    //     const PasswordReg = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,18}$/;// 비밀번호 조건식
-    //     if(!PasswordReg.test(currentNewPW)){
-    //         setPwMessage("비밀번호는 최소 하나의 문자와 숫자 그리고 하나의 특수 문자를 포함한 8자 이상 18자 이하여야 합니다.");
-    //         setIsPw(false);
-    //     }// 비밀번호 조건식과 입력한 값이 일치하지 않은 경우
-    //     else{
-    //         setPwMessage("이 비밀번호를 사용할 수 있습니다.");
-    //         setIsPw(true);
-    //     }// 비밀번호 조건식과 입력한 값이 일치한 경우
-    // }  
+     const onNewPassWordChange = (e) => {
+        const currentNewPW = e.target.value;
+        setNewPW(currentNewPW);
+        const PasswordReg = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,18}$/;// 비밀번호 조건식
+        if(!PasswordReg.test(currentNewPW)){
+            setNewPwMessage("비밀번호는 최소 하나의 문자와 숫자 그리고 하나의 특수 문자를 포함한 8자 이상 18자 이하여야 합니다.");
+            setIsnewPW(false);
+        }// 비밀번호 조건식과 입력한 값이 일치하지 않은 경우
+        else if(beforePW === currentNewPW){
+            setNewPwMessage("기존의 비밀번호와 일치합니다.");
+            setIsnewPW(false);
+        }// 입력한 비밀번호가 기존의 비밀번호와 일치하는 경우
+        else{
+            setNewPwMessage("이 비밀번호를 사용할 수 있습니다.");
+            setIsnewPW(true);
+        }// 비밀번호 조건식과 입력한 값이 일치하고 기존의 비밀번호와 일치하지 않는 경우
+    }  
 
-    // // 비밀번호 확인 유효성 검사 부분
-    // const onCheckPWChange = (e) => {
-    //     const currenCheckPW = e.target.value;
-    //     setCheckPw(currenCheckPW);
-    //     if(password !== currenCheckPW){
-    //         setCheckPwMessage("비밀번호가 일치하지 않습니다.");
-    //         setIsCheckPw(false);
-    //     }
-    //     else{
-    //         setCheckPwMessage("비밀번호가 일치합니다.");
-    //         setIsCheckPw(true);
-    //     }
-    // }
+    // 비밀번호 확인 유효성 검사 부분
+    const onCheckNewPWChange = (e) => {
+        const currenCheckNewPW = e.target.value;
+        setcheckNewPW(currenCheckNewPW);
+        if(newPW !== currenCheckNewPW){
+            setCheckPwMessage("비밀번호가 일치하지 않습니다.");
+            setIscheckNewPW(false);
+        }
+        else{
+            setCheckPwMessage("비밀번호가 일치합니다.");
+            setIscheckNewPW(true);
+        }
+    }
 
     return (
         <div className={replacePWStyled.ReplacePW}>
-            <div className={replacePWStyled.RPtitle}>
-                <img src="https://media.discordapp.net/attachments/1083261485498781763/1090877545580343406/image.png?width=510&height=213" id="image" />
-                <p id="title">비밀번호 변경</p>
-            </div>
-            <div className={replacePWStyled.enterNewPWArea}>
-                <div className={replacePWStyled.enterPW}>
-                    <label>현재 비밀번호</label>
-                    <input
-                        id="presentPW"
-                        type="password"
-                        placeholder="현재 비밀번호를 입력하세요"
-                        // value={beforePW}
-                        // onChange={onBeforePWChange}
-                    />
+            <Sidebar />
+            <div className={replacePWStyled.inputArea}>
+                <div className={replacePWStyled.RPtitle}>
+                    <img src="img/logo.png" id="image" />
+                    <p id="title">비밀번호 변경</p>
                 </div>
-                <div className={replacePWStyled.enterNewPW}>
-                    <label>변경할 비밀번호</label>
-                    <input
-                        id="changePW"
-                        type="password"
-                        placeholder="변경할 비밀번호를 입력하세요"
-                        // value={newPW}
-                        // onChange={}
-                    />
-                </div>
-                <div className={replacePWStyled.enterNewPW}>
-                    <label>변경할 비밀번호 확인</label>
-                    <input
-                        id="changePW"
-                        type="password"
-                        placeholder="변경할 비밀번호를 다시 한번 입력하세요"
-                        // value={checkNewPW}
-                        // onChange={}
-                    />
-                </div>
-                <div className={replacePWStyled.RPbtnArea}>
-                    <button>비밀번호 변경</button>
+                <div className={replacePWStyled.enterNewPWArea}>
+                    <div className={replacePWStyled.enterPW}>
+                        <label>현재 비밀번호</label>
+                        <input
+                            id="presentPW"
+                            type="password"
+                            placeholder="현재 비밀번호를 입력하세요"
+                            value={beforePW}
+                            onChange={onBeforePWChange}
+                        />
+                    </div>
+                    <div className={replacePWStyled.enterNewPW}>
+                        <label>변경할 비밀번호</label>
+                        <input
+                            id="changePW"
+                            type="password"
+                            placeholder="변경할 비밀번호를 입력하세요"
+                            value={newPW}
+                            onChange={onNewPassWordChange}
+                        />
+                        <p style={{color: isnewPW === false ? "red" : "green"}}>{newpwMessage}</p>
+                    </div>
+                    <div className={replacePWStyled.enterNewPW}>
+                        <label>변경할 비밀번호 확인</label>
+                        <input
+                            id="changePW"
+                            type="password"
+                            placeholder="변경할 비밀번호를 다시 한번 입력하세요"
+                            value={checkNewPW}
+                            onChange={onCheckNewPWChange}
+                        />
+                        <p style={{color: ischeckNewPW === false ? "red" : "green"}}>{checkpwMessage}</p>
+                    </div>
+                    <div className={replacePWStyled.RPbtnArea}>
+                        <button>비밀번호 변경</button>
+                    </div>
                 </div>
             </div>
         </div>

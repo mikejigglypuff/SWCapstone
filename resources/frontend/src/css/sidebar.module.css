@@ -1,0 +1,31 @@
+.Sidebar{
+    width: 25%;
+    height: 100vh;
+    background-color: rgba(229, 240, 255, 1);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+}
+.SDheader{
+    margin-bottom: 1rem;
+    padding-top: 1rem;
+}
+.SDheader p{
+    color: navy;
+    font-size: 1.3rem;
+}
+.menubar{
+    display: flex;
+    flex-direction: column;
+}
+.items{
+    border-top: 1px solid rgb(205, 205, 205);
+    height: 8.5vh;
+    font-size: 1.1rem;
+}
+.items:nth-child(3){
+    border-bottom: 1px solid rgb(205, 205, 205);
+}
+.items:hover{
+    background-color: rgba(245, 245, 245, 1);
+}

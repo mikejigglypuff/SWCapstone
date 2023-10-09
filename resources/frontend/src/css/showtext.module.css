@@ -16,6 +16,11 @@
     text-align: center;
     border-bottom: 2px solid navy;
 }
+.mainShowTextArea img{
+    width: 35%;    
+    vertical-align: middle;
+    padding-right: 0.5rem;
+}
 .showTextBox{
     width: 100%;
     height: 75vh;
@@ -24,13 +29,17 @@
 }
 .mainShowTextArea button{
     width: 15%;
-    height: 8vh;
+    height: 9vh;
     margin: 20px 0px;
     border: 2px solid navy;
     border-radius: 10px;
     background-color: white;
-    font-size: 1.2rem;
+    font-size: 1.3rem;
     cursor: pointer;
+}
+.mainShowTextArea button:hover{
+    background-color: navy;
+    color: white;
 }
 .commentArea{
     width: 80%;

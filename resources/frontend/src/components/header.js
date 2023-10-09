@@ -5,7 +5,7 @@ import hearderStyled from "../css/header.module.css";
 const Header = () => {
     return(
         <div className={hearderStyled.Header}>
-            <Link to="/"><img src="https://media.discordapp.net/attachments/1083261485498781763/1090877545580343406/image.png?width=510&height=213" /></Link>
+            <Link to="/"><img src="img/logo.png" /></Link>
             <nav className = {hearderStyled.menubar}>
                 <ul>
                     <li><Link to="/">Home</Link></li>

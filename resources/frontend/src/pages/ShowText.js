@@ -13,7 +13,7 @@ const ShowText = () => {
             </div>
             <div className={showtextStyled.mainShowTextArea}>
                 <div className={showtextStyled.showTextBox}></div>
-                <button><img src="../../../img/thumbsup.jpg"></img>추천</button>
+                <button><img src="img/thumbsup.jpg"></img>추천</button>
             </div>
             <div className={showtextStyled.commentArea}>
                 <h3>댓글 <span>N</span></h3>

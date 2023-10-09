@@ -1,0 +1,75 @@
+.CheckWriting{
+    display: flex;
+    width: 100%;
+}
+.showWritingList{
+    width: 100%;
+    margin-top: 2rem;
+    margin-left: 2rem;
+    margin-right: 2rem;
+}
+.CWheader{
+    border-bottom: 3px solid rgba(215, 215, 215, 1);
+    margin: 0 auto;
+    text-align: center;
+}
+.CWheader img{
+    width: 20%;
+    height: 13vh;
+}
+.CWheader p{
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: navy;
+}
+.writingListTitle{
+    display: flex;
+    border-bottom: 3px solid rgba(215, 215, 215, 1);
+    font-size: 1.1rem;
+    font-weight: bold;
+    text-align: center;
+    align-items: center;
+}
+.writingListTitle .titleItems:nth-child(1){
+    flex-grow: 1.5;
+    flex-basis: 0;
+}
+.writingListTitle .titleItems:nth-child(2){
+    flex-grow: 4;
+    flex-basis: 0;
+}
+.writingListTitle .titleItems:nth-child(3){
+    flex-grow: 1.2;
+    flex-basis: 0;
+}
+.writingListTitle .titleItems:nth-child(4){
+    flex-grow: 0.5;
+    flex-basis: 0;
+}
+.writingList{
+    display: flex;
+    border-bottom: 2px solid rgb(220, 220, 220);
+    font-size: 1.1rem;
+    text-align: center;
+    align-items: center;
+    cursor: pointer;
+}
+.writingList:hover{
+    border: 2px solid navy;
+}
+.writingList .infos:nth-child(1){
+    flex-grow: 1.5;
+    flex-basis: 0;
+}
+.writingList .infos:nth-child(2){
+    flex-grow: 4;
+    flex-basis: 0;
+}
+.writingList .infos:nth-child(3){
+    flex-grow: 1.2;
+    flex-basis: 0;
+}
+.writingList .infos:nth-child(4){
+    flex-grow: 0.5;
+    flex-basis: 0;
+}
