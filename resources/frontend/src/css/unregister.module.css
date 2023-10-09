@@ -1,0 +1,61 @@
+.Unregister{
+    width: 100%;
+    display: flex;
+}
+.unregisterArea{
+    width: 100%;
+    margin-top: 2rem;
+}
+.URtitle{
+    border-bottom: 2px solid navy;
+    margin: 0 auto;
+    width: 50%;
+    text-align: center;
+}
+.URtitle img{
+    width: 40%;
+    height: 13vh;
+}
+.URtitle p{
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: navy;
+}
+.inputPassword, .btnArea{
+    width: 50%;
+    margin: 0 auto;
+    text-align: center;
+    margin-top: 1.5rem;
+}
+.inputPassword label{
+    display: inline-block;
+    text-align: right;
+	width: 8rem;
+    height: 4vh;
+    font-size: 1.1rem;
+    justify-content: center;
+    color: navy;
+    font-weight: bold;
+}
+.inputPassword input{
+    border: 2px solid navy;
+    border-radius: 7px;
+    margin-left: 1rem;
+    margin-top: 0.4rem;
+    padding-left: 0.5rem;
+    width: 65%;
+    height: 6vh;
+    font-size: 1rem;
+}
+.btnArea button{
+    width: 67%;
+    height: 6vh;
+    margin-left: 9rem;
+    border-radius: 8px;
+    border: 2px solid navy;
+    background-color: navy;
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: white;
+    cursor: pointer;
+}

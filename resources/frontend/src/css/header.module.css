@@ -37,7 +37,7 @@ body{
 .menubar ul li{
     display: inline-block;
     list-style-type: none;
-    padding: 10px 30px;
+    padding: 10px 20px;
 }
 .menubar ul li a{
     text-decoration: none;

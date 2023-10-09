@@ -1,21 +1,28 @@
 .ReplacePW{
     text-align: center;
     width: 100%;
-    margin-top: 30px;
+    display: flex;
+}
+.inputArea{
+    width: 100%;
+    margin-top: 2rem;
 }
 .RPtitle{
     border-bottom: 2px solid darkblue;
     margin: 0 auto;
-    width: 43%;
+    width: 50%;
 }
 .RPtitle img{
     width: 40%;
-    height: 15vh;
+    height: 13vh;
 }
 .RPtitle p{
-    font-size: 1.5rem;
+    font-size: 1.4rem;
     font-weight: bold;
     color: navy;
+}
+.enterPW{
+    margin-bottom: 1rem;
 }
 .enterNewPWArea{
     display: flex;
@@ -41,6 +48,7 @@
     height: 6vh;
     padding-left: 10px;
     font-size: 1rem;
+    margin-left: 0.5rem;
 }
 .RPbtnArea button{
     border: none;
@@ -49,8 +57,8 @@
     color: white;
     font-size: 1.1rem;
     margin-top: 1rem;
-    margin-left: 160px;
-    width: 30%;
+    margin-left: 12.5rem;
+    width: 31%;
     height: 7vh;
     cursor: pointer;
 }

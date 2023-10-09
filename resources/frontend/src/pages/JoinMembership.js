@@ -78,7 +78,7 @@ const JoinMembership = () => {
     return (
         <div className={joinMembershipStyled.JoinMembership}>
             <div className={joinMembershipStyled.Jtitle}>
-                <img src="https://media.discordapp.net/attachments/1083261485498781763/1090877545580343406/image.png?width=510&height=213" />
+                <img src="img/logo.png"/>
             </div>
             <div className={joinMembershipStyled.enterMembershipInfo}>
                 <div className={joinMembershipStyled.enterID}>
