@@ -25,10 +25,6 @@ module.exports = function(sequelize, DataTypes) {
     content: {
       type: DataTypes.TEXT,
       allowNull: false
-    },
-    reply_Date: {
-      type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW
     }
   }, {
     tableName: 'comments',
