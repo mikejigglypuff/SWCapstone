@@ -25,15 +25,5 @@ module.exports = function(sequelize, DataTypes) {
     tableName: 'users',
     timestamps: true,
     paranoid: true,
-    indexes: [
-      {
-        name: "phonenumber_UNIQUE",
-        unique: true,
-        using: "BTREE",
-        fields: [
-          { name: "phonenumber" },
-        ]
-      },
-    ]
   });
 };
