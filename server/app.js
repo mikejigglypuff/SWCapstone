@@ -2,8 +2,8 @@ const express = require("express");
 const path = require("path");
 const session = require("express-session");
 const bodyParser = require("body-parser");
-const fileStore = require("session-file-store")(session);
 const cors = require("cors");
+const crypto = require("crypto");
 
 const pageRouter = require("./routes/page");
 const userRouter = require("./routes/users");
@@ -12,6 +12,8 @@ const postRouter = require("./routes/posts");
 const logoutRouter = require("./routes/logout");
 const commentRouter = require("./routes/comments");
 const sessionConfig = require("./config/session.json");
+const config = require("./config/config.json");
+const MySQLStore = require("express-mysql-session")(session);
 let sequelize = require('./models').sequelize;
 const app = express();
 sequelize.sync();
@@ -26,12 +28,24 @@ app.use(session({
   secret: sessionConfig.key,
   resave: false,
   saveUninitialized: true,
-  store: new fileStore(),
+  is_Logined: false,
+  user_id: null,
+  store: new MySQLStore({
+    host: config.development.host,
+    port: config.development.port,
+    user: config.development.username,
+    password: config.development.password,
+    database: config.development.database,
+    clearExpired: true,
+  }),
   cookie: {
     path: "/",
     httpOnly: false,
-    secure: false
-  }
+    secure: false,
+    expires: Date.now() + 604800000
+  },
+  name: crypto.randomUUID(),
+  expires: Date.now() + 604800000
 }));
 app.use(cors({
   origin: "*"

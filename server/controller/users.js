@@ -6,20 +6,14 @@ const { errRes } = require("../utility");
 
 exports.getUser = async (req, res, next) => {
   try {
-    const t = await DB.sequelize.transaction();
-
     const user = await DB.Users.findAll({
       raw: true,
       nest: true,
-      attributes: { exclude: ['password'] },
+      attributes: { exclude: ['password', 'deletedAt'] },
       lock: true,
       where: {
-        user_id: req.params.name
+        user_id: req.params.userid
       },
-    }, { 
-      isolationLevel: Transaction.ISOLATION_LEVELS.READ_COMMITTED,
-      lock: true,
-      transaction: t 
     });
     console.log(user);
     res.status(200).json(JSON.stringify(user));
@@ -34,8 +28,9 @@ exports.postUser = async (req, res, next) => {
   console.log(req.body);
   const userId = await DB.Users.findOne({
     raw: true,
+    attributes: ['user_id'],
     where: {
-      user_id: req.body.name
+      user_id: req.body.id
     }
   });
 
@@ -49,12 +44,13 @@ exports.postUser = async (req, res, next) => {
     req.body.pw, salt.salt, 105735, 64, "sha512"
   ).toString();
   const t = await DB.sequelize.transaction();
+
   try {
     await DB.Users.create({
-      phonenumber: req.body.phoneNum,
+      email: req.body.email,
       password: pw,
-      user_id: req.body.name,
-      username: "test" //추후에 api 수정할 것
+      user_id: req.body.id,
+      username: req.body.name
     }, { 
       lock: true,
       transaction: t 
@@ -74,8 +70,10 @@ exports.deleteUser = async (req, res, next) => {
   const user = await DB.Users.findOne({
     raw: true,
     where: {
-      user_id: req.body.name, 
-      password: bcrypt.hash(req.body.pw, salt.salt)
+      user_id: req.body.id, 
+      password: crypto.pbkdf2Sync(
+        req.body.pw, salt.salt, 105735, 64, "sha512"
+      ).toString()
     }
   });
 
@@ -84,36 +82,30 @@ exports.deleteUser = async (req, res, next) => {
     return;
   }
     
-  const t = await DB.sequelize.transaction();
   try {
     await DB.Users.destroy({
       where: {
-        user_id: req.body.name,
+        user_id: req.body.id,
         password: req.body.pw
       }
-    }, { 
-      lock: true,
-      transaction: t 
     });
-
-    t.afterCommit(() => {
-      res.status(302).redirect("/");
-    });
-
-    await t.commit();
+    res.sendStatus(200);
   } catch(err) {
-    await t.rollback();
     console.error(err);
     next(err);
   }
 } //회원 탈퇴
 
 exports.patchUser = async (req, res, next) => {
+  const pw = crypto.pbkdf2Sync(
+    req.body.pw, salt.salt, 105735, 64, "sha512"
+  ).toString();
+
   const user = await DB.Users.findOne({
     raw: true,
     where: {
-      user_id: req.body.name,
-      password: bcrypt.hash(req.body.pw, salt.salt)
+      user_id: req.body.id,
+      password: pw
     }
   });
 
@@ -122,26 +114,16 @@ exports.patchUser = async (req, res, next) => {
     return; 
   }
 
-  const t = await DB.sequelize.transaction();
   try {
     await DB.Users.update({
-      phonenumber: req.body.phoneNum,
-      password: req.body.pw,
+      email: req.body.email || user.email,
+      password: pw || user.pw,
       where: {
-        user_id: req.body.name
+        user_id: req.body.id
       }
-    }, { 
-      lock: true,
-      transaction: t 
     });
-
-    t.afterCommit(() => {
-      res.sendStatus(200);
-    });
-
-    await t.commit();
+    res.sendStatus(200);
   } catch(err) {
-    await t.rollback();
     console.error(err);
     next(err);
   }
