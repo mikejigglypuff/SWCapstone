@@ -1,19 +1,11 @@
 const Sequelize = require('sequelize');
 module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('comments', {
-    comment_id: {
+  return sequelize.define('userDiary', {
+    diary_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
       autoIncrement: true,
       primaryKey: true
-    },
-    post_id: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      references: {
-        model: 'posts',
-        key: 'post_id'
-      }
     },
     user_id: {
       type: DataTypes.STRING(45),
@@ -23,12 +15,29 @@ module.exports = function(sequelize, DataTypes) {
         key: 'user_id'
       }
     },
-    content: {
+    weight: {
+      type: DataTypes.INT,
+      allowNull: false
+    },
+    bodtFat: {
+      type: DataTypes.DECIMAL(3, 1),
+      allowNull: true
+    },
+    muscle: {
+      type: DataTypes.DECIMAL(3, 1),
+      allowNull: true
+    },
+    bodyParts: {
       type: DataTypes.TEXT,
       allowNull: false
+    },
+    content: {
+        type: DataTypes.STRING(25),
+        allowNull: true
     }
   }, {
-    tableName: 'comments',
+    sequelize,
+    tableName: 'userDiary',
     timestamps: true,
     paranoid: true
   });
