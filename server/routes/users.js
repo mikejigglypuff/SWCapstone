@@ -3,7 +3,7 @@ const {getUser, postUser, deleteUser, patchUser} = require("../controller/users"
 
 const router = express.Router();
 
-router.get("/:name", getUser);
+router.get("/:userid", getUser);
 
 router.route('/')
   .post(postUser)

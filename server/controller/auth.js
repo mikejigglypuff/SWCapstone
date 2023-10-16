@@ -19,10 +19,8 @@ exports.postAuth = async (req, res, next) => {
       });
       
       if(userPW && inputPW === userPW.password) {
-        const rand = crypto.randomUUID();
         req.session.is_Logined = true;
-        req.session.name = rand;
-        req.session.userName = id;
+        req.session.user_id = id;
         req.session.save((err) => {
           if(err) { return next(err); }
           res.redirect("/");
