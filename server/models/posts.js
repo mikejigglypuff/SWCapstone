@@ -3,6 +3,7 @@ module.exports = function(sequelize, DataTypes) {
   return sequelize.define('posts', {
     post_id: {
       type: DataTypes.INTEGER,
+      allowNull: false,
       autoIncrement: true,
       primaryKey: true
     },
@@ -20,7 +21,7 @@ module.exports = function(sequelize, DataTypes) {
     },
     content: {
       type: DataTypes.TEXT,
-      allowNull: true
+      allowNull: false
     },
     favcnt: {
       type: DataTypes.INTEGER,

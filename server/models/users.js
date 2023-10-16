@@ -3,6 +3,7 @@ module.exports = function(sequelize, DataTypes) {
   return sequelize.define('users', {
     user_id: {
       type: DataTypes.STRING(45),
+      allowNull: false,
       primaryKey: true
     },
     username: {
@@ -10,8 +11,8 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false,
       unique: true
     },
-    phonenumber: {
-      type: DataTypes.STRING(45),
+    email: {
+      type: DataTypes.STRING(75),
       allowNull: false,
       unique: true
     },
