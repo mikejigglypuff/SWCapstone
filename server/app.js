@@ -28,7 +28,7 @@ app.use(bodyParser.json());
 app.use(session({
   secret: sessionConfig.key,
   resave: false,
-  saveUninitialized: true,
+  saveUninitialized: false,
   is_Logined: false,
   user_id: null,
   store: new MySQLStore({
