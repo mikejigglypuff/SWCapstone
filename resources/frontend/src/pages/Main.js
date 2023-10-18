@@ -87,13 +87,13 @@ const Main = () => {
                 </div>
                 <div className={mainStyled.boards}>
                     <div className={mainStyled.boardsHeader}>
-                        <h3>📢 공지 게시판</h3>
+                        <h3>📢 질문 게시판</h3>
                         <Link Link to="board/공지게시판"><button>+</button></Link>
                     </div>
                     <hr />
-                    <p>공지 게시판 제목 1</p>
-                    <p>공지 게시판 제목 2</p>
-                    <p>공지 게시판 제목 3</p>
+                    <p>질문 게시판 제목 1</p>
+                    <p>질문 게시판 제목 2</p>
+                    <p>질문 게시판 제목 3</p>
                 </div>
                 <div className={mainStyled.boards}>
                     <div className={mainStyled.boardsHeader}>

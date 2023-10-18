@@ -27,7 +27,7 @@ function App() {
         <Route path="/joinmembership" element ={<JoinMembership />} />
         <Route path="/showtext" element ={<ShowText />} />
         <Route path="/replacePW" element ={<ReplacePW />} />
-        <Route path="/writeboard" element ={<WriteBoard />} />
+        <Route path="/board/:category/writeboard" element ={<WriteBoard />} />
         <Route path="/searchfitnesscenter" element ={<SearchFitnessCenter />} />
         <Route path="/board/:category" element ={<Board />} />
         <Route path="/mypage" element ={<Mypage />} />
