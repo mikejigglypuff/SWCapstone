@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import writeboardStyled from "../css/writeboard.module.css"
 
@@ -17,6 +17,10 @@ const WriteBoard = () => {
         setText(e.target.value);
     };
 
+    const {category} = useParams();
+
+    const navigate = useNavigate();
+
     const sendingWriteTextData = async() => {
         try {    
                 const response = await axios.post('/post', {
@@ -25,14 +29,12 @@ const WriteBoard = () => {
                     "category": category
                 });
         
-                console.log('Server response:', response.data);
                 alert("글 작성이 완료되었습니다.");
+                navigate(`/board/${category}`)
           } catch (error) {
             console.error('Error sending data:', error);
           }
     }
-
-    const {category} = useParams();
 
     return (
         <div className={writeboardStyled.WriteBoard}>

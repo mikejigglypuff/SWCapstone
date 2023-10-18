@@ -1,6 +1,7 @@
 import React from "react";
 import axios from "axios"
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import joinMembershipStyled from "../css/joinmembership.module.css"
 
 const JoinMembership = () => {
@@ -8,7 +9,7 @@ const JoinMembership = () => {
     const [password, setPassword]= useState("");
     const [checkPW, setCheckPw] = useState("");
     const [name, setName] = useState("");
-    const [phoneNum, setPhoneNum] = useState("");
+    const [email, setEmail] = useState("");
 
     const [pwMessage, setPwMessage] = useState("");
     const [checkpwMessage, setCheckPwMessage] = useState("");
@@ -55,21 +56,25 @@ const JoinMembership = () => {
         console.log(e.target.value);
     };
 
-    const onPhoneNumChange = (e) =>{
-        setPhoneNum(e.target.value);
+    const onEmailChange = (e) =>{
+        setEmail(e.target.value);
         console.log(e.target.value);
     };
+    
+    const navigate = useNavigate();
 
     const sendingMembershipData = async() => {
         try {    
                 const response = await axios.post('/user', {
-                    "phoneNum": phoneNum,
+                    "email": email,
                     "pw": password,
+                    "id": id,
                     "name": name
                 });
-        
-                console.log('Server response:', response.data);
+
                 alert("회원가입이 완료하였습니다.");
+                navigate('/login');
+
           } catch (error) {
             console.error('Error sending data:', error);
           }
@@ -126,12 +131,12 @@ const JoinMembership = () => {
                     />
                 </div>
                 <div style={{marginBottom: "1rem"}} className={joinMembershipStyled.enterPhoneNum}>
-                    <label>휴대폰 번호</label>
+                    <label htmlFor="email">이메일</label>
                     <input
-                        id={joinMembershipStyled.phoneNum}
-                        placeholder="010-1234-5678의 형태로 입력해주세요"
-                        value={phoneNum}
-                        onChange={onPhoneNumChange}
+                        id={joinMembershipStyled.email}
+                        placeholder="sample@sample.com의 형태로 입력하세요"
+                        value={email}
+                        onChange={onEmailChange}
                     />
                     <button>인증번호 받기</button><br/>
                     <input
