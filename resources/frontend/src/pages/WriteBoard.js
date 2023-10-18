@@ -1,16 +1,11 @@
 import React, { useState } from "react"
+import { useParams } from "react-router-dom";
 import axios from "axios";
 import writeboardStyled from "../css/writeboard.module.css"
 
 const WriteBoard = () => {
-    const [selectedItem, setSelectedItem] = useState("");
     const [textTitle, setTextTitle] = useState("");
     const [text, setText] = useState("");
-
-    const onSelectedItemChange = (e) => {
-        console.log(e.target.value);
-        setSelectedItem(e.target.value);
-    };
 
     const onTextTitleChange = (e) => {
         console.log(e.target.value);
@@ -27,7 +22,7 @@ const WriteBoard = () => {
                 const response = await axios.post('/post', {
                     "title": textTitle,
                     "content": text,
-                    "category": selectedItem
+                    "category": category
                 });
         
                 console.log('Server response:', response.data);
@@ -37,18 +32,16 @@ const WriteBoard = () => {
           }
     }
 
+    const {category} = useParams();
+
     return (
         <div className={writeboardStyled.WriteBoard}>
             <div className={writeboardStyled.WBtitle}>
                 <h2>게시물 작성 📝</h2>
             </div>
             <div className={writeboardStyled.choiceBoardKindArea}>
-                <label>게시판 종류 선택</label>
-                <select value={selectedItem} onChange={onSelectedItemChange}>
-                    <option value="자유게시판">자유게시판</option>
-                    <option value="식단&운동 공유 게시판">식단&운동 공유 게시판</option>
-                    <option value="공지게시판">공지게시판</option>
-                </select>
+                <label>게시판 종류</label>
+                <span>{category}</span>
             </div>
             <div className={writeboardStyled.enterTitleArea}>
                 <label htmlFor="textTitle">제목</label>

@@ -14,11 +14,17 @@
     text-align: center;
 }
 .choiceBoardKindArea{
+    display: flex;
     width: 100%;
     margin-left: 10%;
     padding-top: 1.5%;
     border-bottom: 1px solid navy;
     border-top: 1px solid navy;
+}
+.choiceBoardKindArea span{
+    color: navy;
+    font-size: 1.1rem;
+    padding-left: 1.3rem;
 }
 .choiceBoardKindArea label{
     display: inline-block;
@@ -28,14 +34,6 @@
     font-size: 18px;
     justify-content: center;
     color: navy;
-}
-.choiceBoardKindArea select{
-    margin-left: 1.2rem;
-    height: 4vh;
-    width: 20%;
-    font-size: 1rem;
-    padding-left: 0.5rem;
-    cursor: pointer;
 }
 .enterTitleArea{
     width: 100%;
