@@ -17,7 +17,7 @@ exports.getCommentsByPost = async (req, res, next) => {
     }
 
     try {
-        const comments = await DB.comments.findAll({
+        const comments = await DB.Comments.findAll({
             raw: true,
             nest: true,
             where: {
@@ -51,14 +51,25 @@ exports.postComments = async (req, res, next) => {
         }
     });
 
+    const user = DB.Users.findOne({
+        attributes: ['user_id'],
+        where: {
+            user_id: req.session.user_id
+        }
+    });
+
     if(!post) {
         errRes(res, 404, "post not found"); 
+        return;
+    }
+    if(!user) {
+        errRes(res, 404, "user not found"); 
         return;
     }
 
     const t = await DB.sequelize.transaction();
     try {
-        await DB.comments.create({
+        await DB.Comments.create({
             post_id: req.body.postId,
             content: req.body.content,
             user_id: req.body.userId
@@ -81,7 +92,7 @@ exports.postComments = async (req, res, next) => {
 };
 
 exports.deleteComments = async (req, res, next) => {
-    const comment = DB.comments.findOne({
+    const comment = DB.Comments.findOne({
         raw: true,
         where: {
             comment_id: req.body.commentId
@@ -95,7 +106,7 @@ exports.deleteComments = async (req, res, next) => {
 
     const t = await DB.sequelize.transaction();
     try {
-        await DB.comments.destroy({
+        await DB.Comments.destroy({
             where: {
                 comment_id: req.body.commentId
             },
@@ -117,7 +128,7 @@ exports.deleteComments = async (req, res, next) => {
 };
 
 exports.patchComments = async (req, res, next) => {
-    const comment = DB.comments.findOne({
+    const comment = DB.Comments.findOne({
         raw: true,
         where: {
             comment_id: req.body.commentId
@@ -131,7 +142,7 @@ exports.patchComments = async (req, res, next) => {
 
     const t = await DB.sequelize.transaction();
     try {
-        await DB.comments.update({
+        await DB.Comments.update({
             content: req.body.content,
             where: {
                 comment_id: req.body.commentId
