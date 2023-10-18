@@ -10,6 +10,7 @@ const userRouter = require("./routes/users");
 const authRouter = require("./routes/auth");
 const postRouter = require("./routes/posts");
 const logoutRouter = require("./routes/logout");
+const findIDRouter = require("./routes/findID");
 const commentRouter = require("./routes/comments");
 const sessionConfig = require("./config/session.json");
 const config = require("./config/config.json");
@@ -59,6 +60,7 @@ app.use("/static/img", express.static(path.resolve(__dirname, "../resources/fron
 app.use("/login/auth", authRouter);
 app.use("/comment", commentRouter);
 app.use("/logout", logoutRouter);
+app.use("/findID", findIDRouter);
 app.use("/post", postRouter);
 app.use("/user", userRouter);
 app.use(pageRouter);

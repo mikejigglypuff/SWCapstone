@@ -24,6 +24,23 @@ exports.getUser = async (req, res, next) => {
   }
 }; //회원 조회
 
+exports.getUserIDByEmail = async (req, res, next) => {
+  try {
+    const userId = await DB.Users.findOne({
+      raw: true,
+      attributes: ["user_id"],
+      where: {
+        email: req.body.email
+      }
+    });
+    res.status(200).json(JSON.stringify(userId));
+  } catch(err) {
+    err.status = 404;
+    console.error(err);
+    next(err);
+  }
+}; //이메일로 회원 Id 찾기 
+
 exports.postUser = async (req, res, next) => {
   console.log(req.body);
   const userId = await DB.Users.findOne({
