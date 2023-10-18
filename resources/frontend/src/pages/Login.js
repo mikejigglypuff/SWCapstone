@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
 import loginStyled from "../css/login.module.css"
@@ -17,15 +17,26 @@ const Login = () => {
         setPassword(e.target.value);
     }
 
+    const navigate = useNavigate();
+
     const sendingLoginData = async() => {
         try {    
                 const response = await axios.post('/login/auth', {
                     "id": id,
                     "pw": password,
                 });
-        
-                console.log('Server response:', response.data);
+
+                console.log(response);
+
+                const cookies = response.headers['set-cookie'];
+                console.log(cookies);
+
+                if(cookies){
+                    localStorage.setItem('sessionCookies', JSON.stringify(cookies));
+                }
+
                 alert("로그인이 완료하였습니다.");
+                navigate('/');
           } catch (error) {
             console.error('Error sending data:', error);
           }
