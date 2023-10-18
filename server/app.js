@@ -42,10 +42,10 @@ app.use(session({
     path: "/",
     httpOnly: false,
     secure: false,
-    expires: Date.now() + 604800000
+    expires: 604800000
   },
   name: crypto.randomUUID(),
-  expires: Date.now() + 604800000
+  expires: 604800000
 }));
 app.use(cors({
   origin: "*"
@@ -54,6 +54,7 @@ app.use(cors({
 // css, frontend js 파일 등 정적 파일에 대한 경로를 제공하는 미들웨어 
 app.use("/static/css", express.static(path.resolve(__dirname, "../resources/frontend/build/static/css")));
 app.use("/static/js", express.static(path.resolve(__dirname, "../resources/frontend/build/static/js")));
+app.use("/static/img", express.static(path.resolve(__dirname, "../resources/frontend/build/img")));
 
 app.use("/login/auth", authRouter);
 app.use("/comment", commentRouter);
