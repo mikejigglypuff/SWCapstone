@@ -55,7 +55,7 @@ exports.postPost = async (req, res, next) => {
     raw: true,
     attributes: ['user_id'],
     where: {
-      user_id: req.session.userName
+      user_id: req.session.user_id
     }
   });
 
@@ -64,6 +64,7 @@ exports.postPost = async (req, res, next) => {
     return;
   }
 
+  console.log(userId);
   const t = await DB.sequelize.transaction();
   try {
     const post = await DB.Posts.create({
