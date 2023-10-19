@@ -4,6 +4,7 @@ const session = require("express-session");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const crypto = require("crypto");
+const cookies = require("cookie-parser");
 
 const pageRouter = require("./routes/page");
 const userRouter = require("./routes/users");
@@ -25,9 +26,10 @@ app.set("port", process.env.PORT || 8001);
 app.set("view engine", "html");
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use(cookies());
 app.use(session({
   secret: sessionConfig.key,
-  resave: false,
+  resave: true,
   saveUninitialized: false,
   is_Logined: false,
   user_id: null,
@@ -45,7 +47,6 @@ app.use(session({
     secure: false,
     expires: 604800000
   },
-  name: crypto.randomUUID(),
   expires: 604800000
 }));
 app.use(cors({

@@ -1,12 +1,15 @@
 import React from "react";
 import { useState, useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 import hearderStyled from "../css/header.module.css";
 
 const Header = () => {
     const [isclick, setIsClick] = useState(false);
     const [islogined, setIsLogined] = useState(false);
-    
+
+    const navigate = useNavigate();
+
     //드롭다운을 위한 토글 함수
     const toggleDropdown = () => {
         setIsClick(!isclick);
@@ -16,6 +19,11 @@ const Header = () => {
     const closeDropdown = () => {
         setIsClick(false);
     };
+
+    const deleteSession = async () => {
+        await axios.delete("/logout");
+        navigate("/");
+    }
 
     // useRef를 사용하여 드롭다운 메뉴를 가리키는 요소를 참조
     const dropdownRef = useRef(null);
@@ -54,11 +62,11 @@ const Header = () => {
                 {isclick && (
                     <div className={hearderStyled.dropdownContent}>
                         <ul>
-                            {islogined ? ( 
+                            {document.cookie ? ( //쿠키 존재 여부 확인
                                     <>
                                         <li style={{textAlign:"center", fontWeight: "bold", color:"navy"}}>✨오성훈님 환영합니다✨</li>
                                         <li><Link to="/mypage" onClick={() => setIsClick(false)}>🏡 마이페이지</Link></li>
-                                        <li><Link to="/logout">🔓 로그아웃</Link></li>
+                                        <li><Link to="/logout" onClick={deleteSession}>🔓 로그아웃</Link></li>
                                     </>
                                 ) : (
                                     <>
