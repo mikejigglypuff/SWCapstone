@@ -12,7 +12,7 @@ exports.getUser = async (req, res, next) => {
       attributes: { exclude: ['password', 'deletedAt'] },
       lock: true,
       where: {
-        user_id: req.params.userid
+        user_id: req.session.user_id
       },
     });
     console.log(user);
