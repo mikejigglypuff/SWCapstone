@@ -47,12 +47,11 @@ exports.postComments = async (req, res, next) => {
     const post = DB.Posts.findOne({
         raw: true,
         where: {
-            post_id: req.body.postId
+            post_id: req.session.user_id
         }
     });
 
     const user = DB.Users.findOne({
-        attributes: ['user_id'],
         where: {
             user_id: req.session.user_id
         }
@@ -72,7 +71,7 @@ exports.postComments = async (req, res, next) => {
         await DB.Comments.create({
             post_id: req.body.postId,
             content: req.body.content,
-            user_id: req.body.userId
+            user_id: req.session.user_id
         }, { 
             lock: true, 
             transaction: t 
