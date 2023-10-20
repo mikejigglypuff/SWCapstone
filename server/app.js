@@ -13,6 +13,7 @@ const postRouter = require("./routes/posts");
 const logoutRouter = require("./routes/logout");
 const findIDRouter = require("./routes/findID");
 const commentRouter = require("./routes/comments");
+const getPostByCategoryRouter = require("./routes/getPostByCategory");
 const sessionConfig = require("./config/session.json");
 const config = require("./config/config.json");
 const MySQLStore = require("express-mysql-session")(session);
@@ -63,6 +64,7 @@ app.use("/comment", commentRouter);
 app.use("/logout", logoutRouter);
 app.use("/findID", findIDRouter);
 app.use("/post", postRouter);
+app.use("/board", getPostByCategoryRouter);
 app.use("/user", userRouter);
 app.use(pageRouter);
 

@@ -1,4 +1,4 @@
-const Sequelize = require('sequelize');
+const { Sequelize, Transaction} = require('sequelize');
 const DB = require("../models/index");
 const { errRes } = require("../utility");
 
@@ -42,7 +42,8 @@ exports.getPostByCategory = async (req, res, next) => {
       transaction: t
     });
     console.log(post);
-    res.render("board", JSON.stringify(post));
+
+    res.json(JSON.stringify(post));
   } catch(err) {
     err.status = 404;
     console.error(err);
