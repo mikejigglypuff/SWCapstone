@@ -1,7 +1,31 @@
 import React from "react";
+import { useState } from "react";
 import showtextStyled from "../css/showtext.module.css"
+import axios from "axios";
 
 const ShowText = () => {
+    const [comment, setComment] = useState("");
+
+    const onCommentChange = (e) => {
+        setComment(e.target.value);
+        console.log(e.target.value);
+    }
+
+    // const sendInputComment = async() => {
+    //     try {    
+    //             const response = await axios.post('/post', {
+    //                 "title": textTitle,
+    //                 "content": text,
+    //                 "category": category
+    //             });
+        
+    //             alert("글 작성이 완료되었습니다.");
+    //             navigate(`/board/${category}`)
+    //       } catch (error) {
+    //         console.error('Error sending data:', error);
+    //       }
+    // }
+
     return (
         <div className={showtextStyled.ShowText}>
             <h2>게시글 제목</h2>

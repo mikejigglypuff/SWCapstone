@@ -1,34 +1,27 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
+import axios from "axios";
 import boardStyle from "../css/board.module.css"
 
 const Board = () => {
-    const dummydata = [
-        {
-            id: 1,
-            title: "안녕하세요",
-            date: "4/23",
-            viewNum: 5,
-            recommendNum: 8
-        },
-        {
-            id: 2,
-            title: "반갑습니다",
-            date: "5/1",
-            viewNum: 7,
-            recommendNum: 11
-        },
-        {
-            id: 3,
-            title: "헬스란 무엇인가요",
-            date: "5/8",
-            viewNum: 10,
-            recommendNum: 30
-        },
-    ]
 
+    const [boardDatas, setBoardDatas] = useState([]);
     const {category} = useParams();
+    
+    useEffect(()=>{
+        const fetchBoardData = async() => {
+            try{
+                const response = await axios.get(`/board/?category=${category}`); 
+                setBoardDatas(response.data.post);
+                console.log(response);
+            }catch(error){
+                console.error("보드 정보를 가져오는 도중 에러 발생", error);
+            }
+        };
+
+        fetchBoardData();
+    },[]);
 
     return(
         <div className={boardStyle.Board}>
@@ -43,13 +36,13 @@ const Board = () => {
                 <div className={boardStyle.items}><p>조회수</p></div>
                 <div className={boardStyle.items}><p>추천수</p></div>                                                
             </div>
-            {dummydata.map((item) => (
-                <div key={item.id} className={boardStyle.showBoardInfo}>
-                    <div className={boardStyle.infos}><p>{item.id}</p></div>
-                    <div className={boardStyle.infos}><p>{item.title}</p></div>
-                    <div className={boardStyle.infos}><p>{item.date}</p></div>
-                    <div className={boardStyle.infos}><p>{item.viewNum}</p></div>
-                    <div className={boardStyle.infos}><p>{item.recommendNum}</p></div>
+            {boardDatas.map((boardData) => (
+                <div key={boardData.id} className={boardStyle.showBoardInfo}>
+                    <div className={boardStyle.infos}><p>{boardData.post_id}</p></div>
+                    <div className={boardStyle.infos}><p>{boardData.title}</p></div>
+                    <div className={boardStyle.infos}><p>{boardData.createdAt}</p></div>
+                    <div className={boardStyle.infos}><p>{boardData.user_id}</p></div>
+                    <div className={boardStyle.infos}><p>{boardData.favcnt}</p></div>
                 </div>
             ))}
         </div>
