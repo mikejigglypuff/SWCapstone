@@ -19,7 +19,7 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.INTEGER,
       allowNull: false
     },
-    bodtFat: {
+    bodyFat: {
       type: DataTypes.DECIMAL(3, 1),
       allowNull: true
     },

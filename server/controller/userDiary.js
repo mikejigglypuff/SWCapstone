@@ -34,7 +34,7 @@ exports.postDiary = async (req, res, next) => {
         await DB.UserDiary.create({
             user_id: req.session.user_id,
             weight: req.body.weight,
-            bodyfat: req.body.bodyfat || null,
+            bodyFat: req.body.bodyfat || null,
             muscle: req.body.muscle || null,
             bodyParts: req.body.bodyParts,
             content: req.body.content || null
