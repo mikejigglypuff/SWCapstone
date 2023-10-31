@@ -11,6 +11,7 @@ const userRouter = require("./routes/users");
 const authRouter = require("./routes/auth");
 const postRouter = require("./routes/posts");
 const diaryRouter = require("./routes/userDiary");
+const emailRouter = require("./routes/email");
 const logoutRouter = require("./routes/logout");
 const findIDRouter = require("./routes/findID");
 const commentRouter = require("./routes/comments");
@@ -61,6 +62,7 @@ app.use("/static/js", express.static(path.resolve(__dirname, "../resources/front
 app.use("/static/img", express.static(path.resolve(__dirname, "../resources/frontend/build/img")));
 
 app.use("/login/auth", authRouter);
+app.use("/emailAuth", emailRouter);
 app.use("/comment", commentRouter);
 app.use("/logout", logoutRouter);
 app.use("/findID", findIDRouter);
