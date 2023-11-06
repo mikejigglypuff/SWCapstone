@@ -1,6 +1,6 @@
 module.exports = {
   hasSession: (req, res) => {
-    if(req.session.is_Logined) {
+    if(req.session) {
       return true;
     }
     return false;

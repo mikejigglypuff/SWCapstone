@@ -1,6 +1,7 @@
 const { Sequelize, Transaction} = require('sequelize');
 const DB = require("../models/index");
 const { errRes } = require("../utility");
+const { hasSession } = require("../authCheck");
 
 exports.getPost = async (req, res, next) => {
   const t = await DB.sequelize.transaction();
@@ -129,37 +130,48 @@ exports.deletePost = async (req, res, next) => {
 }; //게시글 삭제
 
 exports.patchPost = async (req, res, next) => {
-  const post = await DB.Posts.findOne({
-    raw: true,
-    where: {
-      post_id: req.body.id
-    }
-  });
-
-  if(post.length !== 0) { 
-    errRes(res, 404, "page not found"); 
+  if(!hasSession(req, res)) { 
+    errRes(res, 401, "unauthorized"); 
     return;
   }
 
   const t = await DB.sequelize.transaction();
   try {
-    await DB.Posts.update({
-      title: req.body.title,
-      content: req.body.content,
-      favcnt: req.body.favcnt,
-      category: req.body.category,
+    DB.Posts.findOne({
+      raw: true,
       where: {
         post_id: req.body.id
       }
-    }, { 
-      lock: true,
-      transaction: t 
+    }).then((post) => {
+      if(req.body.favcnt){ 
+        DB.Posts.increment("favcnt", {
+          where: {
+            post_id: req.body.id
+          }
+        }).then((result) => {
+          res.status(200).send(`${post.favcnt + 1}`);
+        }); 
+      } else {
+        DB.Posts.update({
+          title: req.body.title || post.title,
+          content: req.body.content || post.content,
+          category: req.body.category || post.category
+        }, {
+          where: {
+            post_id: req.body.id
+          },
+        }, { 
+          lock: true,
+          transaction: t 
+        }).then(() => { res.status(200).send("게시글 수정 완료"); })
+      }
     });
 
     await t.commit();
   } catch(err) {
-    await t.rollback();
-    console.error(err);
-    next(err);
+    t.rollback().then(() => {
+      console.error(err);
+      next(err);
+    });
   }
 }; //게시글 수정
