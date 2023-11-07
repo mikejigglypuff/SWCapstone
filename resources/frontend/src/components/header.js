@@ -58,7 +58,7 @@ const Header = () => {
                 </ul>
             </nav>
             <div className={hearderStyled.dropdownContainer} ref={dropdownRef}>
-                <button onClick={toggleDropdown}><img src="img/loginimage.png" /></button>
+                <button onClick={toggleDropdown}><img src="/static/img/loginimage.png" /></button>
                 {isclick && (
                     <div className={hearderStyled.dropdownContent}>
                         <ul>
