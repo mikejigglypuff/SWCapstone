@@ -11,7 +11,8 @@ exports.getPost = async (req, res, next) => {
       raw: true,
       nest: true,
       where: {
-        post_id: req.params.postId
+        post_id: req.params.postId,
+        deletedAt: null
       },
     }, {
       isolationLevel: Transaction.ISOLATION_LEVELS.READ_COMMITTED,
@@ -35,7 +36,8 @@ exports.getPostByCategory = async (req, res, next) => {
       raw: true,
       nest: true,
       where: {
-        category: req.params.category
+        category: req.params.category,
+        deletedAt: null
       },
     }, {
       isolationLevel: Transaction.ISOLATION_LEVELS.READ_COMMITTED,
@@ -57,7 +59,8 @@ exports.postPost = async (req, res, next) => {
     raw: true,
     attributes: ['user_id'],
     where: {
-      user_id: req.session.user_id
+      user_id: req.session.user_id,
+      deletedAt: null
     }
   });
 
@@ -94,6 +97,11 @@ exports.postPost = async (req, res, next) => {
 }; //게시글 등록
 
 exports.deletePost = async (req, res, next) => {
+  if(!hasSession(req, res)) { 
+    errRes(res, 401, "unauthorized"); 
+    return;
+  }
+
   const post = await DB.Posts.findOne({
     raw: true,
     where: {
@@ -101,7 +109,7 @@ exports.deletePost = async (req, res, next) => {
     }
   });
 
-  if(post) { 
+  if(!post) { 
     errRes(res, 404, "page not found"); 
     return;
   }
@@ -118,7 +126,7 @@ exports.deletePost = async (req, res, next) => {
     });
 
     t.afterCommit(() => {
-      res.status(302).redirect("/");
+      res.sendStatus(200);
     });
     
     await t.commit();
@@ -140,7 +148,8 @@ exports.patchPost = async (req, res, next) => {
     DB.Posts.findOne({
       raw: true,
       where: {
-        post_id: req.body.id
+        post_id: req.body.id,
+        deletedAt: null
       }
     }).then((post) => {
       if(req.body.favcnt){ 

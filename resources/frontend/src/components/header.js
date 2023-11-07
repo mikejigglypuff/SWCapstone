@@ -47,7 +47,7 @@ const Header = () => {
 
     return(
         <div className={hearderStyled.Header}>
-            <Link to="/"><img src="img/logo.png" /></Link>
+            <Link to="/"><img src="/static/img/logo.png" /></Link>
             <nav className = {hearderStyled.menubar}>
                 <ul>
                     <li><Link to="/">Home</Link></li>

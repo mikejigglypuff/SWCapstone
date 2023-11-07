@@ -14,7 +14,8 @@ exports.postAuth = async (req, res, next) => {
         raw: true,
         attributes: ["password"],
         where: {
-          user_id: id
+          user_id: id,
+          deletedAt: null
         }
       });
       
@@ -23,8 +24,8 @@ exports.postAuth = async (req, res, next) => {
         req.session.user_id = id;
         req.session.save((err) => {
           if(err) { return next(err); }
-          res.redirect("/");
         });
+        res.sendStatus(200);
       } else {
         console.log("user not found");
         errRedirect(res, 404, "/");

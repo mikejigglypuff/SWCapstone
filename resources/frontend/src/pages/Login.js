@@ -45,7 +45,7 @@ const Login = () => {
     return (
         <div className={loginStyled.Login}>
             <div className={loginStyled.title}>
-                <img src="img/logo.png" />
+                <img src="/static/img/logo.png" />
             </div>
             <div className={loginStyled.enterLoginInfo}>
                 <label htmlFor="id">ID</label>
