@@ -25,6 +25,7 @@ db.Users = require('./users')(sequelize, Sequelize);
 db.Posts = require('./posts')(sequelize, Sequelize);
 db.Comments = require('./comments')(sequelize, Sequelize);
 db.UserDiary = require('./userDiary')(sequelize, Sequelize);
+db.Admins = require('./admin')(sequelize, Sequelize);
 
 //1:N
 db.Users.hasMany(db.Posts);

@@ -11,7 +11,8 @@ exports.getDiary = async (req, res, next) => {
         const diary = DB.UserDiary.findAll({
             attributes: { exclude: ["deletedAt"]},
             where: {
-                user_id: req.session.user_id
+                user_id: req.session.user_id,
+                deletedAt: null
             }
         });
         res.status(200).json(JSON.stringify(diary));

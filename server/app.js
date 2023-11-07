@@ -34,8 +34,6 @@ app.use(session({
   secret: sessionConfig.key,
   resave: true,
   saveUninitialized: false,
-  is_Logined: false,
-  user_id: null,
   store: new MySQLStore({
     host: config.development.host,
     port: config.development.port,
@@ -49,8 +47,7 @@ app.use(session({
     httpOnly: false,
     secure: false,
     expires: 604800000
-  },
-  expires: 604800000
+  }
 }));
 app.use(cors({
   origin: "*"
@@ -82,7 +79,7 @@ app.use((req, res, next) => {
 app.use((err, req, res, next) => {
   res.locals.message = err.message;
   res.locals.error = process.env.NODE_ENV !== "production" ? err : {};
-  res.sendStatus(err.status || 500);
+  res.status(err.status || 500).send(err.message || "");
 });
 
 app.listen(app.get("port"), () => {

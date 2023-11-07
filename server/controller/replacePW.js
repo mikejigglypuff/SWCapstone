@@ -12,7 +12,8 @@ exports.getUserByEmailID = async (req, res, next) => {
             raw: true,
             where: {
                 user_id: req.query.userid,
-                email: req.query.email
+                email: req.query.email,
+                deletedAt: null
             }
         });
         if(!user) {
