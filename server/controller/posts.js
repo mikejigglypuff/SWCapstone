@@ -1,4 +1,4 @@
-const { Sequelize, Transaction} = require('sequelize');
+const { Sequelize, Transaction } = require('sequelize');
 const DB = require("../models/index");
 const { errRes } = require("../utility");
 const { hasSession } = require("../authCheck");
@@ -7,7 +7,8 @@ exports.getPost = async (req, res, next) => {
   const t = await DB.sequelize.transaction();
 
   try {
-    const post = await DB.Posts.findAll({
+    const post = await DB.Posts.findOne({
+      attributes: { exclude: ["deletedAt", "userUserId"] },
       raw: true,
       nest: true,
       where: {
@@ -20,7 +21,7 @@ exports.getPost = async (req, res, next) => {
       transaction: t
     });
     console.log(post);
-    res.json(JSON.stringify(post));
+    res.json(post);
   } catch(err) {
     err.status = 404;
     console.error(err);
@@ -33,6 +34,7 @@ exports.getPostByCategory = async (req, res, next) => {
   
   try {
     const post = await DB.Posts.findAll({
+      attributes: { exclude: ["deletedAt", "userUserId"] },
       raw: true,
       nest: true,
       where: {
@@ -45,8 +47,9 @@ exports.getPostByCategory = async (req, res, next) => {
       transaction: t
     });
     console.log(post);
-
-    res.json(JSON.stringify(post));
+    
+    
+    res.json(post);
   } catch(err) {
     err.status = 404;
     console.error(err);

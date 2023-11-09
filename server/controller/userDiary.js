@@ -1,21 +1,21 @@
 const DB = require("../models/index");
+const { hasSession } = require("../authCheck");
 
 exports.getDiary = async (req, res, next) => {
-    if(!req.session) {
-        err.status = 403;
-        console.error(err);
-        next(err);
-    }
+    if(!hasSession(req, res)) { 
+        errRes(res, 401, "unauthorized"); 
+        return;
+      }
 
     try {
-        const diary = DB.UserDiary.findAll({
-            attributes: { exclude: ["deletedAt"]},
+        const diary = await DB.UserDiary.findAll({
+            attributes: { exclude: ["deletedAt", "userUserId"]},
             where: {
                 user_id: req.session.user_id,
                 deletedAt: null
             }
         });
-        res.status(200).json(JSON.stringify(diary));
+        res.status(200).json(diary);
     } catch(err) {
         err.status = 404;
         console.error(err);

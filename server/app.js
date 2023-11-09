@@ -14,6 +14,7 @@ const diaryRouter = require("./routes/userDiary");
 const emailRouter = require("./routes/email");
 const logoutRouter = require("./routes/logout");
 const findIDRouter = require("./routes/findID");
+const replPWRouter = require("./routes/replacePW");
 const commentRouter = require("./routes/comments");
 const getPostByCategoryRouter = require("./routes/getPostByCategory");
 const sessionConfig = require("./config/session.json");
@@ -60,6 +61,7 @@ app.use("/static/img", express.static(path.resolve(__dirname, "../resources/fron
 
 app.use("/login/auth", authRouter);
 app.use("/emailAuth", emailRouter);
+app.use("/replacePW", replPWRouter);
 app.use("/comment", commentRouter);
 app.use("/logout", logoutRouter);
 app.use("/findID", findIDRouter);
