@@ -52,7 +52,7 @@ const Header = () => {
                 <ul>
                     <li><Link to="/">Home</Link></li>
                     <li><Link to="board/자유게시판">자유게시판</Link></li>
-                    <li><Link to="board/식단&운동 공유 게시판">식단&운동 공유 게시판</Link></li>
+                    <li><Link to="board/식단&운동공유게시판">식단&운동 공유 게시판</Link></li>
                     <li><Link to="/searchfitnesscenter">내 주변 헬스장 찾기</Link></li>
                     <li><Link to="board/질문게시판">질문게시판</Link></li>
                 </ul>

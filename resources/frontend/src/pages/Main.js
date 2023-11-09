@@ -78,7 +78,7 @@ const Main = () => {
                 <div className={mainStyled.boards}>
                     <div className={mainStyled.boardsHeader}>
                         <h3>🍴 식단 & 운동 공유 게시판</h3>
-                        <Link to="board/식단&운동 공유 게시판"><button>+</button></Link>
+                        <Link to="board/식단&운동공유게시판"><button>+</button></Link>
                     </div>
                     <hr />
                     <p>식단 & 운동 공유 게시판 제목 1</p>
@@ -88,7 +88,7 @@ const Main = () => {
                 <div className={mainStyled.boards}>
                     <div className={mainStyled.boardsHeader}>
                         <h3>📢 질문 게시판</h3>
-                        <Link Link to="board/공지게시판"><button>+</button></Link>
+                        <Link to="board/공지게시판"><button>+</button></Link>
                     </div>
                     <hr />
                     <p>질문 게시판 제목 1</p>

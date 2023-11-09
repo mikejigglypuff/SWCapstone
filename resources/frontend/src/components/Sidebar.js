@@ -17,6 +17,9 @@ const Sidebar = () => {
                 <Link to="/checkwriting" style={{textDecoration:"none", color: "black"}}><p>작성한 글 확인</p></Link>
                 </div>
                 <div className={sidebarStyled.items}>
+                    <Link to="/myexercisediary" style={{textDecoration:"none", color: "black"}}><p>나의 운동 다이어리</p></Link>
+                </div>
+                <div className={sidebarStyled.items}>
                     <Link to="/unregister" style={{textDecoration:"none", color: "black"}}><p>회원 탈퇴</p></Link>
                 </div>
             </div>
