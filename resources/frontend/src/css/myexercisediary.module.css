@@ -1,0 +1,102 @@
+.MyExerciseDiary{
+    text-align: center;
+    width: 100%;
+    display: flex;
+}
+.inputDiaryArea{
+    width: 100%;
+    margin: 2rem 5rem;
+}
+.inputDiaryHeader{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid navy;
+}
+#info{
+    color: navy;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+.sectors{
+    background-color: navy;
+    color: white;
+    width: 20%;
+    font-size: 1.2rem;
+}
+.inputDiaryText{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    gap: 0.8rem;
+    margin-top: 1rem;
+    border: 2px solid navy;
+    padding: 1.5rem 1rem;
+}
+.items label{
+    display: inline-block;
+    font-size: 1.1rem;
+    color: navy;
+}
+.items input{
+    margin-left: 0.5rem;
+    width: 55%;
+    height: 5vh;
+    font-size: 1rem;
+    padding-left: 0.5rem;
+    border-radius: 7px;
+    border: 1px solid navy;
+}
+.items textarea{
+    width: 96%;
+    height: 5vh;
+    font-size: 1.1rem;
+    padding-left: 0.5rem;
+    border-radius: 7px;
+    border: 1px solid navy;
+}
+.items button{
+    width: 50%;
+    height: 6vh;
+    background-color: white;
+    color:navy;
+    font-size: 1.1rem;
+    margin-top: 0.5rem;
+    border-radius: 7px;
+    border: 2px solid navy;
+}
+.items button:hover{
+    background-color: navy;
+    color:white;
+}
+#date{
+    width: 92%;
+}
+.items:nth-child(1){
+    grid-column: 1/span 1;
+    grid-row: 1/span 1;
+}
+.items:nth-child(2){
+    grid-column: 2/span 1;
+    grid-row: 1/span 1;
+}
+.items:nth-child(3){
+    grid-column: 3/span 1;
+    grid-row: 1/span 1;
+}
+.items:nth-child(4){
+    grid-column: 4/span 1;
+    grid-row: 1/span 1;
+}
+.items:nth-child(5){
+    grid-column: 1/span 1;
+    grid-row: 2/span 1;
+}
+.items:nth-child(6){
+    grid-column: 2/span 3;
+    grid-row: 2/span 1;
+}
+.items:nth-child(7){
+    grid-column: 1/span 4;
+    grid-row: 3/span 1;
+}
