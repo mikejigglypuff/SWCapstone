@@ -19,7 +19,7 @@ exports.getUser = async (req, res, next) => {
       },
     });
     console.log(user);
-    res.status(200).json(JSON.stringify(user));
+    res.status(200).json(user);
   } catch(err) {
     err.status = 404;
     console.error(err);
@@ -33,11 +33,11 @@ exports.getUserIDByEmail = async (req, res, next) => {
       raw: true,
       attributes: ["user_id"],
       where: {
-        email: req.body.email,
+        email: req.params.email,
         deletedAt: null
       }
     });
-    res.status(200).json(JSON.stringify(userId));
+    res.status(200).json(userId);
   } catch(err) {
     err.status = 404;
     console.error(err);

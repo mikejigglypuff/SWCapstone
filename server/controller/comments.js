@@ -1,4 +1,4 @@
-const Sequelize = require('sequelize');
+const { Sequelize, Transaction} = require('sequelize');
 const DB = require("../models/index");
 const { errRes } = require("../utility");
 const { hasSession } = require("../authCheck");
@@ -13,7 +13,7 @@ exports.getCommentsByPost = async (req, res, next) => {
         }
     });
 
-    if(post) { 
+    if(!post) { 
         errRes(res, 404, "post not found"); 
         return;
     }
@@ -23,7 +23,7 @@ exports.getCommentsByPost = async (req, res, next) => {
             raw: true,
             nest: true,
             where: {
-                post_id: req.body.postId,
+                post_id: req.params.postId,
                 deletedAt: null
             }
         }, {
@@ -34,7 +34,7 @@ exports.getCommentsByPost = async (req, res, next) => {
 
         t.afterCommit(() => {
             console.log(comments);
-            res.status(200).json(JSON.stringify(comments));
+            res.status(200).json(comments);
         });
 
         await t.commit();

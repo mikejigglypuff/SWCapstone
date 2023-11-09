@@ -19,6 +19,10 @@ module.exports = function(sequelize, DataTypes) {
     password: {
       type: DataTypes.STRING(100),
       allowNull: false
+    },
+    isadmin: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false
     }
   }, {
     sequelize,
