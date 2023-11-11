@@ -26,7 +26,7 @@ function App() {
         <Route path="/findID" element ={<FindID />} />
         <Route path="/findPW" element ={<FindPW />} />
         <Route path="/joinmembership" element ={<JoinMembership />} />
-        <Route path="/showtext" element ={<ShowText />} />
+        <Route path="/board/:category/showtext/:post_id" element ={<ShowText />} />
         <Route path="/replacePW" element ={<ReplacePW />} />
         <Route path="/board/:category/writeboard" element ={<WriteBoard />} />
         <Route path="/searchfitnesscenter" element ={<SearchFitnessCenter />} />

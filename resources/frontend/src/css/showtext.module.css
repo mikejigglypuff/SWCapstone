@@ -25,6 +25,10 @@
     width: 100%;
     height: 75vh;
     border: 2px solid navy;
+    padding-left: 0.5rem;
+    padding-top: 0.5rem;
+    font-size: 1.1rem;
+    text-align: left;
     overflow: auto;
 }
 .mainShowTextArea button{
@@ -72,6 +76,11 @@
 .inputCommentArea button{
     cursor: pointer;
 }
+.showCommentArea{
+    margin-top: 1rem;
+    border-bottom: 1px solid navy;
+}
 .showCommentArea p{
     text-align: left;
+    padding-left: 0.5rem;
 }
