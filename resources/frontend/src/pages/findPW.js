@@ -19,13 +19,13 @@ const findPW = () => {
                         // onChange={}
                     />
                 </div>
-                <div className={findIDPWStyled.enterPhone}>
+                <div className={findIDPWStyled.enterEmail}>
                     <div className={findIDPWStyled.getCheckingCode}>
-                        <label htmlFor="phonenum">휴대전화</label>
+                        <label htmlFor="email">이메일</label>
                         <input
-                            id={findIDPWStyled.phonenum}  
+                            id={findIDPWStyled.email}  
                             type="text" 
-                            placeholder="핸드폰 번호를 입력하세요"
+                            placeholder="이메일을 입력하세요"
                             // value={}
                             // onChange={}
                         />
