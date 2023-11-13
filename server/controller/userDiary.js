@@ -10,6 +10,8 @@ exports.getDiary = async (req, res, next) => {
     try {
         const diary = await DB.UserDiary.findAll({
             attributes: { exclude: ["deletedAt", "userUserId"]},
+            raw: true,
+            nest: true,
             where: {
                 user_id: req.session.user_id,
                 deletedAt: null
