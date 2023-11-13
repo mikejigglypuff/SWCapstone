@@ -1,7 +1,9 @@
 const express = require("express");
-const {getUser, postUser, deleteUser, patchUser} = require("../controller/users");
+const {getUser, getAllUser, postUser, deleteUser, patchUser} = require("../controller/users");
 
 const router = express.Router();
+
+router.get("/admin", getAllUser);
 
 router.route('/')
   .get(getUser)

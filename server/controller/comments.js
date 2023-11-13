@@ -1,7 +1,7 @@
 const { Sequelize, Transaction} = require('sequelize');
 const DB = require("../models/index");
 const { errRes } = require("../utility");
-const { hasSession } = require("../authCheck");
+const { hasSession, isAdmin } = require("../authCheck");
 
 exports.getCommentsByPost = async (req, res, next) => {
     const t = await DB.sequelize.transaction();
@@ -40,7 +40,33 @@ exports.getCommentsByPost = async (req, res, next) => {
         await t.commit();
     } catch(err) {
         await t.rollback();
-        err.status = 500;
+        err.status = 404;
+        console.error(err);
+        next(err);
+    }
+};
+
+exports.getAllComments = async (req, res, next) => {
+    if(!isAdmin(req, res)) {
+        errRes(res, 401, "unauthorized");
+      }
+
+    try {
+        await DB.sequelize.transaction(async (t) => {
+            const comments = await DB.Comments.findAll({
+                raw: true,
+                nest: true,
+                attributes: { exclude: ["deletedAt", "userUserId", "postPostId"] },
+                where: {
+                    deletedAt: null
+                }
+            }, { transaction: t });
+
+            res.status(200).json(comments);
+        });
+
+    } catch(err) {
+        err.status = 404;
         console.error(err);
         next(err);
     }
