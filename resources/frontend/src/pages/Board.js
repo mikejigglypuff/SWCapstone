@@ -38,7 +38,7 @@ const Board = () => {
             </div>
             {boardDatas && boardDatas.length > 0 ? (
                 boardDatas.map((item) => (
-                    <Link to={`showtext/${item.post_id}`}>
+                    <Link to={`showtext/${item.post_id}`} style={{textDecoration:"none", color: "black"}}>
                         <div key={item.post_id} className={boardStyle.showBoardInfo}>
                             <div className={boardStyle.infos}><p>{item.post_id}</p></div>
                             <div className={boardStyle.infos}><p>{item.title}</p></div>
