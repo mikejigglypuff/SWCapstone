@@ -3,7 +3,7 @@ const DB = require("../models/index");
 const crypto = require("crypto");
 const salt = require("../config/salt.json");
 const { errRes } = require("../utility");
-const { hasSession } = require("../authCheck");
+const { hasSession, isAdmin } = require("../authCheck");
 const { Logout } = require("./logout");
 
 exports.getUser = async (req, res, next) => {
@@ -44,6 +44,32 @@ exports.getUserIDByEmail = async (req, res, next) => {
     next(err);
   }
 }; //이메일로 회원 Id 찾기 
+
+exports.getAllUser = async (req, res, next) => {
+  if(!isAdmin(req, res)) {
+    errRes(res, 401, "unauthorized");
+  }
+  
+  try {
+    await DB.sequelize.transaction(async (t) => {
+      const users = await DB.Users.findAll({
+        raw: true,
+        nest: true,
+        attributes: { exclude: ['password', 'deletedAt'] },
+        where: {
+          deletedAt: null
+        }
+      }, { transaction: t });
+
+      res.status(200).json(users);
+    });
+
+  } catch(err) {
+    err.status = 404;
+    console.error(err);
+    next(err);
+  }
+}; //관리자 한정 전체 회원정보 조회
 
 exports.postUser = async (req, res, next) => {
   const user = await DB.Users.findOne({

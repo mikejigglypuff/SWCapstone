@@ -1,12 +1,12 @@
 const Sequelize = require('sequelize');
 module.exports = function(sequelize, DataTypes) {
   return sequelize.define('users', {
-    user_id: {
+    admin_id: {
       type: DataTypes.STRING(45),
       allowNull: false,
       primaryKey: true
     },
-    username: {
+    adminname: {
       type: DataTypes.STRING(45),
       allowNull: false,
       unique: true

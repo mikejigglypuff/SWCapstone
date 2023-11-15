@@ -1,7 +1,7 @@
 const { Sequelize, Transaction } = require('sequelize');
 const DB = require("../models/index");
 const { errRes } = require("../utility");
-const { hasSession } = require("../authCheck");
+const { hasSession, isAdmin } = require("../authCheck");
 
 exports.getPost = async (req, res, next) => {
   const t = await DB.sequelize.transaction();
@@ -56,6 +56,31 @@ exports.getPostByCategory = async (req, res, next) => {
     next(err);
   }
 }; //게시판 별 게시글 조회
+
+exports.getAllPost = async (req, res, next) => {
+  if(!isAdmin(req, res)) {
+    errRes(res, 401, "unauthorized");
+  }
+  
+  try {
+    await DB.sequelize.transaction(async (t) => {
+      const posts = await DB.Posts.findAll({
+        attributes: { exclude: ["deletedAt", "userUserId"] },
+        raw: true,
+        nest: true,
+        where: {
+          deletedAt: null
+        },
+      }, { transaction: t });
+
+      res.status(200).json(posts);
+    });
+  } catch(err) {
+    err.status = 404;
+    console.error(err);
+    next(err);
+  }
+}; //전체 게시글 정보 조회
 
 exports.postPost = async (req, res, next) => {
   const userId = await DB.Users.findOne({

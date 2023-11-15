@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <title>관리자 페이지</title>
+        <meta charset="UTF-8">
+        
+    </head>
+    <body> 
+        <script>            
+            window.addEventListener("DOMContentLoaded", async () => { 
+                console.log("페이지 생성 중");
+
+                let elements = [];
+
+                if(!document.cookie) {
+                    //로그인 관련 DOM 객체 생성
+                    let loginText = document.createElement("h3");
+                    loginText.innerHTML = "로그인";
+                    loginText.id = "loginText";
+                    elements.push(loginText);
+
+                    let loginID = document.createElement("input");
+                    loginID.type = "text";
+                    loginID.id = "loginID";
+                    loginID.minLength = "6";
+                    loginID.maxLength = "12";
+                    loginID.required = true;
+                    loginID.placeholder = "아이디";
+                    elements.push(document.createElement("br"));
+                    elements.push(loginID);
+
+                    let loginPW = document.createElement("input");
+                    loginPW.type = "password";
+                    loginPW.id = "loginPW";
+                    loginPW.minLength = "6";
+                    loginPW.maxLength = "12";
+                    loginPW.required = true;
+                    loginPW.placeholder = "패스워드";
+                    elements.push(document.createElement("br"));
+                    elements.push(loginPW);
+
+                    let loginBtn = document.createElement("button");
+                    loginBtn.innerHTML = "로그인";
+                    loginBtn.id = "loginBtn";
+                    loginBtn.onclick = async () => {
+                        const id = await document.getElementById("loginID").value;
+                        const pw = await document.getElementById("loginPW").value;
+
+                        await fetch("/admin/auth", {
+                            method: "POST",
+                            headers: {
+                                'Content-Type': 'application/json;charset=utf-8'
+                            },
+                            body: JSON.stringify({
+                                id: id,
+                                pw: pw
+                            })
+                        }).then(() => window.location.href = "/admin");
+                    };
+                    elements.push(loginBtn);
+
+                    //회원가입 관련 DOM 객체 생성
+                    let registerText = document.createElement("h3");
+                    registerText.innerHTML = "회원가입";
+                    registerText.id = "registerText";
+                    elements.push(registerText);
+
+                    let registerID = document.createElement("input");
+                    registerID.type = "text";
+                    registerID.id = "registerID";
+                    registerID.maxLength = "12";
+                    registerID.required = true;
+                    registerID.placeholder = "아이디";
+                    elements.push(document.createElement("br"));
+                    elements.push(registerID);
+
+                    let registerName = document.createElement("input");
+                    registerName.type = "text";
+                    registerName.id = "registerName";
+                    registerName.maxLength = "12";
+                    registerName.required = true;
+                    registerName.placeholder = "닉네임";
+                    elements.push(document.createElement("br"));
+                    elements.push(registerName);
+
+                    let registerEmail = document.createElement("input");
+                    registerEmail.type = "text";
+                    registerEmail.id = "registerEmail";
+                    registerEmail.maxLength = "256";
+                    registerEmail.required = true;
+                    registerEmail.placeholder = "이메일";
+                    elements.push(document.createElement("br"));
+                    elements.push(registerEmail);
+
+                    let registerPW = document.createElement("input");
+                    registerPW.type = "password";
+                    registerPW.id = "registerPW";
+                    registerPW.maxLength = "12";
+                    registerPW.required = true;
+                    registerPW.placeholder = "패스워드";
+                    elements.push(document.createElement("br"));
+                    elements.push(registerPW);
+
+                    let registerBtn = document.createElement("button");
+                    registerBtn.innerHTML = "회원가입";
+                    registerBtn.id = "registerBtn";
+                    registerBtn.onclick = async () => {
+                        const id = await document.getElementById("registerID").value;
+                        const pw = await document.getElementById("registerPW").value;
+                        const email = await document.getElementById("registerEmail").value;
+                        const name = await document.getElementById("registerName").value;
+
+                        fetch("/admin/register", {
+                            method: "POST",
+                            headers: {
+                                'Content-Type': 'application/json;charset=utf-8'
+                            },
+                            body: JSON.stringify({
+                                id: id,
+                                pw: pw,
+                                email: email,
+                                name: name,
+                                makesAdmin: true
+                            })
+                        }).then(() => window.location.href = "/admin");
+                    };
+                    elements.push(registerBtn);
+                } else {
+                    //사용자 이름 출력하는 DOM 객체 생성
+                    await fetch("/admin/adminName", {
+                        method: "GET",
+                        headers: {
+                            'Content-Type': 'application/json;charset=utf-8'
+                        }
+                    }).then((res) => res.text()).then(async (adminName) => {
+
+                        let welcome = document.createElement("h3");
+                        console.log(adminName);
+                        welcome.innerHTML = adminName + "님 환영합니다";
+                        elements.push(welcome);
+
+                        //로그아웃 버튼 DOM 객체 생성
+                        let logoutBtn = document.createElement("button");
+                        logoutBtn.innerHTML = "로그아웃";
+                        logoutBtn.id = "logoutBtn";
+                        logoutBtn.onclick = async () => {
+                            const logout = await fetch("/logout", {
+                                method: "DELETE",
+                                headers: {
+                                    'Content-Type': 'application/json;charset=utf-8'
+                                }
+                            }).then(() => window.location.href = "/admin");
+                        };
+                        elements.push(logoutBtn);
+                        elements.push(document.createElement("br"));
+
+                        //회원정보 테이블 DOM 객체 생성
+                        let userText = document.createElement("b4");
+                        userText.innerHTML = "회원 목록";
+                        userText.id = "userText";
+                        elements.push(userText);
+
+                        let userTable = document.createElement("table");
+                        userTable.id = "userTable";
+
+                        //테이블 헤더 생성
+                        let userTableHead = document.createElement("thead");
+                        let userTableHeadTr = document.createElement("tr");
+
+                        let userIDHead = document.createElement("th");
+                        userIDHead.innerHTML = "ID";
+                        userIDHead.id = "userIDHead";
+                        userTableHeadTr.appendChild(userIDHead);
+
+                        let userNameHead = document.createElement("th");
+                        userNameHead.innerHTML = "닉네임";
+                        userNameHead.id = "userNameHead";
+                        userTableHeadTr.appendChild(userNameHead);
+
+                        let userEmailHead = document.createElement("th");
+                        userEmailHead.innerHTML = "이메일";
+                        userEmailHead.id = "userEmailHead";
+                        userTableHeadTr.appendChild(userEmailHead);
+
+                        let userCreatedHead = document.createElement("th");
+                        userCreatedHead.innerHTML = "가입일";
+                        userCreatedHead.id = "userCreatedHead";
+                        userTableHeadTr.appendChild(userCreatedHead);
+
+                        userTableHead.appendChild(userTableHeadTr);
+
+                        userTable.appendChild(userTableHead);
+
+                        //테이블 바디 생성
+                        let userTableBody = document.createElement("tbody");
+                        fetch("/user/admin", {
+                            method: "get",
+                            headers: {
+                                'Content-Type': 'application/json;charset=utf-8'
+                            },
+                        }).then((res) => res.json()).then((users) => {
+                            for(let index in users) {
+                                let user = users[index];
+                                let userInfoRow = document.createElement("tr");
+                                let userIDTd = document.createElement("td");
+                                let userNameTd = document.createElement("td");
+                                let userEmailTd = document.createElement("td");
+                                let userCreatedTd = document.createElement("td");
+
+                                userIDTd.innerHTML = user.user_id;
+                                userIDTd.id = user.user_id + "_id";
+
+                                userNameTd.innerHTML = user.username;
+                                userNameTd.id = user.user_id + "_name";
+
+                                userEmailTd.innerHTML = user.email;
+                                userEmailTd.id = user.user_id + "_email";
+
+                                userCreatedTd.innerHTML = user.createdAt;
+                                userCreatedTd.id = user.user_id + "td";
+
+                                userInfoRow.appendChild(userIDTd);
+                                userInfoRow.appendChild(userNameTd);
+                                userInfoRow.appendChild(userEmailTd);
+                                userInfoRow.appendChild(userCreatedTd);
+                                userTableBody.appendChild(userInfoRow);
+                            }
+                        });
+
+                        userTable.appendChild(userTableBody);
+                        elements.push(userTable);
+                        elements.push(document.createElement("br"));
+
+                        //게시글 테이블 DOM 객체 생성
+                        let postText = document.createElement("b4");
+                        postText.innerHTML = "게시글 목록";
+                        postText.id = "postText";
+                        elements.push(postText);
+
+                        let postTable = document.createElement("table");
+                        postTable.id = "postTable";
+
+                        //테이블 헤더 생성
+                        let postTableHead = document.createElement("thead");
+                        let postTableHeadTr = document.createElement("tr");
+
+                        let postIDHead = document.createElement("th");
+                        postIDHead.innerHTML = "ID";
+                        postIDHead.id = "postIDHead";
+                        postTableHeadTr.appendChild(postIDHead);
+
+                        let postAuthorHead = document.createElement("th");
+                        postAuthorHead.innerHTML = "작성자";
+                        postAuthorHead.id = "postAuthorHead";
+                        postTableHeadTr.appendChild(postAuthorHead);
+
+                        let postTitleHead = document.createElement("th");
+                        postTitleHead.innerHTML = "제목";
+                        postTitleHead.id = "postTitleHead";
+                        postTableHeadTr.appendChild(postTitleHead);
+
+                        let postContentHead = document.createElement("th");
+                        postContentHead.innerHTML = "내용";
+                        postContentHead.id = "postContentHead";
+                        postTableHeadTr.appendChild(postContentHead);
+
+                        let postFavcntHead = document.createElement("th");
+                        postFavcntHead.innerHTML = "좋아요";
+                        postFavcntHead.id = "postFavcntHead";
+                        postTableHeadTr.appendChild(postFavcntHead);
+
+                        let postCategoryHead = document.createElement("th");
+                        postCategoryHead.innerHTML = "게시판";
+                        postCategoryHead.id = "postCategoryHead";
+                        postTableHeadTr.appendChild(postCategoryHead);
+
+                        let postCreatedHead = document.createElement("th");
+                        postCreatedHead.innerHTML = "작성일";
+                        postCreatedHead.id = "postCreatedHead";
+                        postTableHeadTr.appendChild(postCreatedHead);
+
+                        postTableHead.appendChild(postTableHeadTr);
+                        postTable.appendChild(postTableHead);
+
+                        //테이블 바디 생성
+                        let postTableBody = document.createElement("tbody");
+                        fetch("/post/admin", {
+                            method: "get",
+                            headers: {
+                                'Content-Type': 'application/json;charset=utf-8'
+                            },
+                        }).then((res) => res.json()).then((posts) => {
+                            for(let index in posts){
+                                let post = posts[index];
+                                let postInfoRow = document.createElement("tr");
+                                let postIDTd = document.createElement("td");
+                                let postAuthorTd = document.createElement("td");
+                                let postTitleTd = document.createElement("td");
+                                let postContentTd = document.createElement("td");
+                                let postFavcntTd = document.createElement("td");
+                                let postCategoryTd = document.createElement("td");
+                                let postCreatedTd = document.createElement("td");
+
+                                postIDTd.innerHTML = post.post_id;
+                                postIDTd.id = "post" + post.post_id + "_id";
+
+                                postAuthorTd.innerHTML = post.user_id;
+                                postAuthorTd.id = "post" + post.post_id + "_author";
+
+                                postTitleTd.innerHTML = post.title;
+                                postTitleTd.id = "post" + post.post_id + "_title";
+
+                                postContentTd.innerHTML = post.content;
+                                postContentTd.id = "post" + post.post_id + "_content";
+
+                                postFavcntTd.innerHTML = post.favcnt;
+                                postFavcntTd.id = "post" + post.post_id + "_favcnt";
+
+                                postCategoryTd.innerHTML = post.category;
+                                postCategoryTd.id = "post" + post.post_id + "_category";
+
+                                postCreatedTd.innerHTML = post.createdAt;
+                                postCreatedTd.id = "post" + post.post_id + "_createdAt";
+
+                                postInfoRow.appendChild(postIDTd);
+                                postInfoRow.appendChild(postAuthorTd);
+                                postInfoRow.appendChild(postTitleTd);
+                                postInfoRow.appendChild(postContentTd);
+                                postInfoRow.appendChild(postFavcntTd);
+                                postInfoRow.appendChild(postCategoryTd);
+                                postInfoRow.appendChild(postCreatedTd);
+                                postTableBody.appendChild(postInfoRow);
+                            };
+                        });
+
+                        postTable.appendChild(postTableBody);
+                        elements.push(postTable);
+                        elements.push(document.createElement("br"));
+
+                        //댓글 테이블 DOM 객체 생성
+                        let commentText = document.createElement("b4");
+                        commentText.innerHTML = "댓글 목록";
+                        commentText.id = "commentText";
+                        elements.push(commentText);
+
+                        let commentTable = document.createElement("table");
+                        commentTable.id = "commentTable";
+
+                        //테이블 헤더 생성
+                        let commentTableHead = document.createElement("thead");
+                        let commentTableHeadTr = document.createElement("tr");
+
+                        let commentIDHead = document.createElement("th");
+                        commentIDHead.innerHTML = "ID";
+                        commentIDHead.id = "commentIDHead";
+                        commentTableHeadTr.appendChild(commentIDHead);
+
+                        let commentPostHead = document.createElement("th");
+                        commentPostHead.innerHTML = "게시글";
+                        commentPostHead.id = "commentPostHead";
+                        commentTableHeadTr.appendChild(commentPostHead);
+
+                        let commentAuthorHead = document.createElement("th");
+                        commentAuthorHead.innerHTML = "작성자";
+                        commentAuthorHead.id = "commentIDHead";
+                        commentTableHeadTr.appendChild(commentAuthorHead);
+
+                        let commentContentHead = document.createElement("th");
+                        commentContentHead.innerHTML = "내용";
+                        commentContentHead.id = "commentContentHead";
+                        commentTableHeadTr.appendChild(commentContentHead);
+
+                        let commentCreatedHead = document.createElement("th");
+                        commentCreatedHead.innerHTML = "작성일";
+                        commentCreatedHead.id = "commentCreatedHead";
+                        commentTableHeadTr.appendChild(commentCreatedHead);
+
+                        commentTableHead.appendChild(commentTableHeadTr);
+                        commentTable.appendChild(commentTableHead);
+
+                        //테이블 바디 생성
+                        let commentTableBody = document.createElement("tbody");
+                        await fetch("/comment/admin", {
+                            method: "get",
+                            headers: {
+                                'Content-Type': 'application/json;charset=utf-8'
+                            },
+                        }).then((res) => res.json()).then((comments) => {
+                            for(let index in comments){
+                                let comment = comments[index];
+                                let commentInfoRow = document.createElement("tr");
+                                let commentIDTd = document.createElement("td");
+                                let commentPostTd = document.createElement("td");
+                                let commentAuthorTd = document.createElement("td");
+                                let commentContentTd = document.createElement("td");
+                                let commentCreatedTd = document.createElement("td");
+                                
+                                commentIDTd.innerHTML = comment.comment_id;
+                                commentIDTd.id = "comment" + comment.comment_id + "_id";
+                                
+                                commentPostTd.innerHTML = comment.post_id;
+                                commentPostTd.id = "comment" + comment.comment_id + "_post";
+
+                                commentAuthorTd.innerHTML = comment.user_id;
+                                commentAuthorTd.id = "comment" + comment.comment_id + "_author";
+
+                                commentContentTd.innerHTML = comment.content;
+                                commentContentTd.id = "comment" + comment.comment_id + "_content";
+
+                                commentCreatedTd.innerHTML = comment.createdAt;
+                                commentCreatedTd.id = "comment" + comment.comment_id + "_created";
+
+                                commentInfoRow.appendChild(commentIDTd);
+                                commentInfoRow.appendChild(commentPostTd);
+                                commentInfoRow.appendChild(commentAuthorTd);
+                                commentInfoRow.appendChild(commentContentTd);
+                                commentInfoRow.appendChild(commentCreatedTd);
+                                commentTableBody.appendChild(commentInfoRow);
+                            };
+                        });
+
+                        commentTable.appendChild(commentTableBody);
+                        elements.push(commentTable);
+                        elements.push(document.createElement("br"));
+                    });
+                }
+
+                //분기에 따라 생성된 DOM 객체들 HTML body에 추가
+                elements.forEach((e) => {
+                    if(document.body != null){
+                        document.getElementsByTagName('body')[0].appendChild(e);
+                    }
+                });
+            });
+
+        </script>
+    </body>
+</html>
