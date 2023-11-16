@@ -47,21 +47,24 @@ exports.sendEmail = async (req, res) => {
     });
 }
 
-exports.verifyEmail = async (req, res) => {
+exports.verifyEmail = (req) => {
     const token = req.headers.authorization;
+    let email;
 
     jwt.verify(token, session.key, (err, decoded) => {
-        console.log(token);
         if(err) {
             console.error(err);
-            res.status(400).send("유효한 토큰이 존재하지 않음");
-            return;
+            email = "";
         } else {
             if(decoded.rand.toString() === req.body.verifyCode.toString()) {
-                res.status(200).send("이메일 인증 완료");
+                console.log(decoded.email);
+                email = decoded.email;
             } else {
-                res.status(401).send("이메일 인증 실패");
+                console.log("인증번호 불일치");
+                email = "";
             } 
         }
     });
+
+    return email;
 };

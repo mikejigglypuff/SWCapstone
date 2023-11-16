@@ -5,12 +5,16 @@ const salt = require("../config/salt.json");
 const { errRes } = require("../utility");
 const { hasSession, isAdmin } = require("../authCheck");
 const { Logout } = require("./logout");
+const { verifyEmail } = require("./email");
 
 exports.getUser = async (req, res, next) => {
+  if(!hasSession(req, res)) {
+    errRes(res, 401, "로그인이 필요합니다");
+  }
+
   try {
-    const user = await DB.Users.findAll({
+    const user = await DB.Users.findOne({
       raw: true,
-      nest: true,
       attributes: { exclude: ['password', 'deletedAt'] },
       lock: true,
       where: {
@@ -72,16 +76,11 @@ exports.getAllUser = async (req, res, next) => {
 }; //관리자 한정 전체 회원정보 조회
 
 exports.postUser = async (req, res, next) => {
-  const user = await DB.Users.findOne({
-    raw: true,
-    where: {
-      user_id: req.body.id
-    }
-  });
-  console.log(user);
-
-  if(user) { 
-    errRes(res, 400, "user already exists"); 
+  const email = verifyEmail(req);
+  console.log(email);
+  if(!email) {
+    console.log("이메일 인증 실패");
+    res.sendStatus(400);
     return;
   }
 
@@ -91,7 +90,7 @@ exports.postUser = async (req, res, next) => {
     ).toString();
 
     await DB.Users.create({
-      email: req.body.email,
+      email: email,
       password: pw,
       user_id: req.body.id,
       username: req.body.name
