@@ -1,16 +1,17 @@
 const crypto = require("crypto");
-const path = require("path");
 const salt = require("../config/salt.json");
 const DB = require("../models/index");
-const { errRes } = require("../utility");
-const { isAdmin } = require("../authCheck");
+const { globalSendRes: errRes} = require("../utility");
+const { isAdmin, hasSession } = require("../authCheck");
 
 exports.getAdminName = async (req, res, next) => {
   if(isAdmin(req, res)) {
     console.log(req.session);
     res.send(req.session.admin_Name);
+  } else if(hasSession(req, res)) {
+    res.status(403).send("접근 권한이 없습니다");
   } else {
-    res.status(401).send("Needs login");
+    res.status(401).send("로그인이 필요합니다");
   }
 }; //로그인 후 관리자 닉네임 반환
 
@@ -38,12 +39,9 @@ exports.adminAuth = async (req, res, next) => {
         });
         res.sendStatus(200);
       } else {
-        console.log("admin not found");
-        errRes(res, 404, "admin not found");
+        errRes(res, 404, "일치하는 관리자가 없습니다");
       }
     } catch(err) {
-      err.status = 404;
-      console.error(err);
       next(err);
     }
 }; //관리자 로그인 처리
@@ -52,8 +50,7 @@ exports.postAdmin = async (req, res, next) => {
     console.log(req.body);
 
     if(!req.body.makesAdmin) {
-      errRes(res, 400, "bad request"); 
-      return;
+      errRes(res, 400, "잘못된 요청입니다"); 
     }
   
     try {
@@ -70,17 +67,7 @@ exports.postAdmin = async (req, res, next) => {
       });
         
       res.sendStatus(200);  
-      
     } catch(err) {
-      if(err.name === "SequelizeUniqueConstraintError") { 
-        err.status = 400; 
-        err.message = "Admin Already Exists";
-      }
-      else { 
-        err.status = 500; 
-        err.message = "Internal Server Error"
-      }
-      console.error(err);
       next(err);
     }
 }; //관리자 회원가입 처리

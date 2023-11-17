@@ -1,6 +1,6 @@
 const { Sequelize, Transaction } = require('sequelize');
 const DB = require("../models/index");
-const { errRes } = require("../utility");
+const { globalSendRes: errRes } = require("../utility");
 const { hasSession, isAdmin } = require("../authCheck");
 
 exports.getPost = async (req, res, next) => {
@@ -20,12 +20,9 @@ exports.getPost = async (req, res, next) => {
         transaction: t
       });
 
-      console.log(post);
       res.json(post);
     } catch(err) {
       await t.rollback();
-      err.status = 404;
-      console.error(err);
       next(err);
     }
   });
@@ -48,12 +45,9 @@ exports.getPostByCategory = async (req, res, next) => {
         transaction: t
       });
 
-      console.log(post);
       res.json(post);
     } catch(err) {
       await t.rollback();
-      err.status = 404;
-      console.error(err);
       next(err);
     }
   });
@@ -75,18 +69,15 @@ exports.getPostsByUser = async (req, res, next) => {
         }
     });
 
-    console.log(posts);
     res.json(posts);
   } catch(err) {
-    err.status = 500;
-    console.error(err);
     next(err);
   }
 };
 
 exports.getAllPost = async (req, res, next) => {
   if(!isAdmin(req, res)) {
-    errRes(res, 401, "unauthorized");
+    errRes(res, 401, "로그인이 필요합니다");
   }
   
   await DB.sequelize.transaction(async (t) => {
@@ -100,32 +91,15 @@ exports.getAllPost = async (req, res, next) => {
         },
       }, { transaction: t });
 
-      res.status(200).json(posts);
+      res.json(posts);
     } catch(err) {
       await t.rollback();
-      err.status = 404;
-      console.error(err);
       next(err);
     } 
   });
 }; //전체 게시글 정보 조회
 
 exports.postPost = async (req, res, next) => {
-  const userId = await DB.Users.findOne({
-    raw: true,
-    attributes: ['user_id'],
-    where: {
-      user_id: req.session.user_id,
-      deletedAt: null
-    }
-  });
-
-  if(!userId) { 
-    errRes(res, 404, "user not found"); 
-    return;
-  }
-
-  console.log(userId);
   await DB.sequelize.transaction(async (t) => {
     try {
       const post = await DB.Posts.create({
@@ -139,11 +113,9 @@ exports.postPost = async (req, res, next) => {
         transaction: t
       });
   
-      console.log(post);
-      res.status(302).redirect("/board");
+      res.redirect("/board");
     } catch(err) {
       await t.rollback();
-      console.error(err);
       next(err);
     }
   });
@@ -151,21 +123,11 @@ exports.postPost = async (req, res, next) => {
 
 exports.deletePost = async (req, res, next) => {
   if(!hasSession(req, res)) { 
-    errRes(res, 401, "unauthorized"); 
+    errRes(res, 401, "로그인이 필요합니다"); 
     return;
   }
 
-  const post = await DB.Posts.findOne({
-    raw: true,
-    where: {
-      post_id: req.body.id
-    }
-  });
-
-  if(!post) { 
-    errRes(res, 404, "page not found"); 
-    return;
-  } //에러를 직접 띄워보고 쿼리가 반환하는 에러를 catch에서 처리할 수 있도록 변경하기
+  //에러를 직접 띄워보고 쿼리가 반환하는 에러를 catch에서 처리할 수 있도록 변경하기
 
   await DB.sequelize.transaction(async (t) => {
     try {
@@ -181,7 +143,6 @@ exports.deletePost = async (req, res, next) => {
       res.sendStatus(200);
     } catch(err) {
       await t.rollback();
-      console.error(err);
       next(err);
     }
   });
@@ -223,12 +184,11 @@ exports.patchPost = async (req, res, next) => {
           lock: true,
           transaction: t 
         });
-        res.status(200).send("게시글 수정 완료");
+        res.sendStatus(200);
         
       }
     } catch(err) {
       await t.rollback();
-      console.error(err);
       next(err);
     }
   });

@@ -27,12 +27,9 @@ exports.postAuth = async (req, res, next) => {
         });
         res.sendStatus(200);
       } else {
-        console.log("user not found");
         errRedirect(res, 404, "/");
       }
     } catch(err) {
-      err.status = 404;
-      console.error(err);
       next(err);
     }
 };

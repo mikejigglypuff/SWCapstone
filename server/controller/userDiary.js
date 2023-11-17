@@ -3,7 +3,7 @@ const { hasSession } = require("../authCheck");
 
 exports.getDiary = async (req, res, next) => {
     if(!hasSession(req, res)) { 
-        errRes(res, 401, "unauthorized"); 
+        errRes(res, 401, "로그인이 필요합니다"); 
         return;
     }
 
@@ -17,17 +17,15 @@ exports.getDiary = async (req, res, next) => {
                 deletedAt: null
             }
         });
-        res.status(200).json(diary);
+        res.json(diary);
     } catch(err) {
-        err.status = 404;
-        console.error(err);
         next(err);
     }
 }; //로그인한 회원의 다이어리 조회
 
 exports.postDiary = async (req, res, next) => {
     if(!hasSession(req, res)) { 
-        errRes(res, 401, "unauthorized"); 
+        errRes(res, 401, "로그인이 필요합니다"); 
         return;
     }
 
@@ -43,7 +41,6 @@ exports.postDiary = async (req, res, next) => {
 
         res.sendStatus(200);
     } catch(err) {
-        console.error(err);
         next(err);
     }
 }; //다이어리 작성
