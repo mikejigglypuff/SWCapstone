@@ -4,21 +4,20 @@ const crypto = require("crypto");
 const session = require("../config/session.json");
 const jwt = require("jsonwebtoken");
 const salt = require("../config/salt.json");
-const { errRes } = require("../utility");
+const { globalSendRes: errRes } = require("../utility");
 
 exports.getUserByEmailID = async (req, res, next) => {
     try {
-        const user = DB.Users.findOne({
+        const user = await DB.Users.findOne({
             raw: true,
             where: {
-                user_id: req.query.userid,
+                user_id: req.query.id,
                 email: req.query.email,
                 deletedAt: null
             }
         });
         if(!user) {
-            errRes(res, 404, "user not found"); 
-            return;
+            errRes(res, 404, "존재하지 않는 회원입니다"); 
         }
 
         const token = jwt.sign({
@@ -28,9 +27,8 @@ exports.getUserByEmailID = async (req, res, next) => {
             expiresIn: "10m",
         });
 
-        res.status(200).json(token);
+        res.json(token);
     } catch(err) {
-        console.error(err);
         next(err);
     }
 };
@@ -38,24 +36,27 @@ exports.getUserByEmailID = async (req, res, next) => {
 exports.replacePW = async (req, res, next) => {
     const token = req.headers.authorization;
 
-    jwt.verify(token, session.key, (err, decoded) => {
+    jwt.verify(token, session.key, async (err, decoded) => {
         if(err) {
-            errRes(res, 401, "authorization failed");
+            errRes(res, 401, "인증 실패");
             return;
         } else {
-            DB.Users.update({
-                password: crypto.pbkdf2Sync(
-                    req.body.pw, salt.salt, 105735, 64, "sha512"
-                ).toString(),
-                where: {
-                    user_id: decoded.id
-                }
-            }).then((user) => {
+            try {
+                console.log(decoded);
+
+                await DB.Users.update({
+                    password: crypto.pbkdf2Sync(
+                        req.body.pw, salt.salt, 105735, 64, "sha512"
+                    ).toString()
+                }, {
+                    where: {
+                        user_id: decoded.id
+                    }
+                });
                 res.sendStatus(200);
-            }).catch((err) => {
-                console.error(err);
+            } catch(err) {
                 next(err);
-            })
+            }
         }
     });
 };

@@ -1,4 +1,4 @@
-const { errRes } = require("../utility");
+const { globalSendRes: errRes } = require("../utility");
 
 exports.Logout = (req, res) => {
   const sessionId = req.cookies['connect.sid'].split(".")[0].split(":")[1];

@@ -2,7 +2,7 @@ const nodemailer = require("nodemailer");
 const mailConfig = require("../config/mail.json");
 const session = require("../config/session.json");
 const jwt = require("jsonwebtoken");
-const { genRandNum } = require("../utility");
+const { globalSendRes, genRandNum } = require("../utility");
 
 exports.sendEmail = async (req, res) => {
     const transporter = nodemailer.createTransport({
@@ -30,7 +30,7 @@ exports.sendEmail = async (req, res) => {
     }, (err, info) => {
         if(err) { 
             console.error(err);
-            res.sendStatus(400);
+            globalSendRes(res, 400, "잘못된 요청입니다");
         } else {
             console.log("메일 전송 완료", info.response);
             transporter.close();
@@ -42,7 +42,7 @@ exports.sendEmail = async (req, res) => {
                 expiresIn: "5m",
             });
 
-            res.status(200).json(token);
+            res.json(token);
         }
     });
 }

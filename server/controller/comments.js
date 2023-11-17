@@ -1,6 +1,6 @@
 const { Sequelize, Transaction} = require('sequelize');
 const DB = require("../models/index");
-const { errRes } = require("../utility");
+const { globalSendRes: errRes } = require("../utility");
 const { hasSession, isAdmin } = require("../authCheck");
 
 exports.getCommentsByPost = async (req, res, next) => {
@@ -20,12 +20,9 @@ exports.getCommentsByPost = async (req, res, next) => {
                 transaction: t
             });
 
-            console.log(comments);
-            res.status(200).json(comments);
+            res.json(comments);
         } catch(err) {
             await t.rollback();
-            err.status = 404;
-            console.error(err);
             next(err);
         }
     });
@@ -49,8 +46,6 @@ exports.getCommentsByUser = async (req, res, next) => {
 
         res.json(comments);
     } catch(err) {
-        err.status = 500;
-        console.error(err);
         next(err);
     }
 };
@@ -71,12 +66,10 @@ exports.getAllComments = async (req, res, next) => {
                 }
             }, { transaction: t });
 
-            res.status(200).json(comments);
+            res.json(comments);
         });
 
     } catch(err) {
-        err.status = 404;
-        console.error(err);
         next(err);
     }
 };
@@ -96,8 +89,6 @@ exports.postComments = async (req, res, next) => {
             res.sendStatus(200);
         } catch(err) {
             await t.rollback();
-            err.status = 500;
-            console.error(err);
             next(err);
         }
     });
@@ -122,8 +113,6 @@ exports.deleteComments = async (req, res, next) => {
             res.sendStatus(200);
         } catch(err) {
             await t.rollback();
-            err.status = 500;
-            console.error(err);
             next(err);
         }
     });
@@ -151,8 +140,6 @@ exports.patchComments = async (req, res, next) => {
             res.sendStatus(200);
         } catch(err) {
             await t.rollback();
-            err.status = 500;
-            console.error(err);
             next(err);
         }
     });
