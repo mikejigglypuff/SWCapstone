@@ -8,7 +8,7 @@ const UnRegister = () => {
             <Sidebar />
             <div className={unregisterStyled.unregisterArea}>
                 <div className={unregisterStyled.URtitle}>
-                    <img src="img/logo.png" />
+                    <img src="/static/img/logo.png" />
                     <p>회원탈퇴</p>
                 </div>
                 <div className={unregisterStyled.inputPassword}>
