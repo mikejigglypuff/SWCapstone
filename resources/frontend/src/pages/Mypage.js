@@ -28,7 +28,7 @@ const Mypage = () => {
             <Sidebar />
             <div className={mypageStyled.showMyInfo}>
                 <div className={mypageStyled.MPtitle}>
-                    <img src="img/logo.png" />
+                    <img src="/static/img/logo.png" />
                     <p>회원정보</p>
                 </div>
                 {userData.map((item) => (

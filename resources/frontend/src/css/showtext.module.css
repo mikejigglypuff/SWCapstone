@@ -45,6 +45,9 @@
     background-color: navy;
     color: white;
 }
+.mainShowTextArea button span{
+    margin-left: 0.5rem;
+}
 .commentArea{
     width: 80%;
 }

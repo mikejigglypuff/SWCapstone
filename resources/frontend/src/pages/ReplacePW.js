@@ -57,7 +57,7 @@ const ReplacePW = () => {
             <Sidebar />
             <div className={replacePWStyled.inputArea}>
                 <div className={replacePWStyled.RPtitle}>
-                    <img src="img/logo.png" id="image" />
+                    <img src="/static/img/logo.png" id="image" />
                     <p id="title">비밀번호 변경</p>
                 </div>
                 <div className={replacePWStyled.enterNewPWArea}>

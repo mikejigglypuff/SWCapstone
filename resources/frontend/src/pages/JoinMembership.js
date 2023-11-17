@@ -13,9 +13,11 @@ const JoinMembership = () => {
 
     const [pwMessage, setPwMessage] = useState("");
     const [checkpwMessage, setCheckPwMessage] = useState("");
+    const [emailMessage, setEmailMessage] = useState("");
 
     const [ispw, setIsPw] = useState(false);
     const [ischeckpw, setIsCheckPw] = useState(false);
+    const [isemail, setIsEmail] = useState(false);
 
     const onIDChange = (e) =>{
         setID(e.target.value);
@@ -51,18 +53,42 @@ const JoinMembership = () => {
         }
     }
 
-    const onNameChange = (e) =>{
-        setName(e.target.value);
-        console.log(e.target.value);
+    // 이메일 유효성 검사 부분
+    const onEmailChange = (e) =>{
+        const currentEmail = e.target.value;
+        setEmail(currentEmail);
+        const emailRegEx = /^[A-Za-z0-9]([-_.]?[A-Za-z0-9])*@[A-Za-z0-9]([-_.]?[A-Za-z0-9])*\.[A-Za-z]{2,3}$/i;
+        if(!emailRegEx.test(currentEmail)){
+            setEmailMessage("올바른 이메일 형식이 아닙니다.");
+            setIsEmail(false);
+        }// 이메일 조건식과 입력한 값이 일치하지 않은 경우
+        else{
+            setEmailMessage("올바른 이메일 형식을 사용하였습니다");
+            setIsEmail(true);
+        }// 이메일 조건식과 입력한 값이 일치한 경우
     };
 
-    const onEmailChange = (e) =>{
-        setEmail(e.target.value);
+    const onNameChange = (e) =>{
+        setName(e.target.value);
         console.log(e.target.value);
     };
     
     const navigate = useNavigate();
 
+    //이메일 인증번호 받는 부분
+    const checkEmailVertical = async() => {
+        try {    
+                const response = await axios.post('/emailAuth', {
+                    "email": email
+                });
+                alert("입력한 이메일에서 인증번호를 받아와주세요")
+
+          } catch (error) {
+            console.error('Error sending data:', error);
+          }
+    }
+
+    // 입력한 회원 정보 전달 부분
     const sendingMembershipData = async() => {
         try {    
                 const response = await axios.post('/user', {
@@ -83,7 +109,7 @@ const JoinMembership = () => {
     return (
         <div className={joinMembershipStyled.JoinMembership}>
             <div className={joinMembershipStyled.Jtitle}>
-                <img src="img/logo.png"/>
+                <img src="/static/img/logo.png"/>
             </div>
             <div className={joinMembershipStyled.enterMembershipInfo}>
                 <div className={joinMembershipStyled.enterID}>
@@ -138,7 +164,8 @@ const JoinMembership = () => {
                         value={email}
                         onChange={onEmailChange}
                     />
-                    <button>인증번호 받기</button><br/>
+                    <button onClick={checkEmailVertical}>인증번호 받기</button><br/>
+                    <p style={{color: isemail === false ? "red" : "green", marginLeft:"8rem"}}>{emailMessage}</p>
                     <input
                         id={joinMembershipStyled.inputCheckNum}
                         placeholder="인증 번호를 입력하세요"

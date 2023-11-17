@@ -33,7 +33,7 @@ const CheckWriting = () => {
             <Sidebar />
             <div className={checkwritingStyled.showWritingList}>
                 <div className={checkwritingStyled.CWheader}>
-                    <img src="img/logo.png" />
+                    <img src="/static/img/logo.png" />
                     <p>작성한 글 확인</p>
                 </div>
                 <div className={checkwritingStyled.writingListTitle}>

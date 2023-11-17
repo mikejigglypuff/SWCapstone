@@ -44,7 +44,7 @@ const ShowText = () => {
             setBeforeComments(response.data);
             console.log(response);
         }catch(error){
-            console.error("보드 정보를 가져오는 도중 에러 발생", error);
+            console.error("댓글 정보를 가져오는 도중 에러 발생", error);
         }
     } 
 
@@ -63,6 +63,19 @@ const ShowText = () => {
         }
     };
 
+    // 좋아요 버튼 클릭 시 함수
+    const clickLikeBtn = async() => {
+        try{
+            const respone = await axios.patch('/post', {
+                "id": post_id,
+                "favcnt": true
+            });
+            fetchTextData();
+        }catch(error){
+            console.error("좋아요 버튼 처리 도중 에러 발생", error);
+        }
+    }
+
     return (
         <div className={showtextStyled.ShowText}>
             <h2>{textData.title}</h2>
@@ -73,7 +86,7 @@ const ShowText = () => {
             </div>
             <div className={showtextStyled.mainShowTextArea}>
                 <div className={showtextStyled.showTextBox}>{textData.content}</div>
-                <button><img src="img/thumbsup.jpg"></img>추천</button>
+                <button><img src="/static/img/thumbsup.jpg"></img>추천<span>{textData.favcnt}</span></button>
             </div>
             <div className={showtextStyled.commentArea}>
                 <h3>댓글 <span>N</span></h3>

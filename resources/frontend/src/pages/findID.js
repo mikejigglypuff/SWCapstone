@@ -5,7 +5,7 @@ const findID = () => {
     return (    
         <div className={findIDPWStyled.findIDPW}>
             <div className={findIDPWStyled.FIPtitle}>
-                <img src="img/logo.png"></img>
+                <img src="/static/img/logo.png"></img>
                 <p>아이디 찾기</p>
             </div>
             <div className={findIDPWStyled.findIDPWInfoArea}>
