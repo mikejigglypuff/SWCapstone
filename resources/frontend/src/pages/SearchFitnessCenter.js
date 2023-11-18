@@ -1,4 +1,5 @@
 import React from "react";
+import MapContainer from "../components/MapContainer";
 import searchfitnesscenterStyled from "../css/searchfitnesscenter.module.css"
 
 const SearchFitnessCenter = () => {
@@ -18,7 +19,7 @@ const SearchFitnessCenter = () => {
                 <button>🔍검색</button>
             </div>
             <div className={searchfitnesscenterStyled.showmap}>
-                <h2>카카오맵 들어갈 자리</h2>
+                <MapContainer/>
             </div>
         </div>
     );
