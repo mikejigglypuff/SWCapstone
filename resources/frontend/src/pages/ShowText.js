@@ -86,7 +86,7 @@ const ShowText = () => {
             </div>
             <div className={showtextStyled.mainShowTextArea}>
                 <div className={showtextStyled.showTextBox}>{textData.content}</div>
-                <button><img src="/static/img/thumbsup.jpg"></img>추천<span>{textData.favcnt}</span></button>
+                <button onClick={clickLikeBtn}><img src="/static/img/thumbsup.jpg"></img>추천<span>{textData.favcnt}</span></button>
             </div>
             <div className={showtextStyled.commentArea}>
                 <h3>댓글 <span>N</span></h3>

@@ -7,6 +7,21 @@ import hearderStyled from "../css/header.module.css";
 const Header = () => {
     const [isclick, setIsClick] = useState(false);
     const [islogined, setIsLogined] = useState(false);
+    const [userData, setUserData] = useState([]);
+
+    useEffect(() => {
+        fetchUserData()
+    },[]);
+
+    const fetchUserData = async() => {
+        try{
+            const response = await axios.get('/user');
+            setUserData(response.data);
+            console.log(response);
+        }catch(error){
+            console.error("보드 정보를 가져오는 도중 에러 발생", error);
+        }
+    };
 
     const navigate = useNavigate();
 
@@ -64,7 +79,7 @@ const Header = () => {
                         <ul>
                             {document.cookie ? ( //쿠키 존재 여부 확인
                                     <>
-                                        <li style={{textAlign:"center", fontWeight: "bold", color:"navy"}}>✨오성훈님 환영합니다✨</li>
+                                        <li style={{textAlign:"center", fontWeight: "bold", color:"navy"}}>✨{userData.username}님 환영합니다✨</li>
                                         <li><Link to="/mypage" onClick={() => setIsClick(false)}>🏡 마이페이지</Link></li>
                                         <li><Link to="/logout" onClick={deleteSession}>🔓 로그아웃</Link></li>
                                     </>

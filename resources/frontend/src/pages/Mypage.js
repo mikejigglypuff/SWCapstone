@@ -31,18 +31,16 @@ const Mypage = () => {
                     <img src="/static/img/logo.png" />
                     <p>회원정보</p>
                 </div>
-                {userData.map((item) => (
-                    <div key={item.user_id} className={mypageStyled.myInfo}>
-                        <p style={{color: "navy"}}>닉네임</p>
-                        <p>{item.username}</p>
-                        <p style={{color: "navy"}}>아이디</p>
-                        <p>{item.user_id}</p>
-                        <p style={{color: "navy"}}>이메일</p>
-                        <p>{item.email}</p>
-                        <p style={{color: "navy"}}>가입일</p>
-                        <p>{item.createdAt}</p>
-                    </div> 
-                ))} 
+                <div className={mypageStyled.myInfo}>
+                    <p style={{color: "navy"}}>닉네임</p>
+                    <p>{userData.username}</p>
+                    <p style={{color: "navy"}}>아이디</p>
+                    <p>{userData.user_id}</p>
+                    <p style={{color: "navy"}}>이메일</p>
+                    <p>{userData.email}</p>
+                    <p style={{color: "navy"}}>가입일</p>
+                    <p>{userData.createdAt}</p>
+                </div> 
             </div>
         </div>
     );
