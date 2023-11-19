@@ -2,10 +2,8 @@ const DB = require("../models/index");
 const { hasSession } = require("../authCheck");
 
 exports.getDiary = async (req, res, next) => {
-    if(!hasSession(req, res)) { 
-        errRes(res, 401, "로그인이 필요합니다"); 
-        return;
-    }
+    const session = hasSession(req, res);
+    if(!session) { return res.status(401).send("로그인이 필요합니다"); }
 
     try {
         const diary = await DB.UserDiary.findAll({
@@ -24,10 +22,8 @@ exports.getDiary = async (req, res, next) => {
 }; //로그인한 회원의 다이어리 조회
 
 exports.postDiary = async (req, res, next) => {
-    if(!hasSession(req, res)) { 
-        errRes(res, 401, "로그인이 필요합니다"); 
-        return;
-    }
+    const session = hasSession(req, res);
+    if(!session) { return res.status(401).send("로그인이 필요합니다"); }
 
     try {
         await DB.UserDiary.create({

@@ -3,14 +3,13 @@ const DB = require("../models/index");
 const crypto = require("crypto");
 const salt = require("../config/salt.json");
 const { globalSendRes: errRes } = require("../utility");
-const { hasSession, isAdmin } = require("../authCheck");
+const { isAdmin, hasSession } = require("../authCheck");
 const { Logout } = require("./logout");
 const { verifyEmail } = require("./email");
 
 exports.getUser = async (req, res, next) => {
-  if(!hasSession(req, res)) {
-    errRes(res, 401, "로그인이 필요합니다");
-  }
+  const session = hasSession(req, res);
+  if(!session) { return res.status(401).send("로그인이 필요합니다"); }
 
   try {
     const user = await DB.Users.findOne({
@@ -45,9 +44,9 @@ exports.getUserIDByEmail = async (req, res, next) => {
 }; //이메일로 회원 Id 찾기 
 
 exports.getAllUser = async (req, res, next) => {
-  if(!isAdmin(req, res)) {
-    errRes(res, 401, "로그인이 필요합니다");
-  }
+  const is_Admin = isAdmin(req, res);
+  if(!is_Admin) { return res.status(401).send("로그인이 필요합니다"); }
+  else if(is_Admin === "user") { return res.status(403).send("접근 권한이 없습니다"); }
   
   try {
     await DB.sequelize.transaction(async (t) => {
@@ -70,9 +69,8 @@ exports.getAllUser = async (req, res, next) => {
 
 exports.postUser = async (req, res, next) => {
   const email = verifyEmail(req);
-  console.log(email);
   if(!email) {
-    errRes(res, 400, "이메일 인증 실패");
+    return errRes(res, 400, "이메일 인증 실패");
   }
 
   try {
@@ -95,10 +93,8 @@ exports.postUser = async (req, res, next) => {
 }; //회원가입
 
 exports.deleteUser = async (req, res, next) => {
-  if(!hasSession(req, res)) { 
-    errRes(res, 401, "로그인이 필요합니다"); 
-    return;
-  }
+  const session = hasSession(req, res);
+  if(!session) { return res.status(401).send("로그인이 필요합니다"); }
 
   const pw = crypto.pbkdf2Sync(
     req.body.pw, salt.salt, 105735, 64, "sha512"
@@ -108,20 +104,40 @@ exports.deleteUser = async (req, res, next) => {
     await DB.Users.destroy({
       where: {
         user_id: req.session.user_id,
-        password: pw
+        password: pw,
+        deletedAt: null
       }
     });
     Logout(req, res);
   } catch(err) {
     next(err);
   }
-} //회원 탈퇴
+}; //회원 탈퇴
+
+exports.deleteUserByAdmin = async (req, res, next) => {
+  const is_Admin = isAdmin(req, res);
+  if(!is_Admin) { return res.status(401).send("로그인이 필요합니다"); }
+  else if(is_Admin === "user") { return res.status(403).send("접근 권한이 없습니다"); }
+
+  try {
+    await DB.Users.destroy({
+      where: {
+        user_id: req.body.user_id,
+        deletedAt: null
+      }
+    });
+
+    await DB.sequelize.query(`DELETE from sessions where data like '%${req.body.user_id}%'`);
+
+    res.sendStatus(200);
+  } catch(err) {
+    next(err);
+  }
+}; //운영자가 직접 회원 탈퇴 처리
 
 exports.patchUser = async (req, res, next) => {
-  if(!hasSession(req, res)) { 
-    errRes(res, 401, "로그인이 필요합니다"); 
-    return;
-  }
+  const session = hasSession(req, res);
+  if(!session) { return res.status(401).send("로그인이 필요합니다"); }
 
   const pw = crypto.pbkdf2Sync(
     req.body.pw, salt.salt, 105735, 64, "sha512"

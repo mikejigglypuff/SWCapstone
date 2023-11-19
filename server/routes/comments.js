@@ -1,11 +1,13 @@
 const express = require("express");
 const { 
-    getCommentsByPost, getAllComments, postComments, deleteComments, patchComments 
+    getCommentsByPost, getAllComments, postComments, deleteComments, deleteCommentsByAdmin, patchComments 
 } = require("../controller/comments");
 
 const router = express.Router();
 
-router.get("/admin", getAllComments);
+router.route("/admin")
+    .get(getAllComments)
+    .delete(deleteCommentsByAdmin);
 router.get("/:postId", getCommentsByPost);
 
 router.route("/")
