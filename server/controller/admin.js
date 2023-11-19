@@ -2,17 +2,15 @@ const crypto = require("crypto");
 const salt = require("../config/salt.json");
 const DB = require("../models/index");
 const { globalSendRes: errRes} = require("../utility");
-const { isAdmin, hasSession } = require("../authCheck");
+const { isAdmin } = require("../authCheck");
 
 exports.getAdminName = async (req, res, next) => {
-  if(isAdmin(req, res)) {
-    console.log(req.session);
-    res.send(req.session.admin_Name);
-  } else if(hasSession(req, res)) {
-    res.status(403).send("접근 권한이 없습니다");
-  } else {
-    res.status(401).send("로그인이 필요합니다");
-  }
+  const is_Admin = isAdmin(req, res);
+  if(!isAdmin) { return res.status(401).send("로그인이 필요합니다"); }
+  else if(isAdmin === "user") { return res.status(403).send("접근 권한이 없습니다"); }
+
+  console.log(req.session);
+  res.send(req.session.admin_Name);
 }; //로그인 후 관리자 닉네임 반환
 
 exports.adminAuth = async (req, res, next) => {

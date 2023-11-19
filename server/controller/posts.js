@@ -1,9 +1,12 @@
 const { Sequelize, Transaction } = require('sequelize');
 const DB = require("../models/index");
 const { globalSendRes: errRes } = require("../utility");
-const { hasSession, isAdmin } = require("../authCheck");
+const { isAdmin, hasSession } = require("../authCheck");
 
 exports.getPost = async (req, res, next) => {
+  const session = hasSession(req, res);
+  if(!session) { return res.status(401).send("로그인이 필요합니다"); }
+
   await DB.sequelize.transaction(async (t) => {
     try {
       const post = await DB.Posts.findOne({
@@ -29,6 +32,9 @@ exports.getPost = async (req, res, next) => {
 }; //특정 id의 게시글 조회
 
 exports.getPostByCategory = async (req, res, next) => {
+  const session = hasSession(req, res);
+  if(!session) { return res.status(401).send("로그인이 필요합니다"); }
+
   await DB.sequelize.transaction(async (t) => {
     try {
       const post = await DB.Posts.findAll({
@@ -54,9 +60,8 @@ exports.getPostByCategory = async (req, res, next) => {
 }; //게시판 별 게시글 조회
 
 exports.getPostsByUser = async (req, res, next) => {
-  if(!hasSession(req, res)) {
-    errRes(res, 401, "로그인이 필요합니다");
-  }
+  const session = hasSession(req, res);
+  if(!session) { return res.status(401).send("로그인이 필요합니다"); }
 
   try {
     const posts = await DB.Posts.findAll({
@@ -76,9 +81,9 @@ exports.getPostsByUser = async (req, res, next) => {
 };
 
 exports.getAllPost = async (req, res, next) => {
-  if(!isAdmin(req, res)) {
-    errRes(res, 401, "로그인이 필요합니다");
-  }
+  const is_Admin = isAdmin(req, res);
+  if(!is_Admin) { return res.status(401).send("로그인이 필요합니다"); }
+  else if(is_Admin === "user") { return res.status(403).send("접근 권한이 없습니다"); }
   
   await DB.sequelize.transaction(async (t) => {
     try {
@@ -100,6 +105,9 @@ exports.getAllPost = async (req, res, next) => {
 }; //전체 게시글 정보 조회
 
 exports.postPost = async (req, res, next) => {
+  const session = hasSession(req, res);
+  if(!session) { return res.status(401).send("로그인이 필요합니다"); }
+
   await DB.sequelize.transaction(async (t) => {
     try {
       const post = await DB.Posts.create({
@@ -122,10 +130,8 @@ exports.postPost = async (req, res, next) => {
 }; //게시글 등록
 
 exports.deletePost = async (req, res, next) => {
-  if(!hasSession(req, res)) { 
-    errRes(res, 401, "로그인이 필요합니다"); 
-    return;
-  }
+  const session = hasSession(req, res);
+  if(!session) { return res.status(401).send("로그인이 필요합니다"); }
 
   //에러를 직접 띄워보고 쿼리가 반환하는 에러를 catch에서 처리할 수 있도록 변경하기
 
@@ -148,11 +154,33 @@ exports.deletePost = async (req, res, next) => {
   });
 }; //게시글 삭제
 
+exports.deletePostByAdmin = async (req, res, next) => {
+  const is_Admin = isAdmin(req, res);
+  if(!is_Admin) { return res.status(401).send("로그인이 필요합니다"); }
+  else if(is_Admin === "user") { return res.status(403).send("접근 권한이 없습니다"); }
+
+  await DB.sequelize.transaction(async (t) => {
+    try {
+      await DB.Posts.destroy({
+        where: {
+          post_id: req.body.post_id
+        }
+      }, { 
+        lock: true,
+        transaction: t 
+      });
+  
+      res.sendStatus(200);
+    } catch(err) {
+      await t.rollback();
+      next(err);
+    }
+  });
+}; //운영자가 직접 게시글 삭제
+
 exports.patchPost = async (req, res, next) => {
-  if(!hasSession(req, res)) { 
-    errRes(res, 401, "unauthorized"); 
-    return;
-  }
+  const session = hasSession(req, res);
+  if(!session) { return res.status(401).send("로그인이 필요합니다"); }
 
   await DB.sequelize.transaction(async (t) => {
     try {

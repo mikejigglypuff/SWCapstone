@@ -1,9 +1,12 @@
 const { Sequelize, Transaction} = require('sequelize');
 const DB = require("../models/index");
 const { globalSendRes: errRes } = require("../utility");
-const { hasSession, isAdmin } = require("../authCheck");
+const { isAdmin, hasSession } = require("../authCheck");
 
 exports.getCommentsByPost = async (req, res, next) => {
+    const session = hasSession(req, res);
+    if(!session) { return res.status(401).send("로그인이 필요합니다"); }
+
     await DB.sequelize.transaction(async (t) => { 
         try {
             const comments = await DB.Comments.findAll({
@@ -29,9 +32,8 @@ exports.getCommentsByPost = async (req, res, next) => {
 };
 
 exports.getCommentsByUser = async (req, res, next) => {
-    if(!hasSession(req, res)) {
-        errRes(res, 401, "로그인이 필요합니다");
-    }
+    const session = hasSession(req, res);
+    if(!session) { return res.status(401).send("로그인이 필요합니다"); }
 
     try {
         const comments = await DB.Comments.findAll({
@@ -51,9 +53,9 @@ exports.getCommentsByUser = async (req, res, next) => {
 };
 
 exports.getAllComments = async (req, res, next) => {
-    if(!isAdmin(req, res)) {
-        errRes(res, 401, "unauthorized");
-    }
+    const is_Admin = isAdmin(req, res);
+    if(!is_Admin) { return res.status(401).send("로그인이 필요합니다"); }
+    else if(is_Admin === "user") { return res.status(403).send("접근 권한이 없습니다"); }
 
     try {
         await DB.sequelize.transaction(async (t) => {
@@ -75,6 +77,9 @@ exports.getAllComments = async (req, res, next) => {
 };
 
 exports.postComments = async (req, res, next) => {
+    const session = hasSession(req, res);
+    if(!session) { return res.status(401).send("로그인이 필요합니다"); }
+
     await DB.sequelize.transaction(async (t) => {
         try {
             await DB.Comments.create({
@@ -95,10 +100,8 @@ exports.postComments = async (req, res, next) => {
 };
 
 exports.deleteComments = async (req, res, next) => {
-    if(!hasSession(req, res)) { 
-        errRes(res, 401, "unauthorized"); 
-        return;
-    }
+    const session = hasSession(req, res);
+    if(!session) { return res.status(401).send("로그인이 필요합니다"); }
 
     await DB.sequelize.transaction(async (t) => {
         try {
@@ -118,11 +121,32 @@ exports.deleteComments = async (req, res, next) => {
     });
 };
 
+exports.deleteCommentsByAdmin = async (req, res, next) => {
+    const is_Admin = isAdmin(req, res);
+    if(!is_Admin) { return res.status(401).send("로그인이 필요합니다"); }
+    else if(is_Admin === "user") { return res.status(403).send("접근 권한이 없습니다"); }
+
+    await DB.sequelize.transaction(async (t) => {
+        try {
+            await DB.Comments.destroy({
+                where: {
+                    comment_id: req.body.comment_id
+                },
+                lock: true,
+                transaction: t 
+            });
+    
+            res.sendStatus(200);
+        } catch(err) {
+            await t.rollback();
+            next(err);
+        }
+    });
+}; //운영자가 직접 댓글 삭제
+
 exports.patchComments = async (req, res, next) => {
-    if(!hasSession(req, res)) { 
-        errRes(res, 401, "unauthorized"); 
-        return;
-    }
+    const session = hasSession(req, res);
+    if(!session) { return res.status(401).send("로그인이 필요합니다"); }
 
     await DB.sequelize.transaction(async (t) => {
         try {

@@ -1,11 +1,13 @@
 const express = require("express");
-const { getUser, getAllUser, postUser, deleteUser, patchUser } = require("../controller/users");
+const { getUser, getAllUser, postUser, deleteUser, deleteUserByAdmin, patchUser } = require("../controller/users");
 const { getPostsByUser } = require("../controller/posts");
 const { getCommentsByUser } = require("../controller/comments");
 
 const router = express.Router();
 
-router.get("/admin", getAllUser);
+router.route("/admin")
+  .get(getAllUser)
+  .delete(deleteUserByAdmin);
 router.get("/post", getPostsByUser);
 router.get("/comment", getCommentsByUser);
 

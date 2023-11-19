@@ -1,10 +1,12 @@
 const express = require("express");
-const {getPost, getAllPost, postPost, deletePost, patchPost} = require("../controller/posts");
+const {getPost, getAllPost, postPost, deletePost, deletePostByAdmin, patchPost} = require("../controller/posts");
 const { get } = require("https");
 
 const router = express.Router();
 
-router.get("/admin", getAllPost);
+router.route("/admin")
+  .get(getAllPost)
+  .delete(deletePostByAdmin);
 router.get("/:postId", getPost);
 
 router.route('/')
