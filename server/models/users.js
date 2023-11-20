@@ -19,11 +19,32 @@ module.exports = function(sequelize, DataTypes) {
     password: {
       type: DataTypes.STRING(100),
       allowNull: false
+    },
+    createdAt: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      get() {
+        return this.getDataValue('createdAt').toISOString().slice(0, 10);
+      }
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      get() {
+        return this.getDataValue('updatedAt').toISOString().slice(0, 10);
+      }
+    },
+    deletedAt: {
+      type: DataTypes.DATE,
+      allowNull: true,
+      get() {
+        const deletedAt = this.getDataValue('deletedAt');
+        return deletedAt ? deletedAt.toISOString().slice(0, 10) : null;
+      }
     }
   }, {
     sequelize,
     tableName: 'users',
-    timestamps: true,
     paranoid: true,
   });
 };
