@@ -47,7 +47,7 @@ module.exports = function(sequelize, DataTypes) {
     }
   }, {
     sequelize,
-    timestamp: true,
+    timestamps: true,
     tableName: 'posts',
     paranoid: true,
     createdAt: false,
