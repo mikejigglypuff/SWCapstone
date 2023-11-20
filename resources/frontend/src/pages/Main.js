@@ -1,6 +1,7 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
 import BMIs from "../components/BMIs";
 import Ounchu from "../components/Ounchu";
 import mainStyled from "../css/main.module.css";
@@ -9,6 +10,10 @@ const Main = () => {
     const[height, setHeight] = useState("");
     const[weight, setWeight] = useState("");
     const[bmi, setBMI] = useState(null);
+
+    const[free, setFree] = useState([]);
+    const[share, setShare] = useState([]);
+    const[question, setQuestion] = useState([]);
 
     const changeHeightEvent = (e) => {
         setHeight(e.target.value);
@@ -26,6 +31,48 @@ const Main = () => {
         setHeight("");
         setWeight("");
     }
+
+    useEffect(()=>{
+        fetcFreeBoardData();
+    },[]);
+
+    const fetcFreeBoardData = async() => {
+        try{
+            const responses = await axios.get('/board/자유게시판');
+            setFree(responses.data);
+            console.log(responses);
+        }catch(error){
+            console.error("보드 정보를 가져오는 도중 에러 발생", error);
+        }
+    };
+
+    useEffect(()=>{
+        fetchShareBoardData();
+    },[]);
+
+    const fetchShareBoardData = async() => {
+        try{
+            const responses = await axios.get('/board/식단&운동공유게시판');
+            setShare(responses.data);
+            console.log(responses);
+        }catch(error){
+            console.error("보드 정보를 가져오는 도중 에러 발생", error);
+        }
+    };
+
+    useEffect(()=>{
+        fetchBoardData();
+    },[]);
+
+    const fetchBoardData = async() => {
+        try{
+            const responses = await axios.get('/board/질문게시판');
+            setQuestion(responses.data);
+            console.log(responses);
+        }catch(error){
+            console.error("보드 정보를 가져오는 도중 에러 발생", error);
+        }
+    };
 
     return (
         <div className={mainStyled.Main}>
@@ -71,9 +118,14 @@ const Main = () => {
                         <Link to="board/자유게시판"><button>+</button></Link>
                     </div>
                     <hr />
-                    <p>자유 게시판 제목 1</p>
-                    <p>자유 게시판 제목 2</p>
-                    <p>자유 게시판 제목 3</p>
+                    {
+                        free.map((item) => (
+                            <Link to={`board/자유게시판/showtext/${item.post_id}`} style={{textDecoration:"none", color: "black"}}>
+                                <div>
+                                    <p>{item.title}</p>                               
+                                </div>
+                            </Link>
+                    ))}
                 </div>
                 <div className={mainStyled.boards}>
                     <div className={mainStyled.boardsHeader}>
@@ -81,19 +133,29 @@ const Main = () => {
                         <Link to="board/식단&운동공유게시판"><button>+</button></Link>
                     </div>
                     <hr />
-                    <p>식단 & 운동 공유 게시판 제목 1</p>
-                    <p>식단 & 운동 공유 게시판 제목 2</p>
-                    <p>식단 & 운동 공유 게시판 제목 3</p>
+                    {
+                        share.map((item) => (
+                            <Link to={`board/식단&운동공유게시판/showtext/${item.post_id}`} style={{textDecoration:"none", color: "black"}}>
+                                <div>
+                                    <p>{item.title}</p>                               
+                                </div>
+                            </Link>
+                    ))}
                 </div>
                 <div className={mainStyled.boards}>
                     <div className={mainStyled.boardsHeader}>
                         <h3>📢 질문 게시판</h3>
-                        <Link to="board/공지게시판"><button>+</button></Link>
+                        <Link to="board/질문게시판"><button>+</button></Link>
                     </div>
                     <hr />
-                    <p>질문 게시판 제목 1</p>
-                    <p>질문 게시판 제목 2</p>
-                    <p>질문 게시판 제목 3</p>
+                    {
+                        question.map((item) => (
+                            <Link to={`board/질문게시판/showtext/${item.post_id}`} style={{textDecoration:"none", color: "black"}}>
+                                <div>
+                                    <p>{item.title}</p>                               
+                                </div>
+                            </Link>
+                    ))}
                 </div>
                 <div className={mainStyled.boards}>
                     <div className={mainStyled.boardsHeader}>
@@ -102,7 +164,7 @@ const Main = () => {
                     </div>
                     <hr />
                     <div style={{textAlign:"center"}}>
-                        <img style={{witdh:"100%", height:"30vh"}} src="https://bigdata.changwon.go.kr/portal/img/map/jpg/map_changwon_2022.jpg" />
+                        <img style={{witdh:"100%", height:"30vh"}} src="/static/img/DankookUniv.png" />
                     </div>
                 </div>
             </div>

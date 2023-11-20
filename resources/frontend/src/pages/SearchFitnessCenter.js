@@ -1,7 +1,7 @@
 import React from "react";
 import { useEffect } from "react";
 import searchfitnesscenterStyled from "../css/searchfitnesscenter.module.css"
-import MapContainerStyled from "../css/MapContainer.module.css";
+import MapContainerStyled from "../css/MapContainer.css";
 
 const SearchFitnessCenter = () => {
     const {kakao} = window;
@@ -229,17 +229,14 @@ const SearchFitnessCenter = () => {
                 <input
                     id="place"
                     placeholder="~ 근처 헬스장이라 입력하세요"
-                    // value={}
-                    // onChange={}
                 />
                 <button onClick={searchPlaces}>🔍검색</button>
             </div>
             <div className={searchfitnesscenterStyled.showmap}>
-                <div class="map_wrap" style={MapContainerStyled}>
-                    <div id="map" style={{width:"80%",height:"80vh", marginBottom:"2rem"}}></div>
-                    
-                    <div id="menu_wrap" class="bg_white">
-                        <div class="option"></div>
+                <div className="map_wrap">
+                    <div id="map" style={{width:"80%",height:"80vh"}}></div>
+                    <div id="menu_wrap" className="bg_white">
+                        <div className="option"></div>
                         <ul id="placesList"></ul>
                         <div id="pagination"></div>
                     </div>
