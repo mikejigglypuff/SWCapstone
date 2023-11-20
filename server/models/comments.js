@@ -40,17 +40,12 @@ module.exports = function(sequelize, DataTypes) {
       get() {
         return this.getDataValue('updatedAt').toISOString().slice(0, 10);
       }
-    },
-    deletedAt: {
-      type: DataTypes.DATE,
-      allowNull: true,
-      get() {
-        const deletedAt = this.getDataValue('deletedAt');
-        return deletedAt ? deletedAt.toISOString().slice(0, 10) : null;
-      }
     }
   }, {
     tableName: 'comments',
-    paranoid: true
+    timestamp: true,
+    paranoid: true,
+    createdAt: false,
+    updatedAt: false
   });
 };
