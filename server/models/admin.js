@@ -23,11 +23,27 @@ module.exports = function(sequelize, DataTypes) {
     isadmin: {
       type: DataTypes.BOOLEAN,
       allowNull: false
+    },
+    createdAt: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      get() {
+        return this.getDataValue('createdAt').toISOString().slice(0, 10);
+      }
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      get() {
+        return this.getDataValue('updatedAt').toISOString().slice(0, 10);
+      }
     }
   }, {
     sequelize,
     tableName: 'admins',
     timestamps: true,
     paranoid: true,
+    createdAt: false,
+    updatedAt: false
   });
 };

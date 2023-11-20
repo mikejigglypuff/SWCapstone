@@ -31,10 +31,26 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING(45),
       allowNull: false
     },
+    createdAt: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      get() {
+        return this.getDataValue('createdAt').toISOString().slice(0, 10);
+      }
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      get() {
+        return this.getDataValue('updatedAt').toISOString().slice(0, 10);
+      }
+    }
   }, {
     sequelize,
-    tableName: 'posts',
     timestamps: true,
-    paranoid: true
+    tableName: 'posts',
+    paranoid: true,
+    createdAt: false,
+    updatedAt: false
   });
 };

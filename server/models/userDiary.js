@@ -16,7 +16,7 @@ module.exports = function(sequelize, DataTypes) {
       }
     },
     weight: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.DECIMAL(3, 1),
       allowNull: false
     },
     bodyFat: {
@@ -32,13 +32,36 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false
     },
     content: {
-        type: DataTypes.STRING(25),
-        allowNull: true
+      type: DataTypes.STRING(25),
+      allowNull: true
+    },
+    date: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      get() {
+        return this.getDataValue('date').toISOString().slice(0, 10);
+      }
+    },
+    createdAt: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      get() {
+        return this.getDataValue('createdAt').toISOString().slice(0, 10);
+      }
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      get() {
+        return this.getDataValue('updatedAt').toISOString().slice(0, 10);
+      }
     }
   }, {
     sequelize,
     tableName: 'userDiary',
     timestamps: true,
-    paranoid: true
+    paranoid: true,
+    createdAt: false,
+    updatedAt: false 
   });
 };
