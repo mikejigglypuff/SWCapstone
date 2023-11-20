@@ -43,7 +43,7 @@ module.exports = function(sequelize, DataTypes) {
     }
   }, {
     tableName: 'comments',
-    timestamp: true,
+    timestamps: true,
     paranoid: true,
     createdAt: false,
     updatedAt: false
