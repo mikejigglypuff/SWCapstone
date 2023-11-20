@@ -49,6 +49,9 @@ module.exports = function(sequelize, DataTypes) {
   }, {
     sequelize,
     tableName: 'admins',
+    timestamps: true,
     paranoid: true,
+    createdAt: false,
+    updatedAt: false
   });
 };
