@@ -36,7 +36,7 @@ module.exports = function(sequelize, DataTypes) {
     }
   }, {
     sequelize,
-    timestamp: true.
+    timestamps: true.
     tableName: 'users',
     paranoid: true,
     createdAt: false,
