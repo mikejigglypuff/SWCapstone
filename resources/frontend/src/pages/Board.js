@@ -37,10 +37,10 @@ const Board = () => {
                 <div className={boardStyle.items}><p>추천수</p></div>                                                
             </div>
             {boardDatas && boardDatas.length > 0 ? (
-                boardDatas.map((item) => (
+                boardDatas.map((item, i) => (
                     <Link to={`showtext/${item.post_id}`} style={{textDecoration:"none", color: "black"}}>
                         <div key={item.post_id} className={boardStyle.showBoardInfo}>
-                            <div className={boardStyle.infos}><p>{item.post_id}</p></div>
+                            <div className={boardStyle.infos}><p>{i + 1}</p></div>
                             <div className={boardStyle.infos}><p>{item.title}</p></div>
                             <div className={boardStyle.infos}><p>{item.createdAt}</p></div>
                             <div className={boardStyle.infos}><p>{item.user_id}</p></div>

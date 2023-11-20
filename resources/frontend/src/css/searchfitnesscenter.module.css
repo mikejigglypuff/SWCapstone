@@ -1,9 +1,14 @@
 .SearchFitnessCenter{
     width: 100%;
+    height: 105vh;
 }
-.SFCtitle, .enterplace, .showmap{
+.SFCtitle{
     margin-left: 10%;
     margin-top: 2rem;
+}
+.enterplace, .showmap{
+    margin-left: 10%;
+    margin-top: 1.5rem;
 }
 .SFCtitle{
     border-bottom: 2px solid navy;
