@@ -108,7 +108,7 @@ exports.postPost = async (req, res, next) => {
         title: req.body.title,
         content: req.body.content,
         category: req.body.category,
-        user_id: userId.user_id,
+        user_id: req.session.user_id,
         favcnt: 0
       }, { 
         lock: true,
@@ -197,7 +197,8 @@ exports.patchPost = async (req, res, next) => {
         await DB.Posts.update({
           title: req.body.title || post.title,
           content: req.body.content || post.content,
-          category: req.body.category || post.category
+          category: req.body.category || post.category,
+          updatedAt: Sequelize.fn('now')
         }, {
           where: {
             post_id: req.body.id

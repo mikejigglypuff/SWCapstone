@@ -1,4 +1,4 @@
-const Sequelize = require('sequelize');
+const { Sequelize } = require('sequelize');
 const DB = require("../models/index");
 const crypto = require("crypto");
 const session = require("../config/session.json");
@@ -47,7 +47,8 @@ exports.replacePW = async (req, res, next) => {
                 await DB.Users.update({
                     password: crypto.pbkdf2Sync(
                         req.body.pw, salt.salt, 105735, 64, "sha512"
-                    ).toString()
+                    ).toString(),
+                    updatedAt: Sequelize.fn('now')
                 }, {
                     where: {
                         user_id: decoded.id
