@@ -121,8 +121,9 @@ const Main = () => {
                     {
                         free.map((item) => (
                             <Link to={`board/자유게시판/showtext/${item.post_id}`} style={{textDecoration:"none", color: "black"}}>
-                                <div>
-                                    <p>{item.title}</p>                               
+                                <div className={mainStyled.showTexts}>
+                                    <p>{item.title}</p>
+                                    <p>{item.createdAt}</p>                               
                                 </div>
                             </Link>
                     ))}
@@ -136,8 +137,9 @@ const Main = () => {
                     {
                         share.map((item) => (
                             <Link to={`board/식단&운동공유게시판/showtext/${item.post_id}`} style={{textDecoration:"none", color: "black"}}>
-                                <div>
-                                    <p>{item.title}</p>                               
+                                <div className={mainStyled.showTexts}>
+                                    <p>{item.title}</p>
+                                    <p>{item.createdAt}</p>                                
                                 </div>
                             </Link>
                     ))}
@@ -151,8 +153,9 @@ const Main = () => {
                     {
                         question.map((item) => (
                             <Link to={`board/질문게시판/showtext/${item.post_id}`} style={{textDecoration:"none", color: "black"}}>
-                                <div>
-                                    <p>{item.title}</p>                               
+                                <div className={mainStyled.showTexts}>
+                                    <p>{item.title}</p>
+                                    <p>{item.createdAt}</p>                                
                                 </div>
                             </Link>
                     ))}

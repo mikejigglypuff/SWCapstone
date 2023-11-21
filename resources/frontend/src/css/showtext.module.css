@@ -87,3 +87,12 @@
     text-align: left;
     padding-left: 0.5rem;
 }
+.showCommentAreaHeader{
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+.showCommentAreaHeader p{
+    text-align: left;
+    padding-left: 0.5rem;
+}
