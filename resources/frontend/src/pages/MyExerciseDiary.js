@@ -5,52 +5,27 @@ import Sidebar from "../components/Sidebar";
 import mydiaryStyled from "../css/myexercisediary.module.css" 
 
 const MyExerciseDiary = () => {
-    // const dummydata = [
-    //     {
-    //         createAt: "10-29",
-    //         weight: 60,
-    //         bodyFat: "10.3",
-    //         muscle: "7.2",
-    //         bodyParts: "등",
-    //         content: "오늘은 등쪽을 열심히 했다 다음에는 다른 쪽을 더 열심히 해야겠다." 
-    //     },
-    //     {
-    //         createAt: "11-01",
-    //         weight: 50,
-    //         bodyFat: "9.7",
-    //         muscle: "",
-    //         bodyParts: "등, 어깨, 허리",
-    //         content: "오늘은 여러 부위를 함께 하였다 느낌이 새로웠다." 
-    //     },
-    //     {
-    //         createAt: "11-10",
-    //         weight: 65,
-    //         bodyFat: "",
-    //         muscle: "6.9",
-    //         bodyParts: "등, 다리, 삼두, 이두",
-    //         content: "" 
-    //     },
-    // ]
+    
     const [date, setDate] = useState("");
     const [weight, setWeight] = useState(0);
-    const [bodyFat, setBodyFat] = useState("");
-    const [muscle, setMuscle] = useState("");
+    const [bodyFat, setBodyFat] = useState(0);
+    const [muscle, setMuscle] = useState(0);
     const [bodyParts, setBodyParts] = useState("");
     const [content, setContent] = useState("");
 
     const[diaryData, setDiaryData] = useState([]);
 
-    // const onDateChange = (e) => {
-    //     setDate(e.target.value);
-    //     console.log(e.target.value);
-    // }
+    const onDateChange = (e) => {
+        setDate(e.target.value);
+        console.log(e.target.value);
+    }
     const onWeightChange = (e) => {
         setWeight(e.target.value);
         console.log(e.target.value);
     }
     const onBodyFatChange = (e) => {
-        setBodyFat(e.target.value);
-        console.log(e.target.value);
+       setBodyFat(e.target.value);
+       console.log(e.target.value);
     }
     const onMuscleChange = (e) => {
         setMuscle(e.target.value);
@@ -68,6 +43,7 @@ const MyExerciseDiary = () => {
     const sendInputDiaryInfo = async() => {
         try {    
                 const response = await axios.post('/diary', {
+                    "date": date,
                     "weight": weight,
                     "bodyFat": bodyFat,
                     "muscle": muscle,
@@ -114,8 +90,8 @@ const MyExerciseDiary = () => {
                         <input
                             id={mydiaryStyled.date}
                             type="date"
-                            // value={date}
-                            // onChange={onDateChange} 
+                            value={date}
+                            onChange={onDateChange} 
                         />
                     </div>
                     <div className={mydiaryStyled.items}>
@@ -175,7 +151,7 @@ const MyExerciseDiary = () => {
                         diaryData.map((item) => (
                             <div className={mydiaryStyled.showDiary}>
                                 <div className={mydiaryStyled.witems}>
-                                    <p>{item.createdAt}</p>
+                                    <p>{item.date}</p>
                                 </div>
                                 <div className={mydiaryStyled.witems}>
                                     <p>몸무게</p>

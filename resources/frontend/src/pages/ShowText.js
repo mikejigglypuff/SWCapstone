@@ -101,7 +101,10 @@ const ShowText = () => {
                 </div>
                 {beforeComments.map((item) => (
                     <div key={item.comment_id} className={showtextStyled.showCommentArea}>
-                        <p style={{fontWeight:"bold", fontSize: "1.1rem", color:"navy"}}>{item.user_id}</p>
+                        <div className={showtextStyled.showCommentAreaHeader}>
+                            <p style={{fontWeight:"bold", fontSize: "1.1rem", color:"navy"}}>{item.user_id}</p>
+                            <span style={{fontSize: "0.8rem", color:"gray"}}>{item.createdAt}</span>
+                        </div>
                         <p style={{fontSize: "1rem"}}>{item.content}</p>
                     </div>
                 ))}
