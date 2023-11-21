@@ -4,9 +4,6 @@ const { globalSendRes: errRes } = require("../utility");
 const { isAdmin, hasSession } = require("../authCheck");
 
 exports.getCommentsByPost = async (req, res, next) => {
-    const session = hasSession(req, res);
-    if(!session) { return res.status(401).send("로그인이 필요합니다"); }
-
     await DB.sequelize.transaction(async (t) => { 
         try {
             const comments = await DB.Comments.findAll({
