@@ -25,18 +25,14 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false
     },
     createdAt: {
-      type: DataTypes.DATE,
+      type: DataTypes.DATEONLY,
       allowNull: false,
-      get() {
-        return this.getDataValue('createdAt').toISOString().slice(0, 10);
-      }
+      defaultValue: Sequelize.NOW,
     },
     updatedAt: {
-      type: DataTypes.DATE,
+      type: DataTypes.DATEONLY,
       allowNull: false,
-      get() {
-        return this.getDataValue('updatedAt').toISOString().slice(0, 10);
-      }
+      defaultValue: Sequelize.NOW,
     }
   }, {
     sequelize,

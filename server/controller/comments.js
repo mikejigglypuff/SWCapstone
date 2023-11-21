@@ -148,7 +148,8 @@ exports.patchComments = async (req, res, next) => {
     await DB.sequelize.transaction(async (t) => {
         try {
             await DB.Comments.update({
-                content: req.body.content || comment.content
+                content: req.body.content,
+                updatedAt: Sequelize.fn('now')
             }, {
                 where: {
                     comment_id: req.body.commentId

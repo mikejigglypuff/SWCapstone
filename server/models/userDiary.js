@@ -36,26 +36,9 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: true
     },
     date: {
-      type: DataTypes.DATE,
+      type: DataTypes.DATEONLY,
       allowNull: false,
-      get() {
-        return this.getDataValue('date').toISOString().slice(0, 10);
-      }
     },
-    createdAt: {
-      type: DataTypes.DATE,
-      allowNull: false,
-      get() {
-        return this.getDataValue('createdAt').toISOString().slice(0, 10);
-      }
-    },
-    updatedAt: {
-      type: DataTypes.DATE,
-      allowNull: false,
-      get() {
-        return this.getDataValue('updatedAt').toISOString().slice(0, 10);
-      }
-    }
   }, {
     sequelize,
     tableName: 'userDiary',

@@ -150,7 +150,8 @@ exports.patchUser = async (req, res, next) => {
 
     await DB.Users.update({
       email: req.body.email || user.email,
-      password: newPW || pw
+      password: newPW || pw,
+      updatedAt: Sequelize.fn('now')
     }, {
       where: {
         user_id: req.session.user_id
