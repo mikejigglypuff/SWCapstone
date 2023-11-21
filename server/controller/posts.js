@@ -4,9 +4,6 @@ const { globalSendRes: errRes } = require("../utility");
 const { isAdmin, hasSession } = require("../authCheck");
 
 exports.getPost = async (req, res, next) => {
-  const session = hasSession(req, res);
-  if(!session) { return res.status(401).send("로그인이 필요합니다"); }
-
   await DB.sequelize.transaction(async (t) => {
     try {
       const post = await DB.Posts.findOne({
@@ -32,9 +29,6 @@ exports.getPost = async (req, res, next) => {
 }; //특정 id의 게시글 조회
 
 exports.getPostByCategory = async (req, res, next) => {
-  const session = hasSession(req, res);
-  if(!session) { return res.status(401).send("로그인이 필요합니다"); }
-
   await DB.sequelize.transaction(async (t) => {
     try {
       const post = await DB.Posts.findAll({
