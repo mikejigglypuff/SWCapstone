@@ -2,16 +2,14 @@ const { Sequelize, Transaction } = require('sequelize');
 const DB = require("../models/index");
 const crypto = require("crypto");
 const salt = require("../config/salt.json");
-const { globalSendRes: errRes } = require("../utility");
 const { isAdmin, hasSession } = require("../authCheck");
 const { Logout } = require("./logout");
 const { verifyEmail } = require("./email");
 
 exports.getUser = async (req, res, next) => {
-  const session = hasSession(req, res);
-  if(!session) { return res.status(401).send("로그인이 필요합니다"); }
-
   try {
+    hasSession(req, res);
+
     const user = await DB.Users.findOne({
       raw: true,
       attributes: { exclude: ['password', 'deletedAt'] },
@@ -21,6 +19,7 @@ exports.getUser = async (req, res, next) => {
         deletedAt: null
       },
     });
+
     res.json(user);
   } catch(err) {
     next(err);
@@ -37,18 +36,17 @@ exports.getUserIDByEmail = async (req, res, next) => {
         deletedAt: null
       }
     });
+
     res.json(userId);
   } catch(err) {
     next(err);
   }
 }; //이메일로 회원 Id 찾기 
 
-exports.getAllUser = async (req, res, next) => {
-  const is_Admin = isAdmin(req, res);
-  if(!is_Admin) { return res.status(401).send("로그인이 필요합니다"); }
-  else if(is_Admin === "user") { return res.status(403).send("접근 권한이 없습니다"); }
-  
+exports.getAllUser = async (req, res, next) => {  
   try {
+    isAdmin(req, res);
+
     await DB.sequelize.transaction(async (t) => {
       const users = await DB.Users.findAll({
         raw: true,
@@ -68,12 +66,9 @@ exports.getAllUser = async (req, res, next) => {
 }; //관리자 한정 전체 회원정보 조회
 
 exports.postUser = async (req, res, next) => {
-  const email = verifyEmail(req);
-  if(!email) {
-    return errRes(res, 400, "이메일 인증 실패");
-  }
-
   try {
+    const email = verifyEmail(req);
+
     const pw = crypto.pbkdf2Sync(
       req.body.pw, salt.salt, 105735, 64, "sha512"
     ).toString();
@@ -85,7 +80,7 @@ exports.postUser = async (req, res, next) => {
       username: req.body.name
     });
       
-    res.redirect("/login");  
+    res.sendStatus(200);  
     
   } catch(err) {
     next(err);
@@ -93,14 +88,13 @@ exports.postUser = async (req, res, next) => {
 }; //회원가입
 
 exports.deleteUser = async (req, res, next) => {
-  const session = hasSession(req, res);
-  if(!session) { return res.status(401).send("로그인이 필요합니다"); }
-
-  const pw = crypto.pbkdf2Sync(
-    req.body.pw, salt.salt, 105735, 64, "sha512"
-  ).toString();
-    
   try {
+    hasSession(req, res);
+
+    const pw = crypto.pbkdf2Sync(
+      req.body.pw, salt.salt, 105735, 64, "sha512"
+    ).toString();
+
     await DB.Users.destroy({
       where: {
         user_id: req.session.user_id,
@@ -108,6 +102,7 @@ exports.deleteUser = async (req, res, next) => {
         deletedAt: null
       }
     });
+
     Logout(req, res);
   } catch(err) {
     next(err);
@@ -115,18 +110,15 @@ exports.deleteUser = async (req, res, next) => {
 }; //회원 탈퇴
 
 exports.deleteUserByAdmin = async (req, res, next) => {
-  const is_Admin = isAdmin(req, res);
-  if(!is_Admin) { return res.status(401).send("로그인이 필요합니다"); }
-  else if(is_Admin === "user") { return res.status(403).send("접근 권한이 없습니다"); }
-
   try {
+    isAdmin(req, res);
+
     await DB.Users.destroy({
       where: {
         user_id: req.body.user_id,
         deletedAt: null
       }
     });
-
     await DB.sequelize.query(`DELETE from sessions where data like '%${req.body.user_id}%'`);
 
     res.sendStatus(200);
@@ -136,14 +128,13 @@ exports.deleteUserByAdmin = async (req, res, next) => {
 }; //운영자가 직접 회원 탈퇴 처리
 
 exports.patchUser = async (req, res, next) => {
-  const session = hasSession(req, res);
-  if(!session) { return res.status(401).send("로그인이 필요합니다"); }
-
-  const pw = crypto.pbkdf2Sync(
-    req.body.pw, salt.salt, 105735, 64, "sha512"
-  ).toString();
-
   try {
+    hasSession(req, res);
+
+    const pw = crypto.pbkdf2Sync(
+      req.body.pw, salt.salt, 105735, 64, "sha512"
+    ).toString();
+
     const newPW = (req.body.newPW) ? crypto.pbkdf2Sync(
       req.body.newPW, salt.salt, 105735, 64, "sha512"
     ).toString() : null;
@@ -157,6 +148,7 @@ exports.patchUser = async (req, res, next) => {
         user_id: req.session.user_id
       }
     });
+    
     res.sendStatus(200);
   } catch(err) {
     next(err);

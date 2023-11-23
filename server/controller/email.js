@@ -2,9 +2,10 @@ const nodemailer = require("nodemailer");
 const mailConfig = require("../config/mail.json");
 const session = require("../config/session.json");
 const jwt = require("jsonwebtoken");
-const { globalSendRes, genRandNum } = require("../utility");
+const { genRandNum } = require("../utility");
+const HttpError = require("../httpError");
 
-exports.sendEmail = async (req, res) => {
+exports.sendEmail = async (req, res, next) => {
     const transporter = nodemailer.createTransport({
         service: mailConfig.service || "gmail",
         host: "smtp.gmail.com",
@@ -30,7 +31,9 @@ exports.sendEmail = async (req, res) => {
     }, (err, info) => {
         if(err) { 
             console.error(err);
-            globalSendRes(res, 400, "잘못된 요청입니다");
+            err.status = 400;
+            err.message = "잘못된 요청입니다";
+            next(err);
         } else {
             console.log("메일 전송 완료", info.response);
             transporter.close();
@@ -49,19 +52,17 @@ exports.sendEmail = async (req, res) => {
 
 exports.verifyEmail = (req) => {
     const token = req.headers.authorization;
-    let email;
 
+    let email;
     jwt.verify(token, session.key, (err, decoded) => {
         if(err) {
-            console.error(err);
-            email = "";
+            throw new HttpError(400, "잘못된 요청입니다");
         } else {
             if(decoded.rand.toString() === req.body.verifyCode.toString()) {
-                console.log(decoded.email);
                 email = decoded.email;
             } else {
                 console.log("인증번호 불일치");
-                email = "";
+                throw new HttpError(400, "인증번호 불일치");
             } 
         }
     });

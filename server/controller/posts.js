@@ -1,11 +1,11 @@
 const { Sequelize, Transaction } = require('sequelize');
 const DB = require("../models/index");
-const { globalSendRes: errRes } = require("../utility");
+const { addOrRemoveArr } = require("../utility");
 const { isAdmin, hasSession } = require("../authCheck");
 
 exports.getPost = async (req, res, next) => {
-  await DB.sequelize.transaction(async (t) => {
-    try {
+  try {
+    await DB.sequelize.transaction(async (t) => {
       const post = await DB.Posts.findOne({
         attributes: { exclude: ["deletedAt", "userUserId"] },
         raw: true,
@@ -19,18 +19,17 @@ exports.getPost = async (req, res, next) => {
         lock: true, 
         transaction: t
       });
-
+      
       res.json(post);
-    } catch(err) {
-      await t.rollback();
-      next(err);
-    }
-  });
+    });
+  } catch(err) {
+    next(err);
+  }
 }; //특정 id의 게시글 조회
 
 exports.getPostByCategory = async (req, res, next) => {
-  await DB.sequelize.transaction(async (t) => {
-    try {
+  try{
+    await DB.sequelize.transaction(async (t) => {
       const post = await DB.Posts.findAll({
         attributes: { exclude: ["deletedAt", "userUserId"] },
         raw: true,
@@ -46,18 +45,16 @@ exports.getPostByCategory = async (req, res, next) => {
       });
 
       res.json(post);
-    } catch(err) {
-      await t.rollback();
-      next(err);
-    }
-  });
+    });
+  } catch(err) {
+    next(err);
+  }
 }; //게시판 별 게시글 조회
 
 exports.getPostsByUser = async (req, res, next) => {
-  const session = hasSession(req, res);
-  if(!session) { return res.status(401).send("로그인이 필요합니다"); }
-
   try {
+    hasSession(req, res);
+
     const posts = await DB.Posts.findAll({
       attributes: { exclude: ["deletedAt", "userUserId"] },
         raw: true,
@@ -74,13 +71,11 @@ exports.getPostsByUser = async (req, res, next) => {
   }
 };
 
-exports.getAllPost = async (req, res, next) => {
-  const is_Admin = isAdmin(req, res);
-  if(!is_Admin) { return res.status(401).send("로그인이 필요합니다"); }
-  else if(is_Admin === "user") { return res.status(403).send("접근 권한이 없습니다"); }
-  
-  await DB.sequelize.transaction(async (t) => {
-    try {
+exports.getAllPost = async (req, res, next) => {  
+  try {
+    await DB.sequelize.transaction(async (t) => {
+      isAdmin(req, res);
+
       const posts = await DB.Posts.findAll({
         attributes: { exclude: ["deletedAt", "userUserId"] },
         raw: true,
@@ -91,46 +86,38 @@ exports.getAllPost = async (req, res, next) => {
       }, { transaction: t });
 
       res.json(posts);
-    } catch(err) {
-      await t.rollback();
-      next(err);
-    } 
-  });
+    });
+  } catch(err) {
+    next(err);
+  }
 }; //전체 게시글 정보 조회
 
 exports.postPost = async (req, res, next) => {
-  const session = hasSession(req, res);
-  if(!session) { return res.status(401).send("로그인이 필요합니다"); }
-
-  await DB.sequelize.transaction(async (t) => {
-    try {
-      const post = await DB.Posts.create({
+  try {
+    await DB.sequelize.transaction(async (t) => {
+      await DB.Posts.create({
         title: req.body.title,
         content: req.body.content,
         category: req.body.category,
         user_id: req.session.user_id,
-        favcnt: 0
+        favcnt: ""
       }, { 
         lock: true,
         transaction: t
       });
   
-      res.redirect("/board");
-    } catch(err) {
-      await t.rollback();
-      next(err);
-    }
-  });
+      res.sendStatus(200);
+    });
+  } catch(err) {
+    next(err);
+  }
 }; //게시글 등록
 
 exports.deletePost = async (req, res, next) => {
-  const session = hasSession(req, res);
-  if(!session) { return res.status(401).send("로그인이 필요합니다"); }
+  try {
+    hasSession(req, res);
 
-  //에러를 직접 띄워보고 쿼리가 반환하는 에러를 catch에서 처리할 수 있도록 변경하기
-
-  await DB.sequelize.transaction(async (t) => {
-    try {
+    await DB.sequelize.transaction(async (t) => {
       await DB.Posts.destroy({
         where: {
           post_id: req.body.id
@@ -141,20 +128,17 @@ exports.deletePost = async (req, res, next) => {
       });
   
       res.sendStatus(200);
-    } catch(err) {
-      await t.rollback();
-      next(err);
-    }
-  });
+    });
+  } catch(err) {
+    next(err);
+  }
 }; //게시글 삭제
 
 exports.deletePostByAdmin = async (req, res, next) => {
-  const is_Admin = isAdmin(req, res);
-  if(!is_Admin) { return res.status(401).send("로그인이 필요합니다"); }
-  else if(is_Admin === "user") { return res.status(403).send("접근 권한이 없습니다"); }
+  try {
+    isAdmin(req, res);
 
-  await DB.sequelize.transaction(async (t) => {
-    try {
+    await DB.sequelize.transaction(async (t) => {
       await DB.Posts.destroy({
         where: {
           post_id: req.body.post_id
@@ -165,19 +149,17 @@ exports.deletePostByAdmin = async (req, res, next) => {
       });
   
       res.sendStatus(200);
-    } catch(err) {
-      await t.rollback();
-      next(err);
-    }
-  });
+    });
+  } catch(err) {
+    next(err);
+  }
 }; //운영자가 직접 게시글 삭제
 
 exports.patchPost = async (req, res, next) => {
-  const session = hasSession(req, res);
-  if(!session) { return res.status(401).send("로그인이 필요합니다"); }
 
-  await DB.sequelize.transaction(async (t) => {
-    try {
+  let split;
+  try {
+    await DB.sequelize.transaction(async (t) => {
       const post = await DB.Posts.findOne({
         raw: true,
         where: {
@@ -186,13 +168,24 @@ exports.patchPost = async (req, res, next) => {
         }
       });
       if(req.body.favcnt){ 
-        await DB.Posts.increment("favcnt", {
+        const favId = await DB.Posts.findOne({
+          raw: true,
+          attributes: ["favcnt"],
           where: {
             post_id: req.body.id
           }
         });
-        res.status(200).send(`${post.favcnt + 1}`);
+        split = addOrRemoveArr(favId.favcnt.split(","), req.session.user_id);
+        
+        await DB.Posts.update({
+          favcnt: split.toString()
+        }, {
+          where: {
+            post_id: req.body.id
+          }
+        });
 
+        res.json({ favcnt: split.length });
       } else {
         await DB.Posts.update({
           title: req.body.title || post.title,
@@ -206,13 +199,12 @@ exports.patchPost = async (req, res, next) => {
         }, { 
           lock: true,
           transaction: t 
-        });
+        });  
+
         res.sendStatus(200);
-        
       }
-    } catch(err) {
-      await t.rollback();
-      next(err);
-    }
-  });
+    });
+  } catch(err) {
+    next(err);
+  }
 }; //게시글 수정

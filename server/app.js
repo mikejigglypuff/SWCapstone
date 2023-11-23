@@ -3,8 +3,11 @@ const path = require("path");
 const session = require("express-session");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-const crypto = require("crypto");
 const cookies = require("cookie-parser");
+const { 
+  BulkRecordError, EmptyResultError, ForeignKeyConstraintError, QueryError, 
+  UniqueConstraintError, ValidationError, ValidationErrorItem
+} = require("sequelize");
 
 const pageRouter = require("./routes/page");
 const userRouter = require("./routes/users");
@@ -81,10 +84,32 @@ app.use((req, res, next) => {
 });
 
 app.use((err, req, res, next) => {
-  console.error(err);
+  //console.error(err);
   res.locals.message = err.message;
   res.locals.error = process.env.NODE_ENV !== "production" ? err : {};
-  res.status(err.status || 500).send(err.message || "내부 서버 에러");
+
+  console.log(err);
+
+  let firstErr = err.errors[0];
+  if(
+      firstErr instanceof BulkRecordError ||
+      firstErr instanceof ForeignKeyConstraintError ||
+      firstErr instanceof QueryError ||
+      firstErr instanceof UniqueConstraintError ||
+      firstErr instanceof ValidationError ||
+      firstErr instanceof ValidationErrorItem
+    ) { 
+    err.status = 400;
+    err.message = "잘못된 요청입니다";
+  } else if(firstErr instanceof EmptyResultError) {
+    err.status = 404;
+    err.message = "일치하는 결과가 없습니다";     
+  } else if(firstErr instanceof TimeoutError) {
+    err.status = 408;
+    err.message = "요청 시간 만료";
+  }
+
+  res.status(err.status || 500).send(err.message || "서버 내부 에러");
 });
 
 app.listen(app.get("port"), () => {
