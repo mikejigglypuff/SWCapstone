@@ -1,25 +1,29 @@
 const crypto = require("crypto");
 const salt = require("../config/salt.json");
 const DB = require("../models/index");
-const { globalSendRes: errRes} = require("../utility");
+const HttpError = require("../httpError");
 const { isAdmin } = require("../authCheck");
 
 exports.getAdminName = async (req, res, next) => {
-  const is_Admin = isAdmin(req, res);
-  if(!isAdmin) { return res.status(401).send("로그인이 필요합니다"); }
-  else if(isAdmin === "user") { return res.status(403).send("접근 권한이 없습니다"); }
+  try {
+    isAdmin(req, res);
 
-  console.log(req.session);
-  res.send(req.session.admin_Name);
+    console.log(req.session);
+    res.send(req.session.admin_Name);
+  } catch(err) {
+    next(err);
+  }
 }; //로그인 후 관리자 닉네임 반환
 
 exports.adminAuth = async (req, res, next) => {
-    const id = req.body.id;
-    const inputPW = crypto.pbkdf2Sync(
-      req.body.pw, salt.salt, 105735, 64, "sha512"
-    ).toString();
-
     try {
+      const id = req.body.id;
+      if(!id) { throw new HttpError(400, "잘못된 요청입니다"); }
+
+      const inputPW = crypto.pbkdf2Sync(
+        req.body.pw, salt.salt, 105735, 64, "sha512"
+      ).toString();
+
       const admin = await DB.Admins.findOne({
         raw: true,
         where: {
@@ -33,11 +37,11 @@ exports.adminAuth = async (req, res, next) => {
         req.session.admin_Name = admin.adminname;
         req.session.is_Admin = true;
         req.session.save((err) => {
-          if(err) { return next(err); }
+          if(err) { throw new HttpError(500, "서버 내부 에러"); }
         });
         res.sendStatus(200);
       } else {
-        errRes(res, 404, "일치하는 관리자가 없습니다");
+        throw new HttpError(404, "관리자 아이디 또는 패스워드가 일치하지 않습니다");
       }
     } catch(err) {
       next(err);
@@ -45,13 +49,9 @@ exports.adminAuth = async (req, res, next) => {
 }; //관리자 로그인 처리
 
 exports.postAdmin = async (req, res, next) => {
-    console.log(req.body);
-
-    if(!req.body.makesAdmin) {
-      errRes(res, 400, "잘못된 요청입니다"); 
-    }
-  
     try {
+      if(!req.body.makesAdmin) { throw new HttpError(400, "잘못된 요청입니다"); }
+
       const pw = crypto.pbkdf2Sync(
         req.body.pw, salt.salt, 105735, 64, "sha512"
       ).toString();

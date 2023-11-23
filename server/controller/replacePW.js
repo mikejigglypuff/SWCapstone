@@ -4,7 +4,7 @@ const crypto = require("crypto");
 const session = require("../config/session.json");
 const jwt = require("jsonwebtoken");
 const salt = require("../config/salt.json");
-const { globalSendRes: errRes } = require("../utility");
+const HttpError = require("../httpError");
 
 exports.getUserByEmailID = async (req, res, next) => {
     try {
@@ -17,7 +17,7 @@ exports.getUserByEmailID = async (req, res, next) => {
             }
         });
         if(!user) {
-            errRes(res, 404, "존재하지 않는 회원입니다"); 
+            throw new HttpError(404, "일치하는 회원정보가 없습니다");
         }
 
         const token = jwt.sign({
@@ -38,12 +38,9 @@ exports.replacePW = async (req, res, next) => {
 
     jwt.verify(token, session.key, async (err, decoded) => {
         if(err) {
-            errRes(res, 401, "인증 실패");
-            return;
+            throw new HttpError(401, "인증 실패");
         } else {
             try {
-                console.log(decoded);
-
                 await DB.Users.update({
                     password: crypto.pbkdf2Sync(
                         req.body.pw, salt.salt, 105735, 64, "sha512"
@@ -54,6 +51,7 @@ exports.replacePW = async (req, res, next) => {
                         user_id: decoded.id
                     }
                 });
+                
                 res.sendStatus(200);
             } catch(err) {
                 next(err);

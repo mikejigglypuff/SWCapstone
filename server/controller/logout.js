@@ -1,17 +1,18 @@
-const { globalSendRes: errRes } = require("../utility");
+const { globalSendRes } = require("../utility");
+const HttpError = require("../httpError");
 
 exports.Logout = (req, res) => {
   const sessionId = req.cookies['connect.sid'].split(".")[0].split(":")[1];
   req.session.destroy((err) => {
     if(err) {
-      errRes(res, 404, "session not found");
+      throw new HttpError(401, "로그인이 필요합니다");
     } else {
       req.sessionStore.destroy(sessionId, (err) => {
         if(err) {
-          errRes(res, 500, "internal server error");
+          throw new HttpError(500, "서버 내부 에러");
         } else {
           res.clearCookie("connect.sid", "/");
-          res.status(200).send({ logout: true });
+          globalSendRes(res, 200, { logout: true });
         }
       });
     }
