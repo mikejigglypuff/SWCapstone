@@ -65,6 +65,28 @@ exports.getAllUser = async (req, res, next) => {
   }
 }; //관리자 한정 전체 회원정보 조회
 
+exports.getUserIdOverlaps = async (req, res, next) => {
+  try {
+    let overlap = false;
+
+    await DB.sequelize.transaction(async t => {
+      const userId = await DB.Users.findOne({
+        raw: true,
+        attributes: ["user_id"],
+        where: {
+          user_id: req.params.userId
+        }
+      });
+
+      if(userId) { overlap = true; }
+      res.json({ isOverlap: overlap });
+
+    });
+  } catch(err) {
+    next(err);
+  }
+}; //id 중복 검사
+
 exports.postUser = async (req, res, next) => {
   try {
     const email = verifyEmail(req);
