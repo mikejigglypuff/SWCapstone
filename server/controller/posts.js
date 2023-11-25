@@ -19,6 +19,7 @@ exports.getPost = async (req, res, next) => {
         lock: true, 
         transaction: t
       });
+      post.favcnt = post.favcnt.split(",").filter(Boolean).length;
       
       res.json(post);
     });
@@ -30,7 +31,7 @@ exports.getPost = async (req, res, next) => {
 exports.getPostByCategory = async (req, res, next) => {
   try{
     await DB.sequelize.transaction(async (t) => {
-      const post = await DB.Posts.findAll({
+      const posts = await DB.Posts.findAll({
         attributes: { exclude: ["deletedAt", "userUserId"] },
         raw: true,
         nest: true,
@@ -43,8 +44,9 @@ exports.getPostByCategory = async (req, res, next) => {
         lock: true, 
         transaction: t
       });
+      posts.forEach(post => { post.favcnt = post.favcnt.split(",").filter(Boolean).length; });
 
-      res.json(post);
+      res.json(posts);
     });
   } catch(err) {
     next(err);
@@ -64,7 +66,8 @@ exports.getPostsByUser = async (req, res, next) => {
           deletedAt: null
         }
     });
-
+    posts.forEach(post => { post.favcnt = post.favcnt.split(",").filter(Boolean).length; });
+    
     res.json(posts);
   } catch(err) {
     next(err);
@@ -84,6 +87,8 @@ exports.getAllPost = async (req, res, next) => {
           deletedAt: null
         },
       }, { transaction: t });
+
+      posts.forEach(post => { post.favcnt = post.favcnt.split(",").filter(Boolean).length; });
 
       res.json(posts);
     });
