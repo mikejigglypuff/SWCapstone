@@ -66,7 +66,7 @@ const ShowText = () => {
     // 좋아요 버튼 클릭 시 함수
     const clickLikeBtn = async() => {
         try{
-            const respone = await axios.patch('/post', {
+            const response = await axios.patch('/post', {
                 "id": post_id,
                 "favcnt": true
             });
@@ -89,7 +89,7 @@ const ShowText = () => {
                 <button onClick={clickLikeBtn}><img src="/static/img/thumbsup.jpg"></img>추천<span>{textData.favcnt}</span></button>
             </div>
             <div className={showtextStyled.commentArea}>
-                <h3>댓글 <span>N</span></h3>
+                <h3>댓글 <span>{beforeComments.length}</span></h3>
                 <div className={showtextStyled.inputCommentArea}>
                     <input
                         id="comment"

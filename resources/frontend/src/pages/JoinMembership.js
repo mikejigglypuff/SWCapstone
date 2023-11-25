@@ -10,6 +10,7 @@ const JoinMembership = () => {
     const [checkPW, setCheckPw] = useState("");
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
+    const [vertifyCode, setVertifyCode] = useState("");
 
     const [pwMessage, setPwMessage] = useState("");
     const [checkpwMessage, setCheckPwMessage] = useState("");
@@ -18,6 +19,7 @@ const JoinMembership = () => {
     const [ispw, setIsPw] = useState(false);
     const [ischeckpw, setIsCheckPw] = useState(false);
     const [isemail, setIsEmail] = useState(false);
+    const [Overlap, setOverlap] = useState([]);
 
     const onIDChange = (e) =>{
         setID(e.target.value);
@@ -81,6 +83,13 @@ const JoinMembership = () => {
                 const response = await axios.post('/emailAuth', {
                     "email": email
                 });
+                console.log(response);
+                const emailToken = response.data;
+                if (emailToken){
+                    localStorage.removeItem('email-token');
+                    localStorage.setItem('email-token', emailToken);
+                    console.log(emailToken);   
+                }// 이메일 토큰 저장하는 부분
                 alert("입력한 이메일에서 인증번호를 받아와주세요")
 
           } catch (error) {
@@ -88,14 +97,45 @@ const JoinMembership = () => {
           }
     }
 
+    const onVertifyCode = (e) => {
+        setVertifyCode(e.target.value);
+        console.log(e.target.value);
+    }
+
     // 입력한 회원 정보 전달 부분
     const sendingMembershipData = async() => {
-        try {    
-                const response = await axios.post('/user', {
-                    "email": email,
-                    "pw": password,
+        const ivertifyCode = parseInt(vertifyCode);
+        try {
+                if (Overlap.isOverlap === true){
+                    alert("중복된 아이디를 사용하였습니다");
+                    return;
+                }
+                else if (ispw === false){
+                    alert("비밀번호 조건이 일치하지 않습니다");
+                    return;
+                }
+                else if (ischeckpw === false){
+                    alert("비밀번호와 비밀번호 확인의 비밀번호가 일치하지 않습니다.");
+                    return;
+                }   
+                else if (isemail === false){
+                    alert("이메일 양식이 일치하지 않습니다");
+                    return;
+                }
+
+                const emailToken = localStorage.getItem('email-token');
+
+                const response = await axios.post('/user', 
+                {
                     "id": id,
-                    "name": name
+                    "pw": password,
+                    "name": name,
+                    "verifyCode": ivertifyCode
+                },
+                {
+                    headers: {
+                        authorization : `${emailToken}`
+                    }
                 });
 
                 alert("회원가입이 완료하였습니다.");
@@ -105,6 +145,18 @@ const JoinMembership = () => {
             console.error('Error sending data:', error);
           }
     }
+
+    // 아이디 중복확인 부분
+    const checkIDOverlap = async() => {
+        try {    
+                const response = await axios.get(`/user/${id}`);
+                setOverlap(response.data);
+                console.log(response);
+
+          } catch (error) {
+            console.error('아이디 중복 여부 정보를 가져오는 도중 에러 발생', error);
+          }
+    };
 
     return (
         <div className={joinMembershipStyled.JoinMembership}>
@@ -121,8 +173,8 @@ const JoinMembership = () => {
                         onChange={onIDChange}
                     >
                     </input>
-                    <button>아이디 중복 확인</button>
-                    <p></p>
+                    <button onClick={checkIDOverlap}>아이디 중복 확인</button>
+                    {Overlap.isOverlap === true ? <p style={{color:"red"}}>아이디가 중복되었습니다</p> : <p style={{color:"green"}}>아이디를 사용할 수 있습니다.</p>}
                 </div>
                 <div className={joinMembershipStyled.inputBox}>
                     <label htmlFor="password">비밀번호</label>
@@ -169,8 +221,8 @@ const JoinMembership = () => {
                     <input
                         id={joinMembershipStyled.inputCheckNum}
                         placeholder="인증 번호를 입력하세요"
-                        // value={}
-                        // onChange={}
+                        value={vertifyCode}
+                        onChange={onVertifyCode}
                     />
                 </div>
             </div>

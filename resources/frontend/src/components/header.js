@@ -37,6 +37,7 @@ const Header = () => {
 
     const deleteSession = async () => {
         await axios.delete("/logout");
+        setUserData([]);
         navigate("/");
     }
 
