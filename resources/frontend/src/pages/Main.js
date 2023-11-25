@@ -167,7 +167,7 @@ const Main = () => {
                     </div>
                     <hr />
                     <div style={{textAlign:"center"}}>
-                        <img style={{witdh:"100%", height:"30vh"}} src="/static/img/DankookUniv.png" />
+                        <Link to="/searchfitnesscenter"><img style={{witdh:"100%", height:"30vh"}} src="/static/img/DankookUniv.png" /></Link>
                     </div>
                 </div>
             </div>
