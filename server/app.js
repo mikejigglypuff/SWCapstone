@@ -23,6 +23,7 @@ const commentRouter = require("./routes/comments");
 const getPostByCategoryRouter = require("./routes/getPostByCategory");
 const sessionConfig = require("./config/session.json");
 const config = require("./config/config.json");
+const HttpError = require("./httpError");
 const MySQLStore = require("express-mysql-session")(session);
 let sequelize = require('./models').sequelize;
 const app = express();
@@ -88,28 +89,29 @@ app.use((err, req, res, next) => {
   res.locals.message = err.message;
   res.locals.error = process.env.NODE_ENV !== "production" ? err : {};
 
-  console.log(err);
+  console.error(err);
 
-  let firstErr = err.errors[0];
-  if(
-      firstErr instanceof BulkRecordError ||
-      firstErr instanceof ForeignKeyConstraintError ||
-      firstErr instanceof QueryError ||
-      firstErr instanceof UniqueConstraintError ||
-      firstErr instanceof ValidationError ||
-      firstErr instanceof ValidationErrorItem
-    ) { 
-    err.status = 400;
-    err.message = "잘못된 요청입니다";
-  } else if(firstErr instanceof EmptyResultError) {
-    err.status = 404;
-    err.message = "일치하는 결과가 없습니다";     
-  } else if(firstErr instanceof TimeoutError) {
-    err.status = 408;
-    err.message = "요청 시간 만료";
+  if(err.errors) {
+    let firstErr = err.errors[0];
+    if(
+        firstErr instanceof BulkRecordError ||
+        firstErr instanceof ForeignKeyConstraintError ||
+        firstErr instanceof QueryError ||
+        firstErr instanceof UniqueConstraintError ||
+        firstErr instanceof ValidationError ||
+        firstErr instanceof ValidationErrorItem
+      ) { 
+      err.status = 400;
+      err.message = "잘못된 요청입니다";
+    } else if(firstErr instanceof EmptyResultError) {
+      err.status = 404;
+      err.message = "일치하는 결과가 없습니다";     
+    } else if(firstErr instanceof TimeoutError) {
+      err.status = 408;
+      err.message = "요청 시간 만료";
+    }
   }
-
-  res.status(err.status || 500).send(err.message || "서버 내부 에러");
+  res.status(err.status || 500).json({ message: err.message || "서버 내부 에러" });
 });
 
 app.listen(app.get("port"), () => {
