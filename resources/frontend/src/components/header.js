@@ -52,6 +52,12 @@ const Header = () => {
             }
         };
 
+        if(document.cookie) { 
+            if(userData.length === 0) { 
+                fetchUserData(); 
+            }
+        }
+
         // 페이지 어디에서든 클릭 이벤트를 감지하도록 이벤트 리스너 추가
         document.addEventListener("click", handleOutsideClick);
 
