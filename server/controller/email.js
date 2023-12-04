@@ -56,7 +56,7 @@ exports.verifyEmail = (req) => {
     let email;
     jwt.verify(token, session.key, (err, decoded) => {
         if(err) {
-            throw new HttpError(400, "잘못된 요청입니다");
+            throw new HttpError(400, err.message);
         } else {
             if(decoded.rand.toString() === req.body.verifyCode.toString()) {
                 email = decoded.email;
