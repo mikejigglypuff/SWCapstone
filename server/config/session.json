@@ -1,3 +1,7 @@
 {
-  "key": "ikmujn"
+  "key": "ikmujn",
+  "salt": "testSalt",
+  "iterations": 105735,
+  "len": 64,
+  "hash": "sha512"
 }

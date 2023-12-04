@@ -1,7 +1,7 @@
 const { Sequelize, Transaction } = require('sequelize');
 const DB = require("../models/index");
 const crypto = require("crypto");
-const salt = require("../config/salt.json");
+const session = require("../config/session.json");
 const { isAdmin, hasSession } = require("../authCheck");
 const { Logout } = require("./logout");
 const { verifyEmail } = require("./email");
@@ -28,11 +28,14 @@ exports.getUser = async (req, res, next) => {
 
 exports.getUserIDByEmail = async (req, res, next) => {
   try {
+    const email = verifyEmail(req);
+
     const userId = await DB.Users.findOne({
       raw: true,
       attributes: ["user_id"],
       where: {
-        email: req.params.email,
+        username: req.body.name,
+        email: email,
         deletedAt: null
       }
     });
@@ -92,7 +95,7 @@ exports.postUser = async (req, res, next) => {
     const email = verifyEmail(req);
 
     const pw = crypto.pbkdf2Sync(
-      req.body.pw, salt.salt, 105735, 64, "sha512"
+      req.body.pw, session.salt, session.iterations, session.len, session.hash
     ).toString();
 
     await DB.Users.create({
@@ -114,7 +117,7 @@ exports.deleteUser = async (req, res, next) => {
     hasSession(req, res);
 
     const pw = crypto.pbkdf2Sync(
-      req.body.pw, salt.salt, 105735, 64, "sha512"
+      req.body.pw, session.salt, session.iterations, session.len, session.hash
     ).toString();
 
     await DB.Users.destroy({
@@ -154,15 +157,22 @@ exports.patchUser = async (req, res, next) => {
     hasSession(req, res);
 
     const pw = crypto.pbkdf2Sync(
-      req.body.pw, salt.salt, 105735, 64, "sha512"
+      req.body.pw, session.salt, session.iterations, session.len, session.hash
     ).toString();
 
     const newPW = (req.body.newPW) ? crypto.pbkdf2Sync(
-      req.body.newPW, salt.salt, 105735, 64, "sha512"
+      req.body.newPW, session.salt, session.iterations, session.len, session.hash
     ).toString() : null;
 
+    const email = req.body.email || await DB.Users.findOne({
+      attributes: ["email"],
+      where: {
+        user_id: req.session.user_id
+      }
+    }).email;
+
     await DB.Users.update({
-      email: req.body.email || user.email,
+      email: email,
       password: newPW || pw,
       updatedAt: Sequelize.fn('now')
     }, {
@@ -175,4 +185,4 @@ exports.patchUser = async (req, res, next) => {
   } catch(err) {
     next(err);
   }
-} //회원 정보 수정
+} //회원 비밀번호 등 정보 수정

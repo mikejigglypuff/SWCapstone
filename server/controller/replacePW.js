@@ -3,10 +3,9 @@ const DB = require("../models/index");
 const crypto = require("crypto");
 const session = require("../config/session.json");
 const jwt = require("jsonwebtoken");
-const salt = require("../config/salt.json");
 const HttpError = require("../httpError");
 
-exports.getUserByEmailID = async (req, res, next) => {
+exports.verifyUserByEmailID = async (req, res, next) => {
     try {
         const user = await DB.Users.findOne({
             raw: true,
@@ -38,12 +37,12 @@ exports.replacePW = async (req, res, next) => {
 
     jwt.verify(token, session.key, async (err, decoded) => {
         if(err) {
-            throw new HttpError(401, "인증 실패");
+            throw new HttpError(400, err.message);
         } else {
             try {
                 await DB.Users.update({
                     password: crypto.pbkdf2Sync(
-                        req.body.pw, salt.salt, 105735, 64, "sha512"
+                        req.body.pw, session.salt, session.iterations, session.len, session.hash
                     ).toString(),
                     updatedAt: Sequelize.fn('now')
                 }, {

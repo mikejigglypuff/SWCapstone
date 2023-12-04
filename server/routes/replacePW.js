@@ -1,11 +1,11 @@
 const express = require("express");
 
-const { getUserByEmailID, replacePW } = require("../controller/replacePW");
+const { verifyUserByEmailID, replacePW } = require("../controller/replacePW");
 
 const router = express.Router();
 
 router.route("/")
-    .get(getUserByEmailID)
+    .get(verifyUserByEmailID)
     .patch(replacePW);
 
 module.exports = router;
