@@ -4,6 +4,6 @@ const { getUserIDByEmail } = require("../controller/users");
 
 const router = express.Router();
 
-router.get("/", getUserIDByEmail);
+router.post("/", getUserIDByEmail);
 
 module.exports = router;
