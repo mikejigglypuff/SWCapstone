@@ -1,5 +1,5 @@
 const crypto = require("crypto");
-const salt = require("../config/salt.json");
+const session = require("../config/session.json");
 const DB = require("../models/index");
 const HttpError = require("../httpError");
 const { isAdmin } = require("../authCheck");
@@ -21,7 +21,7 @@ exports.adminAuth = async (req, res, next) => {
       if(!id) { throw new HttpError(400, "잘못된 요청입니다"); }
 
       const inputPW = crypto.pbkdf2Sync(
-        req.body.pw, salt.salt, 105735, 64, "sha512"
+        req.body.pw, session.salt, session.iterations, session.len, session.hash
       ).toString();
 
       const admin = await DB.Admins.findOne({
@@ -53,7 +53,7 @@ exports.postAdmin = async (req, res, next) => {
       if(!req.body.makesAdmin) { throw new HttpError(400, "잘못된 요청입니다"); }
 
       const pw = crypto.pbkdf2Sync(
-        req.body.pw, salt.salt, 105735, 64, "sha512"
+        req.body.pw, session.salt, session.iterations, session.len, session.hash
       ).toString();
   
       await DB.Admins.create({
