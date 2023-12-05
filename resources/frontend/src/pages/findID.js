@@ -8,7 +8,7 @@ const FindID = () => {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [verifyCode, setVertifyCode] = useState("");
-    const [userID, setUserID] = useState("");
+    const [userID, setUserID] = useState([]);
 
     const onNameChange = (e) =>{
         setName(e.target.value);
@@ -50,15 +50,15 @@ const FindID = () => {
         const ivertifyCode = parseInt(verifyCode);
         try {
                 const emailToken = localStorage.getItem('email-token');
-                const response = await axios.get('/findID', {
-                    params: {
-                        name: name,
-                        verifyCode: ivertifyCode
+                const response = await axios.post('/findID', {
+                        "name": name,
+                        "verifyCode": ivertifyCode
                     },
-                    headers: {
-                        authorization: `${emailToken}`
-                    }
-                });
+                    {
+                        headers: {
+                            authorization : `${emailToken}`
+                        }
+                    });
                 console.log(response);
                 setUserID(response.data);
           } catch (error) {
@@ -106,7 +106,11 @@ const FindID = () => {
                 </div>
                 <div className={findIDPWStyled.FIPbtnArea}>
                     <button onClick={sendingFindIdData}>아이디 찾기</button> 
-                    <p>당신의 아이디는 <span style={{fontSize: "1rem", color: "navy", fontWeight: "bold"}}>{userID.userId}</span>입니다.</p>
+                    {userID && userID.user_id ? (
+                        <p style={{fontSize: "1.1rem"}}>당신의 아이디는 <span style={{fontSize: "1.1rem", color: "navy", fontWeight: "bold"}}>{userID.user_id}</span>입니다.</p>
+                    ):(
+                        <p></p>
+                    )}
                 </div>
             </div>
         </div>
