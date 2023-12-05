@@ -31,7 +31,7 @@ sequelize.sync();
 
 //8001번 port에서 열림, 템플릿 엔진 사용
 app.engine('html', require('ejs').renderFile);
-app.set("port", process.env.PORT || 8001);
+app.set("port", process.env.PORT || 80);
 app.set("view engine", "html");
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
