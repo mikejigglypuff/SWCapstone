@@ -106,7 +106,7 @@ const FindID = () => {
                 </div>
                 <div className={findIDPWStyled.FIPbtnArea}>
                     <button onClick={sendingFindIdData}>아이디 찾기</button> 
-                    <p>당신의 아이디는 <span style={{fontSize: "1rem", color: "navy", fontWeight: "bold"}}>{userID.userId}</span>입니다.</p>
+                    <p>당신의 아이디는 <span style={{fontSize: "1rem", color: "red", fontWeight: "bold"}}>{userID.userId}</span>입니다.</p>
                 </div>
             </div>
         </div>
