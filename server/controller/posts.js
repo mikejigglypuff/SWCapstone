@@ -125,7 +125,8 @@ exports.deletePost = async (req, res, next) => {
     await DB.sequelize.transaction(async (t) => {
       await DB.Posts.destroy({
         where: {
-          post_id: req.body.id
+          user_id: req.session.user_id,
+          post_id: req.params.postId
         }
       }, { 
         lock: true,
@@ -199,6 +200,7 @@ exports.patchPost = async (req, res, next) => {
           updatedAt: Sequelize.fn('now')
         }, {
           where: {
+            user_id: req.session.user_id,
             post_id: req.body.id
           },
         }, { 
@@ -212,4 +214,4 @@ exports.patchPost = async (req, res, next) => {
   } catch(err) {
     next(err);
   }
-}; //게시글 수정
+}; //자신의 게시글 수정 또는 추천 수 증가

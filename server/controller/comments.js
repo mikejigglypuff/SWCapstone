@@ -10,7 +10,7 @@ exports.getCommentsByPost = async (req, res, next) => {
                 nest: true,
                 attributes: { exclude: ["deletedAt", "userUserId", "postPostId"] },
                 where: {
-                    post_id: req.params.postId,
+                    post_id: req.params.commentId,
                     deletedAt: null
                 }
             }, {
@@ -24,7 +24,7 @@ exports.getCommentsByPost = async (req, res, next) => {
     } catch(err) {
         next(err);
     }
-};
+}; //게시글에 달린 댓글 조회
 
 exports.getCommentsByUser = async (req, res, next) => {
     try {
@@ -44,7 +44,7 @@ exports.getCommentsByUser = async (req, res, next) => {
     } catch(err) {
         next(err);
     }
-};
+}; //자신이 작성한 댓글 조회
 
 exports.getAllComments = async (req, res, next) => {
     try {
@@ -66,7 +66,7 @@ exports.getAllComments = async (req, res, next) => {
     } catch(err) {
         next(err);
     }
-};
+}; //관리자 권한으로 모든 댓글 조회
 
 exports.postComments = async (req, res, next) => {
     try {
@@ -87,7 +87,7 @@ exports.postComments = async (req, res, next) => {
     } catch(err) {
         next(err);
     }
-};
+}; //댓글 작성
 
 exports.deleteComments = async (req, res, next) => {
     try {
@@ -96,7 +96,8 @@ exports.deleteComments = async (req, res, next) => {
         await DB.sequelize.transaction(async (t) => {
             await DB.Comments.destroy({
                 where: {
-                    comment_id: req.body.commentId
+                    user_id: req.session.user_id,
+                    comment_id: req.params.commentId
                 },
                 lock: true,
                 transaction: t 
@@ -107,7 +108,7 @@ exports.deleteComments = async (req, res, next) => {
     } catch(err) {
         next(err);
     }
-};
+}; //자신의 댓글 삭제
 
 exports.deleteCommentsByAdmin = async (req, res, next) => {
     try {
@@ -125,7 +126,7 @@ exports.deleteCommentsByAdmin = async (req, res, next) => {
     } catch(err) {
         next(err);
     }
-}; //운영자가 직접 댓글 삭제
+}; //운영자 권한으로 댓글 삭제
 
 exports.patchComments = async (req, res, next) => {
     try {
@@ -135,6 +136,7 @@ exports.patchComments = async (req, res, next) => {
                 updatedAt: Sequelize.fn('now')
             }, {
                 where: {
+                    user_id: req.session.user_id,
                     comment_id: req.body.commentId
                 }
             }, {
@@ -147,4 +149,4 @@ exports.patchComments = async (req, res, next) => {
     } catch(err) {
         next(err);
     }
-};
+}; //자신의 댓글 수정

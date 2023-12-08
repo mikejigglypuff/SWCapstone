@@ -7,11 +7,13 @@ const router = express.Router();
 router.route("/admin")
   .get(getAllPost)
   .delete(deletePostByAdmin);
-router.get("/:postId", getPost);
+  
+router.route("/:postId")
+  .get(getPost)
+  .delete(deletePost);
 
 router.route('/')
   .post(postPost)
-  .delete(deletePost)
   .patch(patchPost);
 
 module.exports = router;
