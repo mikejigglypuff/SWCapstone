@@ -13,11 +13,11 @@ router.route("/admin")
 router.get("/post", getPostsByUser);
 router.get("/comment", getCommentsByUser);
 router.get("/:userId", getUserIdOverlaps);
+router.patch("/deleteUser", deleteUser);
 
 router.route('/')
   .get(getUser)
   .post(postUser)
-  .delete(deleteUser)
   .patch(patchUser);
 
 module.exports = router;

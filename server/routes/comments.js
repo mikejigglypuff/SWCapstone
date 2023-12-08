@@ -8,11 +8,13 @@ const router = express.Router();
 router.route("/admin")
     .get(getAllComments)
     .delete(deleteCommentsByAdmin);
-router.get("/:postId", getCommentsByPost);
+
+router.route("/:commentId")
+    .get(getCommentsByPost)
+    .delete(deleteComments);
 
 router.route("/")
     .post(postComments)
-    .delete(deleteComments)
     .patch(patchComments);
 
 module.exports = router;
