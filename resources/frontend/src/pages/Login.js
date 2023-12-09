@@ -21,7 +21,7 @@ const Login = () => {
 
     const sendingLoginData = async() => {
         try {    
-                const response = await axios.post('/login/auth', {
+                const response = await axios.post('https://healthintalk.duckdns.org/login/auth', {
                     "id": id,
                     "pw": password,
                 });

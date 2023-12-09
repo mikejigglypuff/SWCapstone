@@ -1,0 +1,53 @@
+.NReplacePW{
+    text-align: center;
+    width: 100%;
+    margin-top: 3rem;
+}
+.NRPtitle{
+    border-bottom: 2px solid darkblue;
+    margin: 0 auto;
+    width: 45%;
+}
+.NRPtitle img{
+    width: 40%;
+    height: 15vh;
+}
+.NRPtitle p{
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: navy;
+}
+.ChangePWArea{
+    margin-top: 1.2rem;
+}
+.ChangePWArea label{
+    display: inline-block;
+	text-align: center;
+	width: 12rem;
+    height: 6vh;
+    font-size: 18px;
+    justify-content: center;
+    color: navy;
+}
+.ChangePWArea input{
+    border: 2px solid navy;
+    border-radius: 10px;
+    width: 30%;
+    height: 6vh;
+    padding-left: 10px;
+    font-size: 1rem;
+    margin-top: 1.2rem;
+}
+.NRPbtnArea button{
+    width: 31%;
+    height: 7vh;
+    border: none;
+    background-color: navy;
+    color: white;
+    border-radius: 10px;
+    font-size: 1.2rem;
+    margin-left: 140px;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    cursor: pointer;
+}

@@ -13,6 +13,7 @@ import Mypage from "./pages/Mypage";
 import UnRegister from "./pages/UnRegister";
 import CheckWriting from "./pages/CheckWriting";
 import MyExerciseDiary from "./pages/MyExerciseDiary";
+import NReplace from "./pages/NReplacePW";
 import { Route, Routes } from 'react-router-dom';
 
 function App() {
@@ -35,6 +36,7 @@ function App() {
         <Route path="/unregister" element ={<UnRegister />} />
         <Route path="/checkwriting" element ={<CheckWriting />} />
         <Route path="/myexercisediary" element ={<MyExerciseDiary />} />
+        <Route path="/nreplacePW" element = {<NReplace />} />
       </Routes>
     </div>
   );

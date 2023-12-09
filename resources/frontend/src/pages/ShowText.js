@@ -19,7 +19,7 @@ const ShowText = () => {
 
     const sendInputComment = async() => {
         try {    
-                const response = await axios.post('/comment', {
+                const response = await axios.post('https://healthintalk.duckdns.org/comment', {
                     "postId": post_id,
                     "content": comment
                 });
@@ -40,7 +40,7 @@ const ShowText = () => {
 
     const fetchComment = async() => {
         try{
-            const response = await axios.get(`/comment/${post_id}`);
+            const response = await axios.get(`https://healthintalk.duckdns.org/comment/${post_id}`);
             setBeforeComments(response.data);
             console.log(response);
         }catch(error){
@@ -55,7 +55,7 @@ const ShowText = () => {
 
     const fetchTextData = async() => {
         try{
-            const response = await axios.get(`/post/${post_id}`);
+            const response = await axios.get(`https://healthintalk.duckdns.org/post/${post_id}`);
             setTextData(response.data);
             console.log(response);
         }catch(error){
@@ -66,7 +66,7 @@ const ShowText = () => {
     // 좋아요 버튼 클릭 시 함수
     const clickLikeBtn = async() => {
         try{
-            const response = await axios.patch('/post', {
+            const response = await axios.patch('https://healthintalk.duckdns.org/post', {
                 "id": post_id,
                 "favcnt": true
             });

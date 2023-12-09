@@ -23,7 +23,7 @@ const WriteBoard = () => {
 
     const sendingWriteTextData = async() => {
         try {    
-                const response = await axios.post('/post', {
+                const response = await axios.post('https://healthintalk.duckdns.org/post', {
                     "title": textTitle,
                     "content": text,
                     "category": category

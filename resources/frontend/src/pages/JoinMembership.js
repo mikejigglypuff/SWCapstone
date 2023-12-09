@@ -80,7 +80,7 @@ const JoinMembership = () => {
     //이메일 인증번호 받는 부분
     const checkEmailVertical = async() => {
         try {    
-                const response = await axios.post('/emailAuth', {
+                const response = await axios.post('https://healthintalk.duckdns.org/emailAuth', {
                     "email": email
                 });
                 console.log(response);
@@ -125,7 +125,7 @@ const JoinMembership = () => {
 
                 const emailToken = localStorage.getItem('email-token');
 
-                const response = await axios.post('/user', 
+                const response = await axios.post('https://healthintalk.duckdns.org/user', 
                 {
                     "id": id,
                     "pw": password,
@@ -149,7 +149,7 @@ const JoinMembership = () => {
     // 아이디 중복확인 부분
     const checkIDOverlap = async() => {
         try {    
-                const response = await axios.get(`/user/${id}`);
+                const response = await axios.get(`https://healthintalk.duckdns.org/user/${id}`);
                 setOverlap(response.data);
                 console.log(response);
 
