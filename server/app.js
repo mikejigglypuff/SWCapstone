@@ -63,6 +63,17 @@ app.use(cors({
   origin: "*"
 }));
 
+//http 등 -> https 리다이렉트
+app.all("*", (req, res, next) => {
+  const protocol = req.headers["x-forwarded-proto"] || req.protocol;
+  if(protocol === "https") { next(); }
+  else { 
+    const domain = `${req.hostname}${req.url}`;
+    console.log(`${protocol}://${domain} -> https://${domain} redirect`);
+    res.redirect(`https://${domain}`); 
+  }
+});
+
 // css, frontend js 파일 등 정적 파일에 대한 경로를 제공하는 미들웨어 
 app.use("/static/css", express.static(path.resolve(__dirname, "../resources/frontend/build/static/css")));
 app.use("/static/js", express.static(path.resolve(__dirname, "../resources/frontend/build/static/js")));
@@ -80,17 +91,6 @@ app.use("/post", postRouter);
 app.use("/board", getPostByCategoryRouter);
 app.use("/user", userRouter);
 app.use(pageRouter);
-
-//http 등 -> https 리다이렉트
-app.all("*", (req, res, next) => {
-  const protocol = req.headers["x-forwarded-proto"] || req.protocol;
-  if(protocol === "https") { next(); }
-  else { 
-    const domain = `${req.hostname}${req.url}`;
-    console.log(`${protocol}://${domain} -> https://${domain} redirect`);
-    res.redirect(`https://${domain}`); 
-  }
-});
 
 //에러처리
 app.use((req, res, next) => {
