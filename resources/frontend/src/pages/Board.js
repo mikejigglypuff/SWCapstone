@@ -15,7 +15,7 @@ const Board = () => {
 
     const fetchBoardData = async() => {
         try{
-            const responses = await axios.get(`/board/${category}`);
+            const responses = await axios.get(`https://healthintalk.duckdns.org/board/${category}`);
             setBoardDatas(responses.data);
             console.log(responses);
         }catch(error){

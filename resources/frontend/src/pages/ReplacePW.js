@@ -1,5 +1,7 @@
 import React from "react";
 import { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import Sidebar from "../components/Sidebar";
 import replacePWStyled from "../css/replacePW.module.css"
 
@@ -52,6 +54,25 @@ const ReplacePW = () => {
         }
     }
 
+    const deleteSession = async () => {
+        await axios.delete("/logout");
+    }
+
+    const navigate = useNavigate();
+
+    const changePassWord = async() => {
+        try{
+            const response = await axios.patch('https://healthintalk.duckdns.org/user', {
+                "pw": beforePW,
+                "newPW": newPW
+            });
+            deleteSession();
+            navigate('/login');
+        }catch(error){
+            console.error("비밀번호 변경 도중 에러 발생", error);
+        }
+    }
+
     return (
         <div className={replacePWStyled.ReplacePW}>
             <Sidebar />
@@ -94,7 +115,7 @@ const ReplacePW = () => {
                         <p style={{color: ischeckNewPW === false ? "red" : "green"}}>{checkpwMessage}</p>
                     </div>
                     <div className={replacePWStyled.RPbtnArea}>
-                        <button>비밀번호 변경</button>
+                        <button onClick={changePassWord}>비밀번호 변경</button>
                     </div>
                 </div>
             </div>
