@@ -81,6 +81,17 @@ app.use("/board", getPostByCategoryRouter);
 app.use("/user", userRouter);
 app.use(pageRouter);
 
+//http 등 -> https 리다이렉트
+app.all("*", (req, res, next) => {
+  const protocol = req.headers["x-forwarded-proto"] || req.protocol;
+  if(protocol === "https") { next(); }
+  else { 
+    const domain = `${req.hostname}${req.url}`;
+    console.log(`${protocol}://${domain} -> https://${domain} redirect`);
+    res.redirect(`https://${domain}`); 
+  }
+});
+
 //에러처리
 app.use((req, res, next) => {
   const error = new Error(`${req.method} ${req.url} 라우터가 없습니다.`);
@@ -89,12 +100,12 @@ app.use((req, res, next) => {
 });
 
 app.use((err, req, res, next) => {
-  //console.error(err);
   res.locals.message = err.message;
   res.locals.error = process.env.NODE_ENV !== "production" ? err : {};
 
   console.error(err);
 
+  //예외 종류에 따른 처리
   if(err.errors) {
     let firstErr = err.errors[0];
     if(
@@ -118,16 +129,7 @@ app.use((err, req, res, next) => {
   res.status(err.status || 500).json({ message: err.message || "서버 내부 에러" });
 });
 
-app.all("*", (req, res, next) => {
-  const protocol = req.headers["x-forwarded-proto"] || req.protocol;
-  if(protocol === "https") { next(); }
-  else { 
-    const domain = `${req.hostname}${req.url}`;
-    console.log(`${protocol}://${domain} -> https://${domain} redirect`);
-    res.redirect(`https://${domain}`); 
-  }
-});
-
+//https 포트 개방
 https.createServer(
   {
     key: fs.readFileSync(config[processEnv].key, "utf-8"),
@@ -138,6 +140,7 @@ https.createServer(
   }
 );
 
+//http 포트 개방
 http.createServer(app).listen(config[processEnv].httpPort, () => {
   console.log(config[processEnv].httpPort, "번 포트에서 http 서버 대기중");
 });
