@@ -4,11 +4,14 @@ const session = require("express-session");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const cookies = require("cookie-parser");
+const http = require("node:http");
+const https = require("node:https");
+const fs = require("fs");
 const { 
   BulkRecordError, EmptyResultError, ForeignKeyConstraintError, QueryError, 
   UniqueConstraintError, ValidationError, ValidationErrorItem
 } = require("sequelize");
-//test
+
 const pageRouter = require("./routes/page");
 const userRouter = require("./routes/users");
 const authRouter = require("./routes/auth");
@@ -28,10 +31,11 @@ const MySQLStore = require("express-mysql-session")(session);
 let sequelize = require('./models').sequelize;
 const app = express();
 sequelize.sync();
+const processEnv = "development";
 
-//8001번 port에서 열림, 템플릿 엔진 사용
+//80, 433번 port에서 열림, 템플릿 엔진 사용
 app.engine('html', require('ejs').renderFile);
-app.set("port", process.env.PORT || 80);
+app.set("port", config[processEnv].httpsPort || 443);
 app.set("view engine", "html");
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -41,11 +45,11 @@ app.use(session({
   resave: true,
   saveUninitialized: false,
   store: new MySQLStore({
-    host: config.development.host,
-    port: config.development.port,
-    user: config.development.username,
-    password: config.development.password,
-    database: config.development.database,
+    host: config[processEnv].host,
+    port: config[processEnv].port,
+    user: config[processEnv].username,
+    password: config[processEnv].password,
+    database: config[processEnv].database,
     clearExpired: true,
   }),
   cookie: {
@@ -77,11 +81,15 @@ app.use("/board", getPostByCategoryRouter);
 app.use("/user", userRouter);
 app.use(pageRouter);
 
-//에러처리
+//에러처리 및 http -> https로 리다이렉트
 app.use((req, res, next) => {
-  const error = new Error(`${req.method} ${req.url} 라우터가 없습니다.`);
-  error.status = 404;
-  next(error);
+  if(req.secure) {
+    const error = new Error(`${req.method} ${req.url} 라우터가 없습니다.`);
+    error.status = 404;
+    next(error);
+  } else {
+    res.redirect(`https://${req.headers.host}${req.url}`);
+  }
 });
 
 app.use((err, req, res, next) => {
@@ -114,6 +122,16 @@ app.use((err, req, res, next) => {
   res.status(err.status || 500).json({ message: err.message || "서버 내부 에러" });
 });
 
-app.listen(app.get("port"), () => {
-  console.log(app.get("port"), "번 포트에서 대기중");
+https.createServer(
+  {
+    key: fs.readFileSync(config[processEnv].key, "utf-8"),
+    cert: fs.readFileSync(config[processEnv].cert, "utf-8"),
+    ca: fs.readFileSync(config[processEnv].ca, "utf-8")
+  }, app).listen(app.get("port"), () => {
+    console.log(app.get("port"), "번 포트에서 https 서버 대기중");
+  }
+);
+
+http.createServer(app).listen(config[processEnv].httpPort, () => {
+  console.log(config[processEnv].httpPort, "번 포트에서 http 서버 대기중");
 });
