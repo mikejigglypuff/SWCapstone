@@ -81,15 +81,11 @@ app.use("/board", getPostByCategoryRouter);
 app.use("/user", userRouter);
 app.use(pageRouter);
 
-//에러처리 및 http -> https로 리다이렉트
+//에러처리
 app.use((req, res, next) => {
-  if(req.secure) {
-    const error = new Error(`${req.method} ${req.url} 라우터가 없습니다.`);
-    error.status = 404;
-    next(error);
-  } else {
-    res.redirect(`https://${req.headers.host}${req.url}`);
-  }
+  const error = new Error(`${req.method} ${req.url} 라우터가 없습니다.`);
+  error.status = 404;
+  next(error);
 });
 
 app.use((err, req, res, next) => {
@@ -120,6 +116,16 @@ app.use((err, req, res, next) => {
     }
   }
   res.status(err.status || 500).json({ message: err.message || "서버 내부 에러" });
+});
+
+app.all("*", (req, res, next) => {
+  const protocol = req.headers["x-forwarded-proto"] || req.protocol;
+  if(protocol === "https") { next(); }
+  else { 
+    const domain = `${req.hostname}${req.url}`;
+    console.log(`${protocol}://${domain} -> https://${domain} redirect`);
+    res.redirect(`https://${domain}`); 
+  }
 });
 
 https.createServer(
