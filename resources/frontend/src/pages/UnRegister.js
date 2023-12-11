@@ -1,5 +1,6 @@
 import React from "react";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Sidebar from "../components/Sidebar";
 import unregisterStyled from "../css/unregister.module.css";
@@ -12,12 +13,14 @@ const UnRegister = () => {
         setPw(e.target.value);
     }
 
+    const navigate = useNavigate();
     const sendPWforUnregister = async() => {
         try{
             const response = await axios.patch('https://healthintalk.duckdns.org/user/deleteUser', {
                 "pw": pw
             });
             alert("회원탈퇴가 완료되었습니다");
+            navigate('/');
         }catch(error){
             console.error("좋아요 버튼 처리 도중 에러 발생", error);
         }
