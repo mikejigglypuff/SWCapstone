@@ -1,11 +1,44 @@
 .ShowText{
     margin: 3% 10%;
 }
+.titleArea{
+    display: flex;
+    width: 80%;
+    align-items: center;
+    justify-content: space-between;
+}
+.titleBtnArea{
+    display: flex;
+    gap: 0.5rem;
+}
+.titleBtnArea button{
+    height: 7vh;
+    font-size: 1.1rem;
+    border-radius: 10px;
+    background-color: white;
+    font-weight: bold;
+}
+#editT{
+    border: 2px solid navy;
+    color: navy;
+}
+#editT:hover{
+    background-color: navy;
+    color: white;
+}
+#deleteT{
+    border: 2px solid red;
+    color: red
+}
+#deleteT:hover{
+    background-color: red;
+    color: white;
+}
 .showTextInfo{
     display: flex;
     gap: 40px;
     font-size: 18px;
-    width: 79%;
+    width: 80%;
     margin-bottom: 10px;
     padding-left: 10px;
     border-radius: 5px;
