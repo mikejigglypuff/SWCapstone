@@ -1,0 +1,73 @@
+.ChangeText{
+    margin: 3% 10%;
+}
+.CTheader{
+    text-align: center;
+}
+.EditArea{
+    margin-top: 3rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.3rem;
+}
+.EditTitleArea label{
+    display: inline-block;
+	text-align: center;
+	width: 12.5rem;
+    height: 6vh;
+    font-size: 18px;
+    justify-content: center;
+    color: navy;
+    font-weight: bold;
+}
+.EditTitleArea input{
+    margin-left: 1.2rem;
+    padding-left: 0.5rem;
+    height: 6vh;
+    width: 70%;
+    font-size: 1rem;
+    border: 1px solid navy;
+    border-radius: 7px;
+}
+.EditTextArea *{
+    vertical-align: middle;
+}
+.EditTextArea label {
+    text-align: center;
+    width: 12.5rem;
+    font-size: 18px;
+    justify-content: center;
+    color: navy;
+    font-weight: bold;
+}
+.EditTextArea textarea {
+    border: 1px solid navy;
+    border-radius: 5px;
+    width: 70%;
+    height: 70vh;
+    padding-top: 1rem;
+    padding-left: 0.5rem;
+    font-size: 1.1rem;
+    margin-bottom: 1.2rem;
+    margin-left: 1.2rem;
+    overflow: auto;
+}
+.btnArea{
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+}
+.btnArea button{
+    width: 13%;
+    height: 7vh;
+    border-radius: 10px;
+    border: 2px solid navy;
+    background-color: white;
+    color: navy;
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+.btnArea button:hover{
+    background-color: navy;
+    color: white;
+}

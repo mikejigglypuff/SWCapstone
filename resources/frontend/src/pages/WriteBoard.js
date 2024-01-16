@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import writeboardStyled from "../css/writeboard.module.css"
 
@@ -65,7 +65,7 @@ const WriteBoard = () => {
             </div>
             <div className={writeboardStyled.WBbtnArea}>
                 <button onClick={sendingWriteTextData}>작성</button>
-                <button>취소</button>
+                <Link to={`/board/${category}`}><button style={{width: "100%"}}>취소</button></Link>
             </div>
         </div>
     );

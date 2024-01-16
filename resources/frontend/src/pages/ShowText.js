@@ -1,6 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import showtextStyled from "../css/showtext.module.css"
 import axios from "axios";
 
@@ -9,7 +9,7 @@ const ShowText = () => {
     const [beforeComments, setBeforeComments] = useState([]);
     const [textData, setTextData] = useState([]);
     const {post_id} = useParams(); // useParams 사용 시 app.js에서 설정한 변수 이름이랑 맞춰야함 아니면 받아오지 못함
-    console.log(post_id);
+    const {category} = useParams();
 
     // 댓글 입력 및 댓글 서버 전송 부분
     const onCommentChange = (e) => {
@@ -74,11 +74,26 @@ const ShowText = () => {
         }catch(error){
             console.error("좋아요 버튼 처리 도중 에러 발생", error);
         }
-    }
+    };
+
+    const navigate = useNavigate();
+    
+    //게시물 삭제 함수
+    const deleteText = async() => {
+        const respose = await axios.delete(`https://healthintalk.duckdns.org/post/${post_id}`);
+        alert('게시물이 삭제되었습니다.');
+        navigate(`/board/${category}`);
+    };
 
     return (
         <div className={showtextStyled.ShowText}>
-            <h2>{textData.title}</h2>
+            <div className={showtextStyled.titleArea}>
+                <h2>{textData.title}</h2>
+                <div className={showtextStyled.titleBtnArea}>
+                    <Link to="changetext"><button id={showtextStyled.editT}>게시글 수정</button></Link>
+                    <button id={showtextStyled.deleteT} onClick={deleteText}>게시글 삭제</button>
+                </div>
+            </div>
             <div className={showtextStyled.showTextInfo}>
                 <p>작성자: <span>{textData.user_id}</span></p>
                 <p>글 작성일: <span>{textData.createdAt}</span></p>
