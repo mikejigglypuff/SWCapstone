@@ -140,7 +140,7 @@
                         const verify = await document.getElementById("verifyNumber").value;
                         const name = await document.getElementById("registerName").value;
 
-                        fetch("/admin/register", {
+                        fetch("https://healthintalk.duckdns.org/admin/register", {
                             method: "POST",
                             headers: {
                                 'Content-Type': 'application/json;charset=utf-8',

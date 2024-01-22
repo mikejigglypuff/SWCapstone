@@ -92,11 +92,13 @@ exports.postComments = async (req, res, next) => {
 exports.deleteComments = async (req, res, next) => {
     try {
         await DB.sequelize.transaction(async (t) => {
-            checkSameID(req, res, await DB.Comments.findOne({
+            const comment = await DB.Comments.findOne({
                 where: {
                     comment_id: req.params.commentId
                 }
-            }));
+            });
+
+            checkSameID(req, res, comment.user_id);
 
             await DB.Comments.destroy({
                 where: {
@@ -138,11 +140,13 @@ exports.deleteCommentsByAdmin = async (req, res, next) => {
 exports.patchComments = async (req, res, next) => {
     try {
         await DB.sequelize.transaction(async (t) => {
-            checkSameID(req, res, await DB.Comments.findOne({
+            const comment = await DB.Comments.findOne({
                 where: {
                     comment_id: req.body.commentId
                 }
-            }));
+            });
+
+            checkSameID(req, res, comment.user_id);
 
             await DB.Comments.update({
                 content: req.body.content,
