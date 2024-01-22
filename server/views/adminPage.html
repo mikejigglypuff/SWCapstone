@@ -98,14 +98,14 @@
                     sendEmail.onclick = async () => {
                         const email = document.getElementById("registerEmail").value;
 
-                        const token = await fetch("/emailAuth", {
+                        const token = await fetch("https://healthintalk.duckdns.org/emailAuth", {
                             method: "POST",
                             headers: {
                                 "Content-Type": "application/json;charset=utf-8"
                             },
-                            body: {
+                            body: JSON.stringify({
                                 email: email,
-                            }
+                            })
                         }).data;
 
                         if(token) {
