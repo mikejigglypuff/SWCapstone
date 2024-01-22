@@ -1,7 +1,7 @@
 const { Sequelize, Transaction } = require('sequelize');
 const DB = require("../models/index");
 const { addOrRemoveArr } = require("../utility");
-const { isAdmin, hasSession } = require("../authCheck");
+const { isAdmin, hasSession, checkSameID } = require("../authCheck");
 
 exports.getPost = async (req, res, next) => {
   try {
@@ -41,7 +41,7 @@ exports.getPostByCategory = async (req, res, next) => {
         },
       }, {
         isolationLevel: Transaction.ISOLATION_LEVELS.READ_COMMITTED,
-        lock: true, 
+        lock: true,
         transaction: t
       });
       posts.forEach(post => { post.favcnt = post.favcnt.split(",").filter(Boolean).length; });
@@ -120,9 +120,18 @@ exports.postPost = async (req, res, next) => {
 
 exports.deletePost = async (req, res, next) => {
   try {
-    hasSession(req, res);
-
     await DB.sequelize.transaction(async (t) => {
+      const post = DB.Posts.findOne({
+        where: {
+          post_id: req.params.postId
+        }
+      }, { 
+        lock: true,
+        transaction: t 
+      });
+
+      checkSameID(req, res, post);
+
       await DB.Posts.destroy({
         where: {
           user_id: req.session.user_id,
@@ -162,7 +171,6 @@ exports.deletePostByAdmin = async (req, res, next) => {
 }; //운영자가 직접 게시글 삭제
 
 exports.patchPost = async (req, res, next) => {
-
   let split;
   try {
     await DB.sequelize.transaction(async (t) => {
@@ -193,6 +201,17 @@ exports.patchPost = async (req, res, next) => {
 
         res.json({ favcnt: split.length });
       } else {
+        const post = DB.Posts.findOne({
+          where: {
+            post_id: req.params.postId
+          }
+        }, { 
+          lock: true,
+          transaction: t 
+        });
+  
+        checkSameID(req, res, post);
+
         await DB.Posts.update({
           title: req.body.title || post.title,
           content: req.body.content || post.content,

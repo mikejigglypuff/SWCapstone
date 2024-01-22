@@ -92,6 +92,35 @@
                     elements.push(document.createElement("br"));
                     elements.push(registerEmail);
 
+                    let sendEmail = document.createElement("button");
+                    sendEmail.innerHTML = "인증";
+                    sendEmail.id = "sendEmail";
+                    sendEmail.onclick = async () => {
+                        const email = document.getElementById("registerEmail").value;
+
+                        const token = await fetch("/emailAuth", {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json;charset=utf-8"
+                            },
+                            body: {
+                                email: email,
+                            }
+                        }).data;
+
+                        if(token) {
+                            localStorage.setItem("token", token);
+                        }
+
+                        let verifyNumber = document.createElement("input");
+                        verifyNumber.type = "number";
+                        verifyNumber.id = "verifyNumber";
+                        verifyNumber.maxLength = "6";
+                        verifyNumber.placeholder = "인증번호";
+                        document.getElementsByTagName('body')[0].appendChild(document.createElement("br"));
+                        document.getElementsByTagName('body')[0].appendChild(verifyNumber);
+                    }
+
                     let registerPW = document.createElement("input");
                     registerPW.type = "password";
                     registerPW.id = "registerPW";
@@ -107,18 +136,19 @@
                     registerBtn.onclick = async () => {
                         const id = await document.getElementById("registerID").value;
                         const pw = await document.getElementById("registerPW").value;
-                        const email = await document.getElementById("registerEmail").value;
+                        const verify = await document.getElementById("verifyNumber").value;
                         const name = await document.getElementById("registerName").value;
 
                         fetch("/admin/register", {
                             method: "POST",
                             headers: {
-                                'Content-Type': 'application/json;charset=utf-8'
+                                'Content-Type': 'application/json;charset=utf-8',
+                                'authorization': localStorage.getItem("token")
                             },
                             body: JSON.stringify({
                                 id: id,
                                 pw: pw,
-                                email: email,
+                                verifyCode: verify,
                                 name: name,
                                 makesAdmin: true
                             })
