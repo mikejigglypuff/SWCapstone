@@ -111,7 +111,7 @@
                         const textToken = await token.text();
 
                         if(textToken) {
-                            localStorage.setItem("token", textToken);
+                            localStorage.setItem("token", textToken.replace("\"", ""));
                         }
 
                         let verifyNumber = document.createElement("input");
