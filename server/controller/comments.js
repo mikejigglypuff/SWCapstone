@@ -1,6 +1,6 @@
 const { Sequelize, Transaction } = require('sequelize');
 const DB = require("../models/index");
-const { isAdmin, hasSession } = require("../authCheck");
+const { isAdmin, hasSession, checkSameID } = require("../authCheck");
 
 exports.getCommentsByPost = async (req, res, next) => {
     try {
@@ -91,14 +91,19 @@ exports.postComments = async (req, res, next) => {
 
 exports.deleteComments = async (req, res, next) => {
     try {
-        hasSession(req, res);
-
         await DB.sequelize.transaction(async (t) => {
+            checkSameID(req, res, await DB.Comments.findOne({
+                where: {
+                    comment_id: req.params.commentId
+                }
+            }));
+
             await DB.Comments.destroy({
                 where: {
                     user_id: req.session.user_id,
                     comment_id: req.params.commentId
-                },
+                }
+            }, {
                 lock: true,
                 transaction: t 
             });
@@ -115,8 +120,10 @@ exports.deleteCommentsByAdmin = async (req, res, next) => {
         await DB.sequelize.transaction(async (t) => {
             await DB.Comments.destroy({
                 where: {
+                    user_id: req.session.user_id,
                     comment_id: req.body.comment_id
-                },
+                }
+            }, {
                 lock: true,
                 transaction: t 
             });
@@ -131,6 +138,12 @@ exports.deleteCommentsByAdmin = async (req, res, next) => {
 exports.patchComments = async (req, res, next) => {
     try {
         await DB.sequelize.transaction(async (t) => {
+            checkSameID(req, res, await DB.Comments.findOne({
+                where: {
+                    comment_id: req.params.commentId
+                }
+            }));
+
             await DB.Comments.update({
                 content: req.body.content,
                 updatedAt: Sequelize.fn('now')

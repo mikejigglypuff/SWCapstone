@@ -7,6 +7,11 @@ exports.hasSession = (req, res) => {
   throw new HttpError(401, "로그인이 필요합니다"); 
 }
 
+exports.checkSameID = (req, res, obj) => {
+  this.hasSession(req, res);
+  if(req.session.user_id !== obj.user_id) { throw new HttpError(403, "잘못된 접근입니다"); }
+}
+
 //관리자 여부 체크
 exports.isAdmin = (req, res) => {
   if(req.session && req.session.is_Admin) { return true; }

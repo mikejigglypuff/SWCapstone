@@ -3,6 +3,7 @@ const session = require("../config/session.json");
 const DB = require("../models/index");
 const HttpError = require("../httpError");
 const { isAdmin } = require("../authCheck");
+const { verifyEmail } = require("./email");
 
 exports.getAdminName = async (req, res, next) => {
   try {
@@ -52,12 +53,14 @@ exports.postAdmin = async (req, res, next) => {
     try {
       if(!req.body.makesAdmin) { throw new HttpError(400, "잘못된 요청입니다"); }
 
+      const email = verifyEmail(req);
+
       const pw = crypto.pbkdf2Sync(
         req.body.pw, session.salt, session.iterations, session.len, session.hash
       ).toString();
   
       await DB.Admins.create({
-        email: req.body.email,
+        email: email,
         password: pw,
         admin_id: req.body.id,
         adminname: req.body.name,
