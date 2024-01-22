@@ -108,8 +108,10 @@
                             })
                         });
 
-                        if(token) {
-                            localStorage.setItem("token", token);
+                        const textToken = await token.text();
+
+                        if(textToken) {
+                            localStorage.setItem("token", textToken);
                         }
 
                         let verifyNumber = document.createElement("input");
