@@ -203,7 +203,7 @@ exports.patchPost = async (req, res, next) => {
       } else {
         const post = DB.Posts.findOne({
           where: {
-            post_id: req.params.postId
+            post_id: req.body.postId
           }
         }, { 
           lock: true,
