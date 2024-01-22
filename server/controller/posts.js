@@ -203,7 +203,7 @@ exports.patchPost = async (req, res, next) => {
       } else {
         const post = await DB.Posts.findOne({
           where: {
-            post_id: req.body.postId
+            post_id: req.body.id
           }
         }, { 
           lock: true,
@@ -219,7 +219,6 @@ exports.patchPost = async (req, res, next) => {
           updatedAt: Sequelize.fn('now')
         }, {
           where: {
-            user_id: req.session.user_id,
             post_id: req.body.id
           },
         }, { 

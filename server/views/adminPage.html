@@ -106,7 +106,7 @@
                             body: JSON.stringify({
                                 email: email,
                             })
-                        }).data;
+                        });
 
                         if(token) {
                             localStorage.setItem("token", token);
