@@ -140,7 +140,7 @@ exports.patchComments = async (req, res, next) => {
         await DB.sequelize.transaction(async (t) => {
             checkSameID(req, res, await DB.Comments.findOne({
                 where: {
-                    comment_id: req.params.commentId
+                    comment_id: req.body.commentId
                 }
             }));
 
