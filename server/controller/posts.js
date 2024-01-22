@@ -16,7 +16,7 @@ exports.getPost = async (req, res, next) => {
         },
       }, {
         isolationLevel: Transaction.ISOLATION_LEVELS.READ_COMMITTED,
-        lock: true, 
+        lock: true,
         transaction: t
       });
       post.favcnt = post.favcnt.split(",").filter(Boolean).length;
@@ -121,7 +121,7 @@ exports.postPost = async (req, res, next) => {
 exports.deletePost = async (req, res, next) => {
   try {
     await DB.sequelize.transaction(async (t) => {
-      const post = DB.Posts.findOne({
+      const post = await DB.Posts.findOne({
         where: {
           post_id: req.params.postId
         }
@@ -130,7 +130,7 @@ exports.deletePost = async (req, res, next) => {
         transaction: t 
       });
 
-      checkSameID(req, res, post);
+      checkSameID(req, res, post.user_id);
 
       await DB.Posts.destroy({
         where: {
@@ -201,7 +201,7 @@ exports.patchPost = async (req, res, next) => {
 
         res.json({ favcnt: split.length });
       } else {
-        const post = DB.Posts.findOne({
+        const post = await DB.Posts.findOne({
           where: {
             post_id: req.body.postId
           }
@@ -210,7 +210,7 @@ exports.patchPost = async (req, res, next) => {
           transaction: t 
         });
   
-        checkSameID(req, res, post);
+        checkSameID(req, res, post.user_id);
 
         await DB.Posts.update({
           title: req.body.title || post.title,
