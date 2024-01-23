@@ -8,6 +8,9 @@ const ShowText = () => {
     const [comment, setComment] = useState("");
     const [beforeComments, setBeforeComments] = useState([]);
     const [textData, setTextData] = useState([]);
+    const [isEditBtnClicked, setIsEditBtnClicked] = useState(false);
+    const [editComment, setEditComment] = useState("");
+    const [commentId, setCommentId] = useState(0)
     const {post_id} = useParams(); // useParams 사용 시 app.js에서 설정한 변수 이름이랑 맞춰야함 아니면 받아오지 못함
     const {category} = useParams();
 
@@ -84,6 +87,45 @@ const ShowText = () => {
         alert('게시물이 삭제되었습니다.');
         navigate(`/board/${category}`);
     };
+    
+    //수정 예정인 댓글 선택 함수
+    const isEditBtnClicking = (id) => {
+        setCommentId(id);
+        setIsEditBtnClicked(true);
+    }
+
+    // 댓글 수정 관련 함수
+    const onEditCommentChange = (e) => {
+        setEditComment(e.target.value);
+        console.log(e.target.value);
+    }
+
+    // 수정하기 버튼 클릭 시
+    const clickEditCommentBtn = async() => {
+        try{
+            const response = await axios.patch('https://healthintalk.duckdns.org/comment', {
+                "commentId": commentId,
+                "content": editComment
+            });
+            alert("댓글 수정이 완료되었습니다.");
+            setIsEditBtnClicked(false);
+            fetchComment();
+        }catch(error){
+            console.error("댓글 수정 처리 도중 에러 발생", error);
+        }
+    };
+
+    // 수정 취소 버튼 클릭 시
+    const cancelEditComment = () => {
+        setIsEditBtnClicked(false);
+    }
+
+    //댓글 삭제 버튼 클릭 시
+    const deleteComment = async(commentID) => {
+        const respose = await axios.delete(`https://healthintalk.duckdns.org/comment/${commentID}`);
+        alert('댓글이 삭제되었습니다.');
+        fetchComment();
+    }
 
     return (
         <div className={showtextStyled.ShowText}>
@@ -120,7 +162,22 @@ const ShowText = () => {
                             <p style={{fontWeight:"bold", fontSize: "1.1rem", color:"navy"}}>{item.user_id}</p>
                             <span style={{fontSize: "0.8rem", color:"gray"}}>{item.createdAt}</span>
                         </div>
-                        <p style={{fontSize: "1rem"}}>{item.content}</p>
+                        <div className={showtextStyled.showCommentAreaMain}>
+                            {commentId === item.comment_id && isEditBtnClicked === true ? 
+                                <div className={showtextStyled.editComment}>
+                                    <input value={editComment} onChange={onEditCommentChange}/>
+                                    <div className={showtextStyled.editCommentBtnArea}>
+                                        <button onClick={clickEditCommentBtn}>수정 완료</button>
+                                        <button onClick={cancelEditComment}>수정 취소</button>    
+                                    </div> 
+                                </div>
+                                    : <p style={{fontSize: "1rem"}}>{item.content}</p>}
+                            <div className={showtextStyled.showCommentAreaMainBtn}>
+                                <button onClick={()=>{isEditBtnClicking(item.comment_id)}}>수정</button>
+                                <span style={{marginLeft: "0.5rem"}}>|</span>
+                                <button onClick={()=>{deleteComment(item.comment_id)}}>삭제</button>
+                            </div>
+                        </div>
                     </div>
                 ))}
             </div>
