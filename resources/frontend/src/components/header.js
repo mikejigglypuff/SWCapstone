@@ -37,6 +37,7 @@ const Header = () => {
 
     const deleteSession = async () => {
         await axios.delete("https://healthintalk.duckdns.org/logout");
+        localStorage.removeItem('usersId');
         setUserData([]);
         navigate("/");
     }
