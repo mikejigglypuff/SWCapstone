@@ -37,7 +37,7 @@ const Login = () => {
 
                 const userId = response.data; // user 아이디 로컬스토리지에 저장
                 if (userId){
-                    localStorage.setItem('usersId', userId);
+                    localStorage.setItem('usersId', JSON.stringify(cookies));
                     console.log(userId);   
                 }
 
