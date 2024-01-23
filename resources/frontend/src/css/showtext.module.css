@@ -129,3 +129,42 @@
     text-align: left;
     padding-left: 0.5rem;
 }
+.showCommentAreaMain{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.showCommentAreaMainBtn{
+    display: flex;
+    align-items: center;
+}
+.showCommentAreaMainBtn button{
+    width: 100%;
+    background-color: white;
+    color: navy;
+    cursor: pointer;
+}
+.editComment{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.3rem;
+}
+.editComment input{
+    width: 100%
+}
+.editCommentBtnArea{
+    display: flex;
+}
+.editCommentBtnArea button{
+    background-color: white;
+    border: 2px solid navy;
+    color: navy;
+    font-weight: bold;
+    width: 100%;
+    cursor: pointer;
+}
+.editCommentBtnArea button:hover{
+    background-color: navy;
+    color: white;
+}
