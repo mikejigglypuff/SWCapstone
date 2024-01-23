@@ -35,9 +35,9 @@ const Login = () => {
                     localStorage.setItem('sessionCookies', JSON.stringify(cookies));
                 }
 
-                const userId = response.data; // user 아이디 로컬스토리지에 저장
+                const userId = response.data.user_id; // user 아이디 로컬스토리지에 저장
                 if (userId){
-                    localStorage.setItem('usersId', JSON.stringify(cookies));
+                    localStorage.setItem('usersId', userId);
                     console.log(userId);   
                 }
 
