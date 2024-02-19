@@ -30,7 +30,7 @@ exports.adminAuth = async (req, res, next) => {
         where: {
           admin_id: id,
           deletedAt: null,
-          banExpiresAt: { [DB.Sequelize.Op.lt] : [DB.Sequelize.fn("NOW")] }
+          banExpiresAt: { [DB.Sequelize.Op.lt] : new Date() }
         }
       });
       

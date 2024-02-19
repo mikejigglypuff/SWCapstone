@@ -36,8 +36,8 @@ module.exports = function(sequelize, DataTypes) {
     },
     banExpiresAt: {
       type: DataTypes.DATE,
-      allowNull: true,
-      defaultValue: null
+      allowNull: false,
+      defaultValue: Sequelize.fn("NOW"),
     }
   }, {
     sequelize,
