@@ -125,7 +125,6 @@ exports.deleteUser = async (req, res, next) => {
         user_id: req.session.user_id,
         password: pw,
         deletedAt: null,
-        banDays: { [Op.lt] : Sequelize.fn("NOW") }
       }
     });
 
@@ -181,7 +180,6 @@ exports.patchUser = async (req, res, next) => {
     }, {
       where: {
         user_id: req.session.user_id,
-        banDays: { [Op.lt] : Sequelize.fn("NOW") }
       }
     });
     
