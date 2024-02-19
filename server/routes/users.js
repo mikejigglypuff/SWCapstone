@@ -9,7 +9,7 @@ const router = express.Router();
 
 router.route("/admin")
   .get(getAllUser)
-  .delete(deleteUserByAdmin);
+  .put(deleteUserByAdmin);
 router.get("/post", getPostsByUser);
 router.get("/comment", getCommentsByUser);
 router.get("/:userId", getUserIdOverlaps);

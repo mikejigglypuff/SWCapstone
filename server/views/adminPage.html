@@ -6,7 +6,10 @@
         
     </head>
     <body> 
-        <script>            
+        <script>
+            const MIN_BAN_DUR = 1;
+            const MAX_BAN_DUR = 30;
+            const PERMANENT_BAN_DUR = 3650000;        
             window.addEventListener("DOMContentLoaded", async () => { 
                 console.log("페이지 생성 중");
 
@@ -220,8 +223,19 @@
                         userCreatedHead.id = "userCreatedHead";
                         userTableHeadTr.appendChild(userCreatedHead);
 
+                        let userBanDurHead = document.createElement("th");
+                        userBanDurHead.innerHTML = "정지 기간";
+                        userBanDurHead.id = "userBanHead";
+                        userTableHeadTr.appendChild(userBanDurHead);
+
+                        let userBanDurBtnHead = document.createElement("th");
+                        userBanDurBtnHead.innerHTML = "기간 설정";
+                        userBanDurBtnHead.id = "userBanDurBtnHead";
+                        userBanDurBtnHead.colSpan = 3;
+                        userTableHeadTr.appendChild(userBanDurBtnHead);
+
                         let userBanHead = document.createElement("th");
-                        userBanHead.innerHTML = "탈퇴";
+                        userBanHead.innerHTML = "정지";
                         userBanHead.id = "userBanHead";
                         userTableHeadTr.appendChild(userBanHead);
 
@@ -244,6 +258,10 @@
                                 let userNameTd = document.createElement("td");
                                 let userEmailTd = document.createElement("td");
                                 let userCreatedTd = document.createElement("td");
+                                let userBanDurTd = document.createElement("td");
+                                let userBanDurMinusTd = document.createElement("td");
+                                let userBanDurPlusTd = document.createElement("td");
+                                let userBanPermaTd = document.createElement("td");
                                 let userBanTd = document.createElement("td");
 
                                 userIDTd.innerHTML = user.user_id;
@@ -256,15 +274,45 @@
                                 userEmailTd.id = user.user_id + "_email";
 
                                 userCreatedTd.innerHTML = user.createdAt;
-                                userCreatedTd.id = user.user_id + "td";
+                                userCreatedTd.id = user.user_id + "_created";
+
+                                userBanDurTd.innerHTML = MIN_BAN_DUR.toString();
+                                userBanDurTd.id = user.user_id + "_banDur";
+
+                                let userBanDurMinusBtn = document.createElement("button");
+                                userBanDurMinusBtn.innerHTML = "-";
+                                userBanDurMinusBtn.id = user.user_id + "_durMinus";
+                                userBanDurMinusBtn.onclick = e => {
+                                    let banDur = document.getElementById(`${user.user_id}_banDur`);
+                                    banDur.innerHTML = Math.max(parseInt(banDur.innerHTML) - 1, MIN_BAN_DUR).toString();
+                                }
+                                userBanDurMinusTd.appendChild(userBanDurMinusBtn);
+
+                                let userBanDurPlusBtn = document.createElement("button");
+                                userBanDurPlusBtn.innerHTML = "+";
+                                userBanDurPlussBtn.id = user.user_id + "_durPlus";
+                                userBanDurPlusBtn.onclick = e => {
+                                    let banDur = document.getElementById(`${user.user_id}_banDur`);
+                                    banDur.innerHTML = Math.min(parseInt(banDur.innerHTML) + 1, MAX_BAN_DUR).toString();
+                                }
+                                userBanDurPlusTd.appendChild(userBanDurPlusBtn);
+
+                                let userBanPermaBtn = document.createElement("button");
+                                userBanPermaBtn.innerHTML = "영구정지";
+                                userBanPermaBtn.id = user.user_id + "_Perma";
+                                userBanPermaBtn.onclick = e => {
+                                    let banDur = document.getElementById(`${user.user_id}_banDur`);
+                                    banDur.innerHTML = PERMANENT_BAN_DUR.toString();
+                                }
+                                userBanPermaTd.appendChild(userBanPermaBtn);
 
                                 let userBanBtn = document.createElement("button");
                                 userBanBtn.innerHTML = "탈퇴";
                                 userBanBtn.id = user.user_id + "_ban";
                                 userBanBtn.value = user.user_id;
-                                userBanBtn.onclick = (e) => {
+                                userBanBtn.onclick = e => {
                                     fetch("/user/admin", {
-                                        method: "delete",
+                                        method: "put",
                                         headers: {
                                             'Content-Type': 'application/json;charset=utf-8'
                                         },
@@ -285,6 +333,9 @@
                                 userInfoRow.appendChild(userNameTd);
                                 userInfoRow.appendChild(userEmailTd);
                                 userInfoRow.appendChild(userCreatedTd);
+                                userInfoRow.appendChild(userBanDurMinusTd);
+                                userInfoRow.appendChild(userBanDurPlusTd);
+                                userInfoRow.appendChild(userBanPermaTd);
                                 userInfoRow.appendChild(userBanBtn);
                                 userTableBody.appendChild(userInfoRow);
                             }

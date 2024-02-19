@@ -16,7 +16,7 @@ exports.getUser = async (req, res, next) => {
       lock: true,
       where: {
         user_id: req.session.user_id,
-        deletedAt: null
+        deletedAt: null,
       },
     });
 
@@ -124,7 +124,8 @@ exports.deleteUser = async (req, res, next) => {
       where: {
         user_id: req.session.user_id,
         password: pw,
-        deletedAt: null
+        deletedAt: null,
+        banDays: { [Op.lt] : Sequelize.fn("NOW") }
       }
     });
 
@@ -138,7 +139,9 @@ exports.deleteUserByAdmin = async (req, res, next) => {
   try {
     isAdmin(req, res);
 
-    await DB.Users.destroy({
+    await DB.Users.update({
+      banExpiresAt: new Date().setDate(new Date().getDate() + req.body.banDays)
+    }, {
       where: {
         user_id: req.body.user_id,
         deletedAt: null
@@ -177,7 +180,8 @@ exports.patchUser = async (req, res, next) => {
       updatedAt: Sequelize.fn('now')
     }, {
       where: {
-        user_id: req.session.user_id
+        user_id: req.session.user_id,
+        banDays: { [Op.lt] : Sequelize.fn("NOW") }
       }
     });
     
