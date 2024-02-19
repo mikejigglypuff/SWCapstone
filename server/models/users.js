@@ -29,6 +29,11 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.DATEONLY,
       allowNull: false,
       defaultValue: Sequelize.NOW,
+    },
+    banExpiresAt: {
+      type: DataTypes.DATE,
+      allowNull: true,
+      defaultValue: null
     }
   }, {
     sequelize,

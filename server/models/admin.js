@@ -1,4 +1,5 @@
 const Sequelize = require('sequelize');
+const { defaultValueSchemable } = require('sequelize/types/utils');
 module.exports = function(sequelize, DataTypes) {
   return sequelize.define('users', {
     admin_id: {
@@ -33,6 +34,11 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.DATEONLY,
       allowNull: false,
       defaultValue: Sequelize.NOW,
+    },
+    banExpiresAt: {
+      type: DataTypes.DATE,
+      allowNull: true,
+      defaultValue: null
     }
   }, {
     sequelize,

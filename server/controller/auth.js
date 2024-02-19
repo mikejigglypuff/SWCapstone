@@ -17,7 +17,8 @@ exports.postAuth = async (req, res, next) => {
         attributes: ["password"],
         where: {
           user_id: id,
-          deletedAt: null
+          deletedAt: null,
+          banExpiresAt: { [Op.lt] : [DB.Sequelize.fn("NOW")] }
         }
       });
       
