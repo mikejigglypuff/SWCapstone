@@ -1,5 +1,4 @@
 const Sequelize = require('sequelize');
-const { defaultValueSchemable } = require('sequelize/types/utils');
 module.exports = function(sequelize, DataTypes) {
   return sequelize.define('users', {
     admin_id: {
