@@ -286,7 +286,7 @@
                                 userBanDurTd.id = user.user_id + "_banDur";
 
                                 userCurBanTd.innerHTML = user.banExpiresAt | "1";
-                                userBanDurTd.id = user.user_id + "curBan";
+                                userCurBanDurTd.id = user.user_id + "curBan";
 
                                 let userOneDayBanBtn = document.createElement("button");
                                 userOneDayBanBtn.innerHTML = "1";
@@ -336,7 +336,7 @@
                                         },
                                         body: JSON.stringify({
                                             user_id: e.target.value,
-                                            banDays: parseInt(document.getElementById().innerHTML)
+                                            banDays: parseInt(document.getElementById(`${user.user_id}_banDur`).innerHTML)
                                         })
                                     }).then(() => {
                                         alert("회원 정지 성공");
