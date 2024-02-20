@@ -290,7 +290,7 @@
 
                                 let userBanDurPlusBtn = document.createElement("button");
                                 userBanDurPlusBtn.innerHTML = "+";
-                                userBanDurPlussBtn.id = user.user_id + "_durPlus";
+                                userBanDurPlusBtn.id = user.user_id + "_durPlus";
                                 userBanDurPlusBtn.onclick = e => {
                                     let banDur = document.getElementById(`${user.user_id}_banDur`);
                                     banDur.innerHTML = Math.min(parseInt(banDur.innerHTML) + 1, MAX_BAN_DUR).toString();
