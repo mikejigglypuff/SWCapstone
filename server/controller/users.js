@@ -138,8 +138,10 @@ exports.deleteUserByAdmin = async (req, res, next) => {
   try {
     isAdmin(req, res);
 
+    let banDate = new Date();
+    banDate.setDate(banDate.getDate() + req.body.banDays);
     await DB.Users.update({
-      banExpiresAt: new Date().setDate(new Date().getDate() + req.body.banDays)
+      banExpiresAt: banDate
     }, {
       where: {
         user_id: req.body.user_id,
