@@ -231,7 +231,7 @@
                         let userBanDurBtnHead = document.createElement("th");
                         userBanDurBtnHead.innerHTML = "기간 설정";
                         userBanDurBtnHead.id = "userBanDurBtnHead";
-                        userBanDurBtnHead.colSpan = 3;
+                        userBanDurBtnHead.colSpan = 4;
                         userTableHeadTr.appendChild(userBanDurBtnHead);
 
                         let userBanHead = document.createElement("th");
@@ -279,6 +279,15 @@
                                 userBanDurTd.innerHTML = MIN_BAN_DUR.toString();
                                 userBanDurTd.id = user.user_id + "_banDur";
 
+                                let userOneDayBanBtn = document.createElement("button");
+                                userOneDayBanBtn.innerHTML = "1";
+                                userOneDayBanBtn.id = user.user_id + "_1";
+                                userOneDayBanBtn.onclick = e => {
+                                    let banDur = document.getElementById(`${user.user_id}_banDur`);
+                                    banDur.innerHTML = "1";
+                                }
+                                userBanPermaTd.appendChild(userOneDayBanBtn);
+
                                 let userBanDurMinusBtn = document.createElement("button");
                                 userBanDurMinusBtn.innerHTML = "-";
                                 userBanDurMinusBtn.id = user.user_id + "_durMinus";
@@ -307,7 +316,7 @@
                                 userBanPermaTd.appendChild(userBanPermaBtn);
 
                                 let userBanBtn = document.createElement("button");
-                                userBanBtn.innerHTML = "탈퇴";
+                                userBanBtn.innerHTML = "정지";
                                 userBanBtn.id = user.user_id + "_ban";
                                 userBanBtn.value = user.user_id;
                                 userBanBtn.onclick = e => {
