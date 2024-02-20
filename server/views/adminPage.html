@@ -239,6 +239,11 @@
                         userBanHead.id = "userBanHead";
                         userTableHeadTr.appendChild(userBanHead);
 
+                        let userCurBanHead = document.createElement("th");
+                        userBanHead.innerHTML = "정지 만료일";
+                        userBanHead.id = "userCurBanHead";
+                        userTableHeadTr.appendChild(userCurBanHead);
+
                         userTableHead.appendChild(userTableHeadTr);
 
                         userTable.appendChild(userTableHead);
@@ -263,6 +268,7 @@
                                 let userBanDurPlusTd = document.createElement("td");
                                 let userBanPermaTd = document.createElement("td");
                                 let userBanTd = document.createElement("td");
+                                let userCurBanTd = document.createElement("td");
 
                                 userIDTd.innerHTML = user.user_id;
                                 userIDTd.id = user.user_id + "_id";
@@ -278,6 +284,9 @@
 
                                 userBanDurTd.innerHTML = MIN_BAN_DUR.toString();
                                 userBanDurTd.id = user.user_id + "_banDur";
+
+                                userCurBanTd.innerHTML = user.banExpiresAt | "";
+                                userBanDurTd.id = user.user_id + "curBan";
 
                                 let userOneDayBanBtn = document.createElement("button");
                                 userOneDayBanBtn.innerHTML = "1";
@@ -326,7 +335,8 @@
                                             'Content-Type': 'application/json;charset=utf-8'
                                         },
                                         body: JSON.stringify({
-                                            user_id: e.target.value
+                                            user_id: e.target.value,
+                                            banDays: parseInt(document.getElementById().innerHTML)
                                         })
                                     }).then(() => {
                                         alert("회원 정지 성공");
@@ -347,6 +357,7 @@
                                 userInfoRow.appendChild(userBanDurPlusTd);
                                 userInfoRow.appendChild(userBanPermaTd);
                                 userInfoRow.appendChild(userBanBtn);
+                                userInfoRow.appendChild(userCurBanTd);
                                 userTableBody.appendChild(userInfoRow);
                             }
                         });
