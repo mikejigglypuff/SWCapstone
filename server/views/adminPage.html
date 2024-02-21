@@ -285,9 +285,9 @@
                                 userBanDurTd.innerHTML = MIN_BAN_DUR.toString();
                                 userBanDurTd.id = user.user_id + "_banDur";
 
-                                const cur = new Date();
-                                if(cur < user.banExpiresAt) {
-                                    userCurBanTd.innerHTML = user.banExpiresAt.toString();
+                                const cur = new Date(), banDate = new Date(user.banExpiresAt);
+                                if(cur < banDate) {
+                                    userCurBanTd.innerHTML = user.banExpiresAt;
                                 } else {
                                     userCurBanTd.innerHTML = "X";
                                 }
