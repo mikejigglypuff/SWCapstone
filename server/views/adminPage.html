@@ -285,7 +285,12 @@
                                 userBanDurTd.innerHTML = MIN_BAN_DUR.toString();
                                 userBanDurTd.id = user.user_id + "_banDur";
 
-                                userCurBanTd.innerHTML = user.banExpiresAt | "1";
+                                const cur = new Date();
+                                if(cur < user.banExpiresAt) {
+                                    userCurBanTd.innerHTML = user.banExpiresAt.toString();
+                                } else {
+                                    userCurBanTd.innerHTML = "X";
+                                }
                                 userCurBanTd.id = user.user_id + "curBan";
 
                                 let userOneDayBanBtn = document.createElement("button");
