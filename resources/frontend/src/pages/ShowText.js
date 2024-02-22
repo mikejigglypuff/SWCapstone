@@ -196,7 +196,7 @@ const ShowText = () => {
                                     <span style={{marginLeft: "0.5rem"}}>|</span>
                                     <button onClick={()=>{deleteComment(item.comment_id)}}>삭제</button>
                                 </div>
-                            </div> : <div></div>
+                            </div> : <div className={showtextStyled.showCommentAreaMain}><p style={{fontSize: "1rem"}}>{item.content}</p></div>
                         }
                     </div>
                 ))}
