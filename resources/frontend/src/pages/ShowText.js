@@ -16,6 +16,8 @@ const ShowText = () => {
     const {post_id} = useParams(); // useParams 사용 시 app.js에서 설정한 변수 이름이랑 맞춰야함 아니면 받아오지 못함
     const {category} = useParams();
 
+    const uID = localStorage.getItem('usersId');
+
     // 댓글 입력 및 댓글 서버 전송 부분
     const onCommentChange = (e) => {
         setComment(e.target.value);
@@ -174,7 +176,7 @@ const ShowText = () => {
                     />
                     <button onClick={sendInputComment}>입력</button>
                 </div>
-                {beforeComments.map((item) => (
+                {beforeComments.map((item, i) => (
                     <div key={item.comment_id} className={showtextStyled.showCommentArea}>
                         <div className={showtextStyled.showCommentAreaHeader}>
                             <p style={{fontWeight:"bold", fontSize: "1.1rem", color:"navy"}}>{item.user_id}</p>
@@ -190,7 +192,7 @@ const ShowText = () => {
                                     </div> 
                                 </div>
                                     : <p style={{fontSize: "1rem"}}>{item.content}</p>}
-                            {isCommentWriter === true ? 
+                            {uID === beforeComments[i].user_id ? 
                                 <div className={showtextStyled.showCommentAreaMainBtn}>
                                     <button onClick={()=>{isEditBtnClicking(item.comment_id)}}>수정</button>
                                     <span style={{marginLeft: "0.5rem"}}>|</span>
