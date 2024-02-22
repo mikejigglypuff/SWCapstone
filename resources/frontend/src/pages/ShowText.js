@@ -180,24 +180,24 @@ const ShowText = () => {
                             <p style={{fontWeight:"bold", fontSize: "1.1rem", color:"navy"}}>{item.user_id}</p>
                             <span style={{fontSize: "0.8rem", color:"gray"}}>{item.createdAt}</span>
                         </div>
-                        {isCommentWriter === true ?
-                            <div className={showtextStyled.showCommentAreaMain}>
-                                {commentId === item.comment_id && isEditBtnClicked === true ? 
-                                    <div className={showtextStyled.editComment}>
-                                        <input value={editComment} onChange={onEditCommentChange}/>
-                                        <div className={showtextStyled.editCommentBtnArea}>
-                                            <button onClick={clickEditCommentBtn}>수정 완료</button>
-                                            <button onClick={cancelEditComment}>수정 취소</button>    
-                                        </div> 
-                                    </div>
-                                        : <p style={{fontSize: "1rem"}}>{item.content}</p>}
+                        <div className={showtextStyled.showCommentAreaMain}>
+                            {commentId === item.comment_id && isEditBtnClicked === true ? 
+                                <div className={showtextStyled.editComment}>
+                                    <input value={editComment} onChange={onEditCommentChange}/>
+                                    <div className={showtextStyled.editCommentBtnArea}>
+                                        <button onClick={clickEditCommentBtn}>수정 완료</button>
+                                        <button onClick={cancelEditComment}>수정 취소</button>    
+                                    </div> 
+                                </div>
+                                    : <p style={{fontSize: "1rem"}}>{item.content}</p>}
+                            {isCommentWriter === true ? 
                                 <div className={showtextStyled.showCommentAreaMainBtn}>
                                     <button onClick={()=>{isEditBtnClicking(item.comment_id)}}>수정</button>
                                     <span style={{marginLeft: "0.5rem"}}>|</span>
                                     <button onClick={()=>{deleteComment(item.comment_id)}}>삭제</button>
-                                </div>
-                            </div> : <div className={showtextStyled.showCommentAreaMain}><p style={{fontSize: "1rem"}}>{item.content}</p></div>
-                        }
+                                </div> : <div className={showtextStyled.showCommentAreaMainBtn}></div>
+                            }
+                        </div>
                     </div>
                 ))}
             </div>
