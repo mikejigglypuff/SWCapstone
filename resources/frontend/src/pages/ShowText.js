@@ -11,6 +11,8 @@ const ShowText = () => {
     const [isEditBtnClicked, setIsEditBtnClicked] = useState(false);
     const [editComment, setEditComment] = useState("");
     const [commentId, setCommentId] = useState(0)
+    const [isWriter, setIsWriter] = useState(false);
+    const [isCommentWriter, setIsCommentWriter] = useState(false);
     const {post_id} = useParams(); // useParams 사용 시 app.js에서 설정한 변수 이름이랑 맞춰야함 아니면 받아오지 못함
     const {category} = useParams();
 
@@ -45,6 +47,13 @@ const ShowText = () => {
         try{
             const response = await axios.get(`https://healthintalk.duckdns.org/comment/${post_id}`);
             setBeforeComments(response.data);
+            const cwriter = localStorage.getItem('usersId');
+            if(cwriter === response.data.user_id){
+                setIsCommentWriter(true);
+            }
+            else{
+                setIsCommentWriter(false);
+            }
             console.log(response);
         }catch(error){
             console.error("댓글 정보를 가져오는 도중 에러 발생", error);
@@ -60,6 +69,13 @@ const ShowText = () => {
         try{
             const response = await axios.get(`https://healthintalk.duckdns.org/post/${post_id}`);
             setTextData(response.data);
+            const writer = localStorage.getItem('usersId');
+            if(writer === response.data.user_id){
+                setIsWriter(true);
+            }
+            else{
+                setIsWriter(false);
+            }
             console.log(response);
         }catch(error){
             console.error("보드 정보를 가져오는 도중 에러 발생", error);
@@ -131,10 +147,12 @@ const ShowText = () => {
         <div className={showtextStyled.ShowText}>
             <div className={showtextStyled.titleArea}>
                 <h2>{textData.title}</h2>
-                <div className={showtextStyled.titleBtnArea}>
-                    <Link to="changetext"><button id={showtextStyled.editT}>게시글 수정</button></Link>
-                    <button id={showtextStyled.deleteT} onClick={deleteText}>게시글 삭제</button>
-                </div>
+                {isWriter === true ?
+                    <div className={showtextStyled.titleBtnArea}>
+                        <Link to="changetext"><button id={showtextStyled.editT}>게시글 수정</button></Link>
+                        <button id={showtextStyled.deleteT} onClick={deleteText}>게시글 삭제</button>
+                    </div> : <div></div>
+                }
             </div>
             <div className={showtextStyled.showTextInfo}>
                 <p>작성자: <span>{textData.user_id}</span></p>
@@ -162,22 +180,24 @@ const ShowText = () => {
                             <p style={{fontWeight:"bold", fontSize: "1.1rem", color:"navy"}}>{item.user_id}</p>
                             <span style={{fontSize: "0.8rem", color:"gray"}}>{item.createdAt}</span>
                         </div>
-                        <div className={showtextStyled.showCommentAreaMain}>
-                            {commentId === item.comment_id && isEditBtnClicked === true ? 
-                                <div className={showtextStyled.editComment}>
-                                    <input value={editComment} onChange={onEditCommentChange}/>
-                                    <div className={showtextStyled.editCommentBtnArea}>
-                                        <button onClick={clickEditCommentBtn}>수정 완료</button>
-                                        <button onClick={cancelEditComment}>수정 취소</button>    
-                                    </div> 
+                        {isCommentWriter === true ?
+                            <div className={showtextStyled.showCommentAreaMain}>
+                                {commentId === item.comment_id && isEditBtnClicked === true ? 
+                                    <div className={showtextStyled.editComment}>
+                                        <input value={editComment} onChange={onEditCommentChange}/>
+                                        <div className={showtextStyled.editCommentBtnArea}>
+                                            <button onClick={clickEditCommentBtn}>수정 완료</button>
+                                            <button onClick={cancelEditComment}>수정 취소</button>    
+                                        </div> 
+                                    </div>
+                                        : <p style={{fontSize: "1rem"}}>{item.content}</p>}
+                                <div className={showtextStyled.showCommentAreaMainBtn}>
+                                    <button onClick={()=>{isEditBtnClicking(item.comment_id)}}>수정</button>
+                                    <span style={{marginLeft: "0.5rem"}}>|</span>
+                                    <button onClick={()=>{deleteComment(item.comment_id)}}>삭제</button>
                                 </div>
-                                    : <p style={{fontSize: "1rem"}}>{item.content}</p>}
-                            <div className={showtextStyled.showCommentAreaMainBtn}>
-                                <button onClick={()=>{isEditBtnClicking(item.comment_id)}}>수정</button>
-                                <span style={{marginLeft: "0.5rem"}}>|</span>
-                                <button onClick={()=>{deleteComment(item.comment_id)}}>삭제</button>
-                            </div>
-                        </div>
+                            </div> : <div></div>
+                        }
                     </div>
                 ))}
             </div>
