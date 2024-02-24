@@ -12,6 +12,7 @@ const {
   UniqueConstraintError, ValidationError, ValidationErrorItem
 } = require("sequelize");
 
+const imgRouter = require("./routes/img");
 const pageRouter = require("./routes/page");
 const userRouter = require("./routes/users");
 const authRouter = require("./routes/auth");
@@ -90,6 +91,7 @@ app.use("/diary", diaryRouter);
 app.use("/post", postRouter);
 app.use("/board", getPostByCategoryRouter);
 app.use("/user", userRouter);
+app.use("/img", imgRouter);
 app.use(pageRouter);
 
 //에러처리
