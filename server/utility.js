@@ -21,17 +21,17 @@ exports.addOrRemoveArr = (arr, val) => {
   return arr;
 }
 
-const img_Path = `../uploads/img/`;
+const img_Path = path.join(__dirname, "/uploads/img/");
 exports.imgPath = img_Path;
 
 exports.upload = multer({
   storage: multer.diskStorage({
-      destination(req, file, done) {
-          done(null, path.join(__dirname, "/uploads/img"));
-      }
+    destination: (req, file, done) => {
+      done(null, img_Path);
+    },
+    filename: (req, file, cb) => {
+      cb(null, file.originalname);
+    }
   }),
-  filename: function (req, file, cb) {
-    cb(null, path.join(__dirname, `/uploads/img/${file.originalname}`));
-  },
   limits: { fileSize: 5 * 1024 * 1024 }
 });

@@ -17,4 +17,8 @@ router.route('/')
   .post(upload.single("image"), postPost)
   .patch(upload.single("image"), patchPost);
 
+
+//router.post("/", upload.single("image"), postPost);
+//router.post("/", upload.single("image"), patchPost);
+
 module.exports = router;

@@ -136,7 +136,7 @@ exports.deletePost = async (req, res, next) => {
 
       checkSameID(req, res, post.user_id);
 
-      await deleteImg(post.url);
+      if(post && post.url) { await deleteImg(post.url); }
 
       await DB.Posts.destroy({
         where: {
@@ -168,7 +168,7 @@ exports.deletePostByAdmin = async (req, res, next) => {
       transaction: t 
     });
 
-    await deleteImg(post.url);
+    if(post && post.url) { await deleteImg(post.url); }
 
     await DB.sequelize.transaction(async (t) => {
       await DB.Posts.destroy({
@@ -221,13 +221,15 @@ exports.patchPost = async (req, res, next) => {
         });
   
         checkSameID(req, res, post.user_id);
-        if(post.url && req.file) await deleteImg(post.url);
+        if(post.url && req.file) { await deleteImg(post.url); }
+
+        const URL = (req.file && req.file.originalname) ? req.file.originalname : null;
 
         await DB.Posts.update({
           title: req.body.title || post.title,
           content: req.body.content || post.content,
           category: req.body.category || post.category,
-          url: `${req.file.originalname  || null}`,
+          url: URL,
           updatedAt: Sequelize.fn('now')
         }, {
           where: {
