@@ -1,3 +1,5 @@
+const multer = require("multer");
+
 exports.globalSendRes = (res, status, msg) => {
     return res.status(status || 500).send(msg || "서버 내부 에러");
 };
@@ -17,3 +19,19 @@ exports.addOrRemoveArr = (arr, val) => {
   }
   return arr;
 }
+
+exports.imgPath = `../uploads/img/`;
+
+const multerOptions = multer({
+  storage: multer.diskStorage({
+      destination(req, file, done) {
+          done(null, imgPath);
+      }
+  }),
+  filename: function (req, file, cb) {
+    cb(null, file.fieldname)
+  },
+  limits: { fileSize: 5 * 1024 * 1024 }
+});
+
+exports.upload = multer({ storage: multerOptions });
