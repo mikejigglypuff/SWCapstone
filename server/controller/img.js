@@ -1,22 +1,23 @@
 const HttpError = require("../httpError");
 const fs = require("fs");
+const path = require("path");
 const { imgPath } = require("../utility");
 
 exports.getImg = async (req, res, next) => {
     try {
-        const file = await fs.readFileSync(`${imgPath}${req.params.imgURL}`);
+        const file = await fs.readFileSync(path.join(imgPath, req.params.imgURL));
         if(!file) throw new HttpError(404, "image not found");
-        res.sendFile(file);
+        res.sendFile(path.join(imgPath, req.params.imgURL));
     } catch(err) {
         next(err);
     }
 };
 
 exports.deleteImg = async (url) => {
-    const file = await fs.readFileSync(`${imgPath}${url}`);
+    const file = await fs.readFileSync(path.join(imgPath, url));
     if(!file) throw new HttpError(404, "image not found");
 
-    fs.unlink(`../uploads/img/${url}`, err => {
+    fs.unlink(path.join(imgPath, url), err => {
         if(err) throw err;
     });
 };
