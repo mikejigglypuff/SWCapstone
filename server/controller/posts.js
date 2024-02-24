@@ -100,6 +100,8 @@ exports.getAllPost = async (req, res, next) => {
 
 exports.postPost = async (req, res, next) => {
   try {
+    const URL = (req.file && req.file.originalname) ? req.file.originalname : null;
+
     await DB.sequelize.transaction(async (t) => {
       await DB.Posts.create({
         title: req.body.title,
@@ -107,7 +109,7 @@ exports.postPost = async (req, res, next) => {
         category: req.body.category,
         user_id: req.session.user_id,
         favcnt: "",
-        url: `${req.file.originalname}` | null
+        url: URL
       }, { 
         lock: true,
         transaction: t
@@ -225,7 +227,7 @@ exports.patchPost = async (req, res, next) => {
           title: req.body.title || post.title,
           content: req.body.content || post.content,
           category: req.body.category || post.category,
-          url: `${req.file.originalname}` | null,
+          url: `${req.file.originalname  || null}`,
           updatedAt: Sequelize.fn('now')
         }, {
           where: {

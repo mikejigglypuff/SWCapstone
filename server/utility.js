@@ -1,4 +1,5 @@
 const multer = require("multer");
+const path = require("path");
 
 exports.globalSendRes = (res, status, msg) => {
     return res.status(status || 500).send(msg || "서버 내부 에러");
@@ -20,18 +21,17 @@ exports.addOrRemoveArr = (arr, val) => {
   return arr;
 }
 
-exports.imgPath = `../uploads/img/`;
+const img_Path = `../uploads/img/`;
+exports.imgPath = img_Path;
 
-const multerOptions = multer({
+exports.upload = multer({
   storage: multer.diskStorage({
       destination(req, file, done) {
-          done(null, imgPath);
+          done(null, path.join(__dirname, "/uploads/img"));
       }
   }),
   filename: function (req, file, cb) {
-    cb(null, file.fieldname)
+    cb(null, path.join(__dirname, `/uploads/img/${file.originalname}`));
   },
   limits: { fileSize: 5 * 1024 * 1024 }
 });
-
-exports.upload = multer({ storage: multerOptions });
