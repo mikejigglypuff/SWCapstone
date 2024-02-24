@@ -118,7 +118,10 @@ app.use((err, req, res, next) => {
       ) { 
       err.status = 400;
       err.message = "잘못된 요청입니다";
-    } else if(firstErr instanceof EmptyResultError) {
+    } else if(
+        firstErr instanceof EmptyResultError || 
+        firstErr instanceof EmptyResultError
+      ) {
       err.status = 404;
       err.message = "일치하는 결과가 없습니다";     
     } else if(firstErr instanceof TimeoutError) {

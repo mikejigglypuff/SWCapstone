@@ -2,6 +2,7 @@ const { Sequelize, Transaction } = require('sequelize');
 const DB = require("../models/index");
 const { addOrRemoveArr } = require("../utility");
 const { isAdmin, hasSession, checkSameID } = require("../authCheck");
+const { deleteImg } = require('./img');
 
 exports.getPost = async (req, res, next) => {
   try {
@@ -105,7 +106,8 @@ exports.postPost = async (req, res, next) => {
         content: req.body.content,
         category: req.body.category,
         user_id: req.session.user_id,
-        favcnt: ""
+        favcnt: "",
+        url: `${req.file.originalname}` | null
       }, { 
         lock: true,
         transaction: t
@@ -132,6 +134,8 @@ exports.deletePost = async (req, res, next) => {
 
       checkSameID(req, res, post.user_id);
 
+      await deleteImg(post.url);
+
       await DB.Posts.destroy({
         where: {
           user_id: req.session.user_id,
@@ -152,6 +156,17 @@ exports.deletePost = async (req, res, next) => {
 exports.deletePostByAdmin = async (req, res, next) => {
   try {
     isAdmin(req, res);
+
+    const post = await DB.Posts.findOne({
+      where: {
+        post_id: req.params.postId
+      }
+    }, { 
+      lock: true,
+      transaction: t 
+    });
+
+    await deleteImg(post.url);
 
     await DB.sequelize.transaction(async (t) => {
       await DB.Posts.destroy({
@@ -174,13 +189,6 @@ exports.patchPost = async (req, res, next) => {
   let split;
   try {
     await DB.sequelize.transaction(async (t) => {
-      const post = await DB.Posts.findOne({
-        raw: true,
-        where: {
-          post_id: req.body.id,
-          deletedAt: null
-        }
-      });
       if(req.body.favcnt){ 
         const favId = await DB.Posts.findOne({
           raw: true,
@@ -211,11 +219,13 @@ exports.patchPost = async (req, res, next) => {
         });
   
         checkSameID(req, res, post.user_id);
+        if(post.url && req.file) await deleteImg(post.url);
 
         await DB.Posts.update({
           title: req.body.title || post.title,
           content: req.body.content || post.content,
           category: req.body.category || post.category,
+          url: `${req.file.originalname}` | null,
           updatedAt: Sequelize.fn('now')
         }, {
           where: {
