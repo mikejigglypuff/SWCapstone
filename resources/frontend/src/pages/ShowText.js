@@ -13,8 +13,8 @@ const ShowText = () => {
     const [commentId, setCommentId] = useState(0)
     const [isWriter, setIsWriter] = useState(false);
     const [isCommentWriter, setIsCommentWriter] = useState(false);
-    const [imgurl, setImgurl] = useState(null);
-    const [images, setImages] = useState(null);
+    const [imgurl, setImgurl] = useState([]);
+    const [images, setImages] = useState([]);
     const {post_id} = useParams(); // useParams 사용 시 app.js에서 설정한 변수 이름이랑 맞춰야함 아니면 받아오지 못함
     const {category} = useParams();
 
@@ -148,6 +148,12 @@ const ShowText = () => {
         alert('댓글이 삭제되었습니다.');
         fetchComment();
     }
+
+    useEffect(() => {
+        if (imgurl) {
+            fetchImages();
+        }
+    }, [imgurl]);
 
     const fetchImages = async() => {
         try{
