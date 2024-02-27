@@ -154,7 +154,7 @@ const ShowText = () => {
 
     const fetchImages = async() => {
         try{
-            const response = await axios.get(`https://healthintalk.duckdns.org/comment/${imgurl}`);
+            const response = await axios.get(`https://healthintalk.duckdns.org/img/${imgurl}`);
             setImages(response.data);
             console.log(response);
         }catch(error){
