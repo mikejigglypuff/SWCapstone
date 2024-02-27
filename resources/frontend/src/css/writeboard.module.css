@@ -38,6 +38,7 @@
 .enterTitleArea{
     width: 100%;
     margin-left: 10%;
+    margin-top: 1rem;
     border-bottom: 1px solid navy;
 }
 .enterTitleArea label{
@@ -59,9 +60,10 @@
 }
 .enterTextArea {
     width: 100%;
-    display: flex; 
+    display: flex;
     align-items: center; 
     margin-left: 10%;
+    margin-top: 1rem;
 }
 .enterTextArea label {
     text-align: center;
@@ -82,6 +84,27 @@
     margin-bottom: 1.2rem;
     margin-left: 1.2rem;
     overflow: auto;
+}
+.enterImgArea{
+    width: 100%;
+    display: flex;
+    align-items: center; 
+    margin-left: 10%;
+    margin-top: 1rem;
+}
+.enterImgArea label {
+    text-align: center;
+    width: 140px;
+    font-size: 18px;
+    justify-content: center;
+    color: navy;
+    flex-shrink: 0;
+}
+.enterImgArea input{
+    margin-left: 1.2rem;
+    padding-left: 0.5rem;
+    width: 80%;
+    font-size: 1rem;
 }
 .WBbtnArea{
     width: 100%;

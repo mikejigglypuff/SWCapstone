@@ -13,6 +13,8 @@ const ShowText = () => {
     const [commentId, setCommentId] = useState(0)
     const [isWriter, setIsWriter] = useState(false);
     const [isCommentWriter, setIsCommentWriter] = useState(false);
+    const [imgurl, setImgurl] = useState(null);
+    const [images, setImages] = useState(null);
     const {post_id} = useParams(); // useParams 사용 시 app.js에서 설정한 변수 이름이랑 맞춰야함 아니면 받아오지 못함
     const {category} = useParams();
 
@@ -71,6 +73,7 @@ const ShowText = () => {
         try{
             const response = await axios.get(`https://healthintalk.duckdns.org/post/${post_id}`);
             setTextData(response.data);
+            setImgurl(response.data.url);
             const writer = localStorage.getItem('usersId');
             if(writer === response.data.user_id){
                 setIsWriter(true);
@@ -145,6 +148,20 @@ const ShowText = () => {
         fetchComment();
     }
 
+    useEffect(() => {
+        fetchImages();
+    },[]);
+
+    const fetchImages = async() => {
+        try{
+            const response = await axios.get(`https://healthintalk.duckdns.org/comment/${imgurl}`);
+            setImages(response.data);
+            console.log(response);
+        }catch(error){
+            console.error("이미지를 가져오는 도중 에러 발생", error);
+        }
+    } 
+
     return (
         <div className={showtextStyled.ShowText}>
             <div className={showtextStyled.titleArea}>
@@ -162,7 +179,10 @@ const ShowText = () => {
                 <p>추천 수: <span>{textData.favcnt}</span></p>
             </div>
             <div className={showtextStyled.mainShowTextArea}>
-                <div className={showtextStyled.showTextBox}>{textData.content}</div>
+                <div className={showtextStyled.showTextBox}>
+                    <img style={{width: "80%", height:"65vh"}} src={images}/><br/><br/>
+                    {textData.content}
+                </div>
                 <button onClick={clickLikeBtn}><img src="/static/img/thumbsup.jpg"></img>추천<span>{textData.favcnt}</span></button>
             </div>
             <div className={showtextStyled.commentArea}>
