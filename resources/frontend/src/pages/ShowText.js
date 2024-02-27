@@ -82,6 +82,7 @@ const ShowText = () => {
                 setIsWriter(false);
             }
             console.log(response);
+            fetchImages();
         }catch(error){
             console.error("보드 정보를 가져오는 도중 에러 발생", error);
         }
@@ -147,10 +148,6 @@ const ShowText = () => {
         alert('댓글이 삭제되었습니다.');
         fetchComment();
     }
-
-    useEffect(() => {
-        fetchImages();
-    },[]);
 
     const fetchImages = async() => {
         try{
