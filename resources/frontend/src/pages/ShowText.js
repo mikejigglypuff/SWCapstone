@@ -82,7 +82,6 @@ const ShowText = () => {
                 setIsWriter(false);
             }
             console.log(response);
-            fetchImages();
         }catch(error){
             console.error("보드 정보를 가져오는 도중 에러 발생", error);
         }
@@ -149,22 +148,6 @@ const ShowText = () => {
         fetchComment();
     }
 
-    useEffect(() => {
-        if (imgurl) {
-            fetchImages();
-        }
-    }, [imgurl]);
-
-    const fetchImages = async() => {
-        try{
-            const response = await axios.get(`https://healthintalk.duckdns.org/img/${imgurl}`);
-            setImages(response.data);
-            console.log(response);
-        }catch(error){
-            console.error("이미지를 가져오는 도중 에러 발생", error);
-        }
-    } 
-
     return (
         <div className={showtextStyled.ShowText}>
             <div className={showtextStyled.titleArea}>
@@ -183,7 +166,7 @@ const ShowText = () => {
             </div>
             <div className={showtextStyled.mainShowTextArea}>
                 <div className={showtextStyled.showTextBox}>
-                    <img style={{width: "80%", height:"65vh"}} src={images}/><br/><br/>
+                    <img style={{width: "80%", height:"65vh"}} src={`/img/${imgurl}`}/><br/><br/>
                     {textData.content}
                 </div>
                 <button onClick={clickLikeBtn}><img src="/static/img/thumbsup.jpg"></img>추천<span>{textData.favcnt}</span></button>
