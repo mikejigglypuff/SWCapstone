@@ -31,7 +31,9 @@ const ChangeText = () => {
     const navigate = useNavigate();
 
     //수정된 제목 또는 글 내용 전달 함수
-    const editNewTextData = async() => {
+    const editNewTextData = async(e) => {
+        e.preventDefault();
+
         try{
                 const formData = new FormData();
                 formData.append('id', post_id);

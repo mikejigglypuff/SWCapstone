@@ -36,7 +36,9 @@ const WriteBoard = () => {
 
     const navigate = useNavigate();
 
-    const sendingWriteTextData = async() => {
+    const sendingWriteTextData = async(e) => {
+        e.preventDefault();
+        
         try {
                 const formData = new FormData();
                 formData.append('title', textTitle);
