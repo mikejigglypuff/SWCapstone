@@ -97,7 +97,6 @@ const ChangeText = () => {
                         <input 
                             id="editImage" 
                             type="file"
-                            value={editImage} 
                             onChange={onEditPhotoChange}
                         />
                     </div>
