@@ -139,6 +139,7 @@ const JoinMembership = () => {
                 });
 
                 alert("회원가입이 완료하였습니다.");
+                localStorage.removeItem('email-token');
                 navigate('/login');
 
           } catch (error) {
