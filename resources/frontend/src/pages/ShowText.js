@@ -166,8 +166,15 @@ const ShowText = () => {
             </div>
             <div className={showtextStyled.mainShowTextArea}>
                 <div className={showtextStyled.showTextBox}>
-                    <img style={{width: "80%", height:"65vh"}} src={`/img/${imgurl}`}/><br/><br/>
-                    {textData.content}
+                    {imgurl ? 
+                        (
+                            <>
+                                <img style={{width: "80%", height:"65vh"}} src={`/img/${imgurl}`}/><br/><br/>
+                                {textData.content}
+                            </>
+                        ) : (
+                                 <div>{textData.content}</div>
+                    )}
                 </div>
                 <button onClick={clickLikeBtn}><img src="/static/img/thumbsup.jpg"></img>추천<span>{textData.favcnt}</span></button>
             </div>

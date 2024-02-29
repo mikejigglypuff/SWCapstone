@@ -68,6 +68,7 @@ const NReplace = () => {
                     }
                 });
                 alert("비밀번호 변경이 완료되었습니다.")
+                localStorage.removeItem('changePW-token');
                 navigate('/login');
         }catch(error){
             console.error("좋아요 버튼 처리 도중 에러 발생", error);
