@@ -23,7 +23,7 @@ const FindID = () => {
     //이메일 인증번호 받는 부분
     const checkEmailVertical = async() => {
         try {    
-                const response = await axios.post('https://healthintalk.duckdns.org/emailAuth', {
+                const response = await axios.post('https://healthintalk.net/emailAuth', {
                     "email": email
                 });
                 console.log(response);
@@ -50,7 +50,7 @@ const FindID = () => {
         const ivertifyCode = parseInt(verifyCode);
         try {
                 const emailToken = localStorage.getItem('email-token');
-                const response = await axios.post('https://healthintalk.duckdns.org/findID', {
+                const response = await axios.post('https://healthintalk.net/findID', {
                         "name": name,
                         "verifyCode": ivertifyCode
                     },

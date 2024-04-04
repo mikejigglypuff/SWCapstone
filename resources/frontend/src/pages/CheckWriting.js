@@ -14,7 +14,7 @@ const CheckWriting = () => {
 
     const fetchWritingText = async() => {
         try{
-            const response = await axios.get('https://healthintalk.duckdns.org/user/post');
+            const response = await axios.get('https://healthintalk.net/user/post');
             setWritingData(response.data);
             console.log(response);
         }catch(error){

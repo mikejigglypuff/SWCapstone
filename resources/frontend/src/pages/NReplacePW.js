@@ -58,7 +58,7 @@ const NReplace = () => {
                 }   
                 const changePWToken = localStorage.getItem('changePW-token');
 
-                const response = await axios.patch('https://healthintalk.duckdns.org/replacePW', 
+                const response = await axios.patch('https://healthintalk.net/replacePW', 
                 {
                     "pw": password
                 },

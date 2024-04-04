@@ -15,7 +15,7 @@ const Header = () => {
 
     const fetchUserData = async() => {
         try{
-            const response = await axios.get('https://healthintalk.duckdns.org/user');
+            const response = await axios.get('https://www.healthintalk.net/user');
             setUserData(response.data);
             console.log(response);
         }catch(error){
@@ -36,7 +36,7 @@ const Header = () => {
     };
 
     const deleteSession = async () => {
-        await axios.delete("https://healthintalk.duckdns.org/logout");
+        await axios.delete("https://healthintalk.net/logout");
         localStorage.removeItem('usersId');
         setUserData([]);
         navigate("/");
