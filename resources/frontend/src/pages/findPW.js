@@ -35,7 +35,7 @@ const FindPW = () => {
 
     const sendUsersInfos= async() => {
         try{
-            const response = await axios.get(`https://healthintalk.net/replacePW/?id=${id}&email=${email}`);
+            const response = await axios.get(`https://www.healthintalk.net/replacePW/?id=${id}&email=${email}`);
             console.log(response);
                 const changePWToken = response.data;
                 if (changePWToken){

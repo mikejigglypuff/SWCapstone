@@ -46,7 +46,7 @@ const WriteBoard = () => {
                 formData.append('category', category);
                 formData.append('image', photo);
 
-                const response = await axios.post('https://healthintalk.net/post', formData, {
+                const response = await axios.post('https://www.healthintalk.net/post', formData, {
                 headers: {
                     "Content-Type": "multipart/form-data",
                   },

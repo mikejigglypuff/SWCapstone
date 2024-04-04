@@ -19,7 +19,7 @@ const ChangeText = () => {
 
     const fetchBeforeTextData = async() => {
         try{
-            const response = await axios.get(`https://healthintalk.net/post/${post_id}`);
+            const response = await axios.get(`https://www.healthintalk.net/post/${post_id}`);
             setEditTitle(response.data.title);
             setEditText(response.data.content);
             console.log(response);
@@ -41,7 +41,7 @@ const ChangeText = () => {
                 formData.append('content', editText);
                 formData.append('image', editImage);
 
-                const response = await axios.patch('https://healthintalk.net/post', formData, {
+                const response = await axios.patch('https://www.healthintalk.net/post', formData, {
                     headers: {
                         "Content-Type": "multipart/form-data",
                     },
