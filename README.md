@@ -13,7 +13,7 @@
 - 최종 개발 기간 23.09 ~ 24.02
 
 ### 사이트 경로
-- [헬스인톡](healthintalk.duckdns.org) 
+- [헬스인톡](www.healthintalk.net) 
 
 ## 구현 기능
 추후 구현 화면 추가 예정
