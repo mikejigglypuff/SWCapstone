@@ -16,7 +16,7 @@ const UnRegister = () => {
     const navigate = useNavigate();
     const sendPWforUnregister = async() => {
         try{
-            const response = await axios.patch('https://healthintalk.net/user/deleteUser', {
+            const response = await axios.patch('https://www.healthintalk.net/user/deleteUser', {
                 "pw": pw
             });
             alert("회원탈퇴가 완료되었습니다");

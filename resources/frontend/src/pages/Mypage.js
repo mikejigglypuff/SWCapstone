@@ -14,7 +14,7 @@ const Mypage = () => {
 
     const fetchUserData = async() => {
         try{
-            const response = await axios.get('https://healthintalk.net/user');
+            const response = await axios.get('https://www.healthintalk.net/user');
             setUserData(response.data);
             console.log(response);
         }catch(error){

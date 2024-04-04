@@ -36,7 +36,7 @@ const Header = () => {
     };
 
     const deleteSession = async () => {
-        await axios.delete("https://healthintalk.net/logout");
+        await axios.delete("https://www.healthintalk.net/logout");
         localStorage.removeItem('usersId');
         setUserData([]);
         navigate("/");

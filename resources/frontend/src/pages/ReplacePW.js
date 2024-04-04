@@ -62,7 +62,7 @@ const ReplacePW = () => {
 
     const changePassWord = async() => {
         try{
-            const response = await axios.patch('https://healthintalk.net/user', {
+            const response = await axios.patch('https://www.healthintalk.net/user', {
                 "pw": beforePW,
                 "newPW": newPW
             });

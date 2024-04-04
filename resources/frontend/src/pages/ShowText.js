@@ -28,7 +28,7 @@ const ShowText = () => {
 
     const sendInputComment = async() => {
         try {    
-                const response = await axios.post('https://healthintalk.net/comment', {
+                const response = await axios.post('https://www.healthintalk.net/comment', {
                     "postId": post_id,
                     "content": comment
                 });
@@ -49,7 +49,7 @@ const ShowText = () => {
 
     const fetchComment = async() => {
         try{
-            const response = await axios.get(`https://healthintalk.net/comment/${post_id}`);
+            const response = await axios.get(`https://www.healthintalk.net/comment/${post_id}`);
             setBeforeComments(response.data);
             const cwriter = localStorage.getItem('usersId');
             if(cwriter === response.data.user_id){
@@ -71,7 +71,7 @@ const ShowText = () => {
 
     const fetchTextData = async() => {
         try{
-            const response = await axios.get(`https://healthintalk.net/post/${post_id}`);
+            const response = await axios.get(`https://www.healthintalk.net/post/${post_id}`);
             setTextData(response.data);
             setImgurl(response.data.url);
             const writer = localStorage.getItem('usersId');
@@ -90,7 +90,7 @@ const ShowText = () => {
     // 좋아요 버튼 클릭 시 함수
     const clickLikeBtn = async() => {
         try{
-            const response = await axios.patch('https://healthintalk.net/post', {
+            const response = await axios.patch('https://www.healthintalk.net/post', {
                 "id": post_id,
                 "favcnt": true
             });
@@ -104,7 +104,7 @@ const ShowText = () => {
     
     //게시물 삭제 함수
     const deleteText = async() => {
-        const respose = await axios.delete(`https://healthintalk.net/post/${post_id}`);
+        const respose = await axios.delete(`https://www.healthintalk.net/post/${post_id}`);
         alert('게시물이 삭제되었습니다.');
         navigate(`/board/${category}`);
     };
@@ -124,7 +124,7 @@ const ShowText = () => {
     // 수정하기 버튼 클릭 시
     const clickEditCommentBtn = async() => {
         try{
-            const response = await axios.patch('https://healthintalk.net/comment', {
+            const response = await axios.patch('https://www.healthintalk.net/comment', {
                 "commentId": commentId,
                 "content": editComment
             });
@@ -143,7 +143,7 @@ const ShowText = () => {
 
     //댓글 삭제 버튼 클릭 시
     const deleteComment = async(commentID) => {
-        const respose = await axios.delete(`https://healthintalk.net/comment/${commentID}`);
+        const respose = await axios.delete(`https://www.healthintalk.net/comment/${commentID}`);
         alert('댓글이 삭제되었습니다.');
         fetchComment();
     }
