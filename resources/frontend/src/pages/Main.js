@@ -38,7 +38,7 @@ const Main = () => {
 
     const fetcFreeBoardData = async() => {
         try{
-            const responses = await axios.get('https://healthintalk.duckdns.org/board/자유게시판');
+            const responses = await axios.get('https://healthintalk.net/board/자유게시판');
             setFree(responses.data);
             console.log(responses);
         }catch(error){
@@ -52,7 +52,7 @@ const Main = () => {
 
     const fetchShareBoardData = async() => {
         try{
-            const responses = await axios.get('https://healthintalk.duckdns.org/board/식단&운동공유게시판');
+            const responses = await axios.get('https://healthintalk.net/board/식단&운동공유게시판');
             setShare(responses.data);
             console.log(responses);
         }catch(error){
@@ -66,7 +66,7 @@ const Main = () => {
 
     const fetchBoardData = async() => {
         try{
-            const responses = await axios.get('https://healthintalk.duckdns.org/board/질문게시판');
+            const responses = await axios.get('https://healthintalk.net/board/질문게시판');
             setQuestion(responses.data);
             console.log(responses);
         }catch(error){

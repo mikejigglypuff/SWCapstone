@@ -42,7 +42,7 @@ const MyExerciseDiary = () => {
 
     const sendInputDiaryInfo = async() => {
         try {    
-                const response = await axios.post('https://healthintalk.duckdns.org/diary', {
+                const response = await axios.post('https://healthintalk.net/diary', {
                     "date": date,
                     "weight": weight,
                     "bodyFat": bodyFat,
@@ -69,7 +69,7 @@ const MyExerciseDiary = () => {
 
     const fetchDiaryInfo = async() => {
         try{
-            const response = await axios.get('https://healthintalk.duckdns.org/diary');
+            const response = await axios.get('https://healthintalk.net/diary');
             setDiaryData(response.data);
             console.log(response);
         }catch(error){
