@@ -1,5 +1,6 @@
 const DB = require("./models/index");
 const HttpError = require("./httpError");
+const sanitize = require("sanitize-html");
 
 //회원 로그인 여부 체크
 exports.hasSession = (req, res) => {
@@ -16,4 +17,15 @@ exports.checkSameID = (req, res, id) => {
 exports.isAdmin = (req, res) => {
   if(req.session && req.session.is_Admin) { return true; }
   else if(this.hasSession(req, res)) { throw new HttpError(403, "접근 권한이 없습니다");  }
+}
+
+exports.validateXSS = (req, res, next) => {
+  const userInput = req.body;
+  for(let key of userInput) {
+    if(userInput.hasOwnProperty) {
+      userInput[key] = sanitize(userInput[key]);
+    }
+  }
+
+  next();
 }

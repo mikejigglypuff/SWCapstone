@@ -105,7 +105,7 @@ exports.postUser = async (req, res, next) => {
       username: req.body.name
     });
       
-    res.sendStatus(200);  
+    res.sendStatus(201);  
     
   } catch(err) {
     next(err);
@@ -151,7 +151,7 @@ exports.deleteUserByAdmin = async (req, res, next) => {
     });
     await DB.sequelize.query(`DELETE from sessions where data like '%${req.body.user_id}%'`);
 
-    res.sendStatus(200);
+    res.sendStatus(204);
   } catch(err) {
     next(err);
   }

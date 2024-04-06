@@ -10,10 +10,10 @@ const router = express.Router();
 router.route("/admin")
   .get(getAllUser)
   .put(deleteUserByAdmin);
-router.get("/post", getPostsByUser);
-router.get("/comment", getCommentsByUser);
+router.get("/posts", getPostsByUser);
+router.get("/comments", getCommentsByUser);
 router.get("/:userId", getUserIdOverlaps);
-router.patch("/deleteUser", deleteUser);
+router.patch("/unsubsribe", deleteUser);
 
 router.route('/')
   .get(getUser)

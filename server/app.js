@@ -7,10 +7,12 @@ const cookies = require("cookie-parser");
 const http = require("node:http");
 const https = require("node:https");
 const fs = require("fs");
+const helmet = require("helmet");
 const { 
   BulkRecordError, EmptyResultError, ForeignKeyConstraintError, QueryError, 
   UniqueConstraintError, ValidationError, ValidationErrorItem
 } = require("sequelize");
+const { validateXSS } = require("./authCheck");
 
 const imgRouter = require("./routes/img");
 const pageRouter = require("./routes/page");
@@ -30,13 +32,15 @@ const config = require("./config/config.json");
 const HttpError = require("./httpError");
 const MySQLStore = require("express-mysql-session")(session);
 let sequelize = require('./models').sequelize;
+
+const domain = process.env.DEFAULT_URL || "localhost:8080";
+const nodeEnv = process.env.NODE_ENV;
 const app = express();
 sequelize.sync();
-const processEnv = "development";
 
 //80, 433번 port에서 열림, 템플릿 엔진 사용
 app.engine('html', require('ejs').renderFile);
-app.set("port", config[processEnv].httpsPort || 443);
+app.set("port", config[nodeEnv].httpsPort || 443);
 app.set("view engine", "html");
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -46,23 +50,39 @@ app.use(session({
   resave: true,
   saveUninitialized: false,
   store: new MySQLStore({
-    host: config[processEnv].host,
-    port: config[processEnv].port,
-    user: config[processEnv].username,
-    password: config[processEnv].password,
-    database: config[processEnv].database,
+    host: config[nodeEnv].host,
+    port: config[nodeEnv].port,
+    user: config[nodeEnv].username,
+    password: config[nodeEnv].password,
+    database: config[nodeEnv].database,
     clearExpired: true,
   }),
   cookie: {
     path: "/",
-    httpOnly: false,
-    secure: false,
-    expires: 604800000
+    httpOnly: true,
+    secure: true,
+    expires: 86400000
   }
 }));
+
+const whiteList = [`https://${domain}`, `http://${domain}`];
 app.use(cors({
-  origin: "*"
+  origin: (origin, callback) => {
+    if(whiteList.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  }
 }));
+app.use(validateXSS);
+
+if(nodeEnv === "production") {
+  app.use(helmet({
+    contentSecurityPolicy: false,
+    crossOriginResourcePolicy: false
+  }));
+}
 
 //http 등 -> https 리다이렉트
 app.all("*", (req, res, next) => {
@@ -80,12 +100,12 @@ app.use("/static/css", express.static(path.resolve(__dirname, "../resources/fron
 app.use("/static/js", express.static(path.resolve(__dirname, "../resources/frontend/build/static/js")));
 app.use("/static/img", express.static(path.resolve(__dirname, "../resources/frontend/build/img")));
 
-app.use("/login/auth", authRouter);
-app.use("/emailAuth", emailRouter);
-app.use("/replacePW", replPWRouter);
+app.use("/login", authRouter);
+app.use("/email", emailRouter);
+app.use("/replace", replPWRouter);
 app.use("/comment", commentRouter);
 app.use("/logout", logoutRouter);
-app.use("/findID", findIDRouter);
+app.use("/find", findIDRouter);
 app.use("/admin", adminRouter);
 app.use("/diary", diaryRouter);
 app.use("/post", postRouter);
@@ -103,7 +123,7 @@ app.use((req, res, next) => {
 
 app.use((err, req, res, next) => {
   res.locals.message = err.message;
-  res.locals.error = process.env.NODE_ENV !== "production" ? err : {};
+  res.locals.error = nodeEnv !== "production" ? err : {};
 
   console.error(err);
 
@@ -137,15 +157,15 @@ app.use((err, req, res, next) => {
 //https 포트 개방
 https.createServer(
   {
-    key: fs.readFileSync(config[processEnv].key, "utf-8"),
-    cert: fs.readFileSync(config[processEnv].cert, "utf-8"),
-    ca: fs.readFileSync(config[processEnv].ca, "utf-8")
+    key: fs.readFileSync(config[nodeEnv].key, "utf-8"),
+    cert: fs.readFileSync(config[nodeEnv].cert, "utf-8"),
+    ca: fs.readFileSync(config[nodeEnv].ca, "utf-8")
   }, app).listen(app.get("port"), () => {
     console.log(app.get("port"), "번 포트에서 https 서버 대기중");
   }
 );
 
 //http 포트 개방
-http.createServer(app).listen(config[processEnv].httpPort, () => {
-  console.log(config[processEnv].httpPort, "번 포트에서 http 서버 대기중");
+http.createServer(app).listen(config[nodeEnv].httpPort, () => {
+  console.log(config[nodeEnv].httpPort, "번 포트에서 http 서버 대기중");
 });

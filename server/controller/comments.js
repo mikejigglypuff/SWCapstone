@@ -82,7 +82,7 @@ exports.postComments = async (req, res, next) => {
                 transaction: t 
             });
     
-            res.sendStatus(200);
+            res.sendStatus(201);
         });
     } catch(err) {
         next(err);
@@ -110,7 +110,7 @@ exports.deleteComments = async (req, res, next) => {
                 transaction: t 
             });
     
-            res.sendStatus(200);
+            res.sendStatus(204);
         });
     } catch(err) {
         next(err);
@@ -130,7 +130,7 @@ exports.deleteCommentsByAdmin = async (req, res, next) => {
                 transaction: t 
             });
     
-            res.sendStatus(200);
+            res.sendStatus(204);
         });
     } catch(err) {
         next(err);

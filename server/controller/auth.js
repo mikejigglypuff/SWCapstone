@@ -28,7 +28,7 @@ exports.postAuth = async (req, res, next) => {
         req.session.save((err) => {
           if(err) { throw new HttpError(500, "서버 내부 에러"); }
         });
-        res.json({ user_id: id });
+        res.status(201).json({ user_id: id });
       } else {
         throw new HttpError(404, "회원 아이디 또는 패스워드가 일치하지 않습니다");
       }
