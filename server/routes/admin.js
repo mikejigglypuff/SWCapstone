@@ -4,6 +4,6 @@ const { adminAuth, postAdmin, getAdminName } = require("../controller/admin");
 
 router.post("/auth", adminAuth);
 router.post("/register", postAdmin);
-router.get("/adminName", getAdminName);
+router.get("/name", getAdminName);
 
 module.exports = router;

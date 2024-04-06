@@ -101,7 +101,7 @@
                     sendEmail.onclick = async () => {
                         const email = document.getElementById("registerEmail").value;
 
-                        const token = await fetch("https://healthintalk.duckdns.org/emailAuth", {
+                        const token = await fetch(`https://www.healthintalk.net/email/auth`, {
                             method: "POST",
                             headers: {
                                 "Content-Type": "application/json;charset=utf-8"
@@ -145,7 +145,7 @@
                         const verify = await document.getElementById("verifyNumber").value;
                         const name = await document.getElementById("registerName").value;
 
-                        fetch("https://healthintalk.duckdns.org/admin/register", {
+                        fetch("https://www.healthintalk.net/admin/register", {
                             method: "POST",
                             headers: {
                                 'Content-Type': 'application/json;charset=utf-8',
@@ -163,7 +163,7 @@
                     elements.push(registerBtn);
                 } else {
                     //사용자 이름 출력하는 DOM 객체 생성
-                    await fetch("/admin/adminName", {
+                    await fetch("/admin/name", {
                         method: "GET",
                         headers: {
                             'Content-Type': 'application/json;charset=utf-8'

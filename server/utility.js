@@ -35,3 +35,10 @@ exports.upload = multer({
   }),
   limits: { fileSize: 5 * 1024 * 1024 }
 });
+
+exports.allowMethods = (methods) => {
+  return (req, res, next) => { 
+    res.header("Access-Control-Allow-Methods", methods);
+    next();
+  };
+}

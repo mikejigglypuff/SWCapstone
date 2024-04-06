@@ -34,7 +34,7 @@ exports.postDiary = async (req, res, next) => {
             date: req.body.date
         });
 
-        res.sendStatus(200);
+        res.sendStatus(201);
     } catch(err) {
         next(err);
     }

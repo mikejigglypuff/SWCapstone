@@ -12,7 +12,7 @@ exports.Logout = (req, res) => {
           throw new HttpError(500, "서버 내부 에러");
         } else {
           res.clearCookie("connect.sid", "/");
-          globalSendRes(res, 200, { logout: true });
+          res.sendStatus(204);
         }
       });
     }

@@ -58,7 +58,7 @@ const NReplace = () => {
                 }   
                 const changePWToken = localStorage.getItem('changePW-token');
 
-                const response = await axios.patch('https://www.healthintalk.net/replacePW', 
+                const response = await axios.patch('https://www.healthintalk.net/replace/pw', 
                 {
                     "pw": password
                 },

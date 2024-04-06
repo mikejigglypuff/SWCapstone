@@ -14,7 +14,7 @@ exports.getImg = async (req, res, next) => {
 };
 
 exports.deleteImg = async (url) => {
-    const file = await fs.readFileSync(path.join(imgPath, url));
+    const file = fs.readFileSync(path.join(imgPath, url));
     if(!file) throw new HttpError(404, "image not found");
 
     fs.unlink(path.join(imgPath, url), err => {

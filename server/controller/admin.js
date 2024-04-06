@@ -68,7 +68,7 @@ exports.postAdmin = async (req, res, next) => {
         isadmin: true
       });
         
-      res.sendStatus(200);  
+      res.sendStatus(201);  
     } catch(err) {
       next(err);
     }

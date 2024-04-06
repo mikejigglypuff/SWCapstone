@@ -4,7 +4,7 @@ const { verifyUserByEmailID, replacePW } = require("../controller/replacePW");
 
 const router = express.Router();
 
-router.route("/")
+router.route("/pw")
     .get(verifyUserByEmailID)
     .patch(replacePW);
 

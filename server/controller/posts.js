@@ -115,7 +115,7 @@ exports.postPost = async (req, res, next) => {
         transaction: t
       });
   
-      res.sendStatus(200);
+      res.sendStatus(201);
     });
   } catch(err) {
     next(err);
@@ -148,7 +148,7 @@ exports.deletePost = async (req, res, next) => {
         transaction: t 
       });
   
-      res.sendStatus(200);
+      res.sendStatus(204);
     });
   } catch(err) {
     next(err);
@@ -180,7 +180,7 @@ exports.deletePostByAdmin = async (req, res, next) => {
         transaction: t 
       });
   
-      res.sendStatus(200);
+      res.sendStatus(204);
     });
   } catch(err) {
     next(err);
@@ -221,17 +221,21 @@ exports.patchPost = async (req, res, next) => {
         });
   
         checkSameID(req, res, post.user_id);
-        if(post.url && req.file) { await deleteImg(post.url); }
 
-        const URL = (req.file && req.file.originalname) ? req.file.originalname : null;
-
-        await DB.Posts.update({
+        let options = {
           title: req.body.title || post.title,
           content: req.body.content || post.content,
           category: req.body.category || post.category,
-          url: URL,
           updatedAt: Sequelize.fn('now')
-        }, {
+        };
+        
+        if(post.url && req.file) { 
+          const URL = (req.file && req.file.originalname) ? req.file.originalname : null;
+          await deleteImg(post.url); 
+          options.url = URL;
+        }
+
+        await DB.Posts.update(options, {
           where: {
             post_id: req.body.id
           },

@@ -80,7 +80,7 @@ const JoinMembership = () => {
     //이메일 인증번호 받는 부분
     const checkEmailVertical = async() => {
         try {    
-                const response = await axios.post('https://www.healthintalk.net/emailAuth', {
+                const response = await axios.post('https://www.healthintalk.net/email/auth', {
                     "email": email
                 });
                 console.log(response);

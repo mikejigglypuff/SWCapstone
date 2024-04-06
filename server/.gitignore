@@ -4,3 +4,4 @@ config/
 sessions/
 config/session.json 
 uploads/img/
+/**/*.env
