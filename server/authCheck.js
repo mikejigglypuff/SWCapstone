@@ -1,6 +1,7 @@
 const DB = require("./models/index");
 const HttpError = require("./httpError");
 const sanitize = require("sanitize-html");
+const bodyParser = require("body-parser");
 
 //회원 로그인 여부 체크
 exports.hasSession = (req, res) => {
@@ -21,11 +22,13 @@ exports.isAdmin = (req, res) => {
 
 exports.validateXSS = (req, res, next) => {
   const userInput = req.body;
-  for(let key of userInput) {
-    if(userInput.hasOwnProperty) {
-      userInput[key] = sanitize(userInput[key]);
+  if(userInput) {
+    for(let key in userInput) {
+      if(userInput.hasOwnProperty) {
+        userInput[key] = sanitize(userInput[key]);
+      }
     }
   }
-
+  
   next();
 }

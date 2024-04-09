@@ -18,6 +18,10 @@ const UnRegister = () => {
         try{
             const response = await axios.patch('https://www.healthintalk.net/user/unsubscribe', {
                 "pw": pw
+            }, {
+                headers: {
+                    "Content-Type": "application/json",
+                },
             });
             alert("회원탈퇴가 완료되었습니다");
             navigate('/');

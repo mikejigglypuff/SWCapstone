@@ -49,6 +49,10 @@ const MyExerciseDiary = () => {
                     "muscle": muscle,
                     "bodyParts": bodyParts,
                     "content": content
+                }, {
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
                 });
                 alert("일기 작성이 완료되었습니다.");
                 fetchDiaryInfo();

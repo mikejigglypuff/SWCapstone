@@ -82,6 +82,10 @@ const JoinMembership = () => {
         try {    
                 const response = await axios.post('https://www.healthintalk.net/email/auth', {
                     "email": email
+                }, {
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
                 });
                 console.log(response);
                 const emailToken = response.data;
@@ -134,7 +138,8 @@ const JoinMembership = () => {
                 },
                 {
                     headers: {
-                        authorization : `${emailToken}`
+                        authorization : `${emailToken}`,
+                        "Content-Type": "application/json",
                     }
                 });
 

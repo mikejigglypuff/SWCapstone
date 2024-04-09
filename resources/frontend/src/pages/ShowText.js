@@ -31,6 +31,10 @@ const ShowText = () => {
                 const response = await axios.post('https://www.healthintalk.net/comment', {
                     "postId": post_id,
                     "content": comment
+                }, {
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
                 });
                 alert("댓글 작성이 완료되었습니다.");
 
@@ -93,6 +97,10 @@ const ShowText = () => {
             const response = await axios.patch('https://www.healthintalk.net/post', {
                 "id": post_id,
                 "favcnt": true
+            }, {
+                headers: {
+                    "Content-Type": "application/json",
+                },
             });
             fetchTextData();
         }catch(error){
@@ -127,6 +135,10 @@ const ShowText = () => {
             const response = await axios.patch('https://www.healthintalk.net/comment', {
                 "commentId": commentId,
                 "content": editComment
+            }, {
+                headers: {
+                    "Content-Type": "application/json",
+                },
             });
             alert("댓글 수정이 완료되었습니다.");
             setIsEditBtnClicked(false);
