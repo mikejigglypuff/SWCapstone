@@ -13,83 +13,110 @@
 - 최종 개발 기간 23.09 ~ 24.02
 
 ### 사이트 경로
-- [헬스인톡](healthintalk.duckdns.org) 
+- [헬스인톡](www.healthintalk.net) 
 
 ## 구현 기능
-추후 구현 화면 추가 예정
+### 회원가입 & 이메일 인증
 
-### 사용자 관련 기능
-- 회원가입
+기본 정보들을 입력하고 이메일 인증을 통해 회원가입할 수 있다.
+![register](document/media/joinMembership.png)
 
-  아이디 중복 확인 버튼 클릭 시 해당 아이디가 DB상에 존재하는지에 대한 여부 전송
+중복된 아이디인지 먼저 검증해 새 아이디만 사용할 수 있도록 하였다.
+![uniqueID](document/media/checkUniqueID.mp4)
 
-  이메일 인증 버튼 클릭 시 해당 주소로 인증번호 발송
+이메일 인증 버튼 클릭 시 이메일 주소를 사용하는 회원이 존재하는지 확인 후 없다면 아래와 같이 토큰을 발급하고 해당 주소로 인증 메일이 전송된다.
+![emailAuth1](document/media/emailverify1.png)
 
-  인증번호가 일치하면 토큰 발급
+![uniqueEmail](document/media/emailverinotify.png)
+![emailToken](document/media/emailToken.png)
 
-  회원의 비밀번호는 해시 알고리즘을 거친 후 DB에 저장
+![emailAuth2](document/media/emailverify2.png)
 
-- 로그인
+인증번호를 입력하고 회원가입을 할 수 있다.
+![finishRegister](document/media/finishJoin.png)
 
-  사용자가 입력한 비밀번호를 해시한 값이 DB상에 저장된 비밀번호와 일치하는지 확인하는 구조
+회원의 정보 중 비밀번호는 유출 시에도 비교적 안전하도록 해시 알고리즘을 적용 후 저장한다.
+![hashPW](document/media/storeHashPW.PNG)
 
-  로그인이 성공하면 서버에 세션 생성 후 클라이언트에 해당 세션을 가리키는 쿠키 발급
+### 로그인
+아이디와 비밀번호를 입력해 로그인할 수 있다.
+![login](document/media/loginPage.png)
+![loginSuccess](document/media/loginSuccess.png)
 
-  쿠키로 로그인 여부를 확인해 헤더의 드롭다운 메뉴를 변경함
+이 때 서버 상에 로그인 세션이 생성되며 클라이언트에 쿠키가 발급된다.
+![session](document/media/sessionsDB.PNG)
+![cookie](document/media/cookie.PNG)
 
-- 로그아웃
+또한 드롭다운 메뉴가 로그인 대신 마이페이지/로그아웃으로 바뀐다.
+![loginDropdown](document/media/dropdownAfterLogin.png)
 
-  로그아웃 시 발급받은 쿠키를 삭제함
-  
-- 아이디 찾기 & 비밀번호 변경
+로그아웃 시 드롭다운이 초기 상태로 바뀐다.
+![logoutDropdown](document/media/logoutDropdown.mp4)
 
-  회원가입과 마찬가지로 이메일 인증 후 토큰 발급
+### 커뮤니티 기능
+메인화면의 게시글을 클릭하거나 헤더의 게시판을 클릭해 게시글 및 댓글을 확인할 수 있다.
+![mainPost](document/media/mainPost.png)
 
-  비밀번호의 경우 아이디와 같이 직접 반환하면 유출되는 문제가 발생할 수 있으므로 새 비밀번호를 입력하도록 함
+![category](document/media/postsByCategory.png)
+![randPost](document/media/randomPost1.png)
+![randComment](document/media/randomComment1.png)
 
-- 회원정보 수정
+로그인 후 게시글을 작성할 수 있다.
+![writePost](document/media/writePost.png)
 
-- 회원탈퇴
+아래와 같은 이미지를 추가해서 작성하는 것도 가능하다.
+![Racoon](document/media/NicePng_racoon-png_9597509.png)
+![addImage1](document/media/addPostImage.png)
 
-  회원탈퇴 시 자동으로 로그아웃 처리되도록 함
+작성된 게시글 결과는 아래와 같다.
+![writeResult](document/media/writePostResult.png)
 
-- 헬스 다이어리 조회 및 작성
-
-  자신의 다이어리만 조회 가능
-
-  매일 인바디를 잴 수는 없으므로 그 날의 몸무게, 운동 부위 정도만 필수로 입력하도록 함
-
-  날짜를 선택하면 해당 날짜의 다이어리로 기록되도록 할 수 있음
-
-  예: 깜빡하고 어제의 운동을 기록하지 못한 경우 날짜를 어제로 선택한 후 다이어리 작성해도 됨
+게시글 화면에서 버튼을 클릭해 자신이 작성한 글을 수정 또는 삭제 가능하다.
+![myPostPatch1](document/media/patchPost.png)
+![myPostPatch2](document/media/afterPatchPost.png)
 
 
-### 커뮤니티 관련 기능
-- 게시글 & 댓글 조회
+![myPostDelete1](document/media/deletePost.png)
+![myPostDelete2](document/media/afterDeletePost.png)
 
-  각 게시판의 글 및 댓글들은 로그인하지 않아도 조회할 수 있음
 
-- 게시글 작성 & 수정
+다른 사람이 작성한 게시물은 수정 및 삭제할 수 없다.
+![otherPost](document/media/otherPost.png)
 
-  게시글에 이미지를 첨부할 경우 서버 스토리지에 이미지가 저장되며 해당 이미지에 접근할 수 있는 url이 게시글 DB상에 저장됨
 
-  게시글 이미지 수정 시 기존 이미지는 스토리지 상에서 삭제하고 새 이미지를 저장
+로그인 후 댓글 작성 및 수정, 삭제할 수 있다.
+![writeComment1](document/media/writeComment.png)
+![writeComment2](document/media/writeCommentResult.png)
 
-- 게시글 추천
+![patchComment1](document/media/patchComment.png)
+![patchComment2](document/media/successPatchComment.png)
+![patchComment3](document/media/patchCommentResult.png)
 
-  회원 당 1번씩만 가능하며 다시 클릭할 경우 추천이 취소됨
+![DeleteComment1](document/media/deleteComment.png)
+![DeleteComment2](document/media/afterDeleteComment.png)
 
-- 게시글 삭제
+### 다이어리
+로그인 후 마이페이지에서 자신의 다이어리를 작성할 수 있다.
+![writeDiary](document/media/writeDiary.png)
 
-  게시글을 삭제할 경우 해당 게시글에 첨부된 이미지 파일도 서버 스토리지에서 삭제됨
+이 때 날짜, 몸무게를 제외한 다른 사항들은 입력하지 않아도 상관없다.
+![necessaryOnlyDiary](document/media/onlyNecessaryDiaryWrite.png)
 
-- 댓글 작성 & 수정 & 삭제
+또한 작성한 다이어리들을 확인할 수 있다.
+![getDiary](document/media/onlyNecessaryDiary.png)
 
 ### 기타 기능
+주소를 입력해 해당 주소 상에 존재하는 헬스장 목록을 확인할 수 있다.
+![mapSearch](document/media/헬스장검색.png)
+![mapResult1](document/media/헬스장검색결과1.png)
+![mapResult2](document/media/헬스장%20검색결과2.png)
 
-카카오맵 헬스장 검색
-bmi 계산기
-**오**늘의 **운**동 **추**천
+키와 몸무게를 입력해 아래와 같이 bmi 계산 결과를 얻을 수 있다.
+![bmi1](document/media/bmi%20180&70.png)
+![bmi2](document/media/bmi%20계산결과.png)
+
+버튼을 클릭해 임의의 운동 부위를 추천받을 수 있다.
+![ounchu](document/media/ounchu.png)
 
 
 ## 진행한 문서 작업
