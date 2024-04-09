@@ -64,7 +64,8 @@ const NReplace = () => {
                 },
                 {
                     headers: {
-                        authorization : `${changePWToken}`
+                        authorization : `${changePWToken}`,
+                        "Content-Type": "application/json",
                     }
                 });
                 alert("비밀번호 변경이 완료되었습니다.")

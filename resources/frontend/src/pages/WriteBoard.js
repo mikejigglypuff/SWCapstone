@@ -47,9 +47,9 @@ const WriteBoard = () => {
                 formData.append('image', photo);
 
                 const response = await axios.post('https://www.healthintalk.net/post', formData, {
-                headers: {
-                    "Content-Type": "multipart/form-data",
-                  },
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                    },
                 });
         
                 alert("글 작성이 완료되었습니다.");

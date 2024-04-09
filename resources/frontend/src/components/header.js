@@ -53,7 +53,7 @@ const Header = () => {
             }
         };
 
-        if(document.cookie) { 
+        if(localStorage.getItem('usersId')) { 
             if(userData.length === 0) { 
                 fetchUserData(); 
             }
@@ -85,7 +85,7 @@ const Header = () => {
                 {isclick && (
                     <div className={hearderStyled.dropdownContent}>
                         <ul>
-                            {document.cookie ? ( //쿠키 존재 여부 확인
+                            {localStorage.getItem('usersId') ? ( //쿠키 존재 여부 확인
                                     <>
                                         <li style={{textAlign:"center", fontWeight: "bold", color:"navy"}}>✨{userData.username}님 환영합니다✨</li>
                                         <li><Link to="/mypage" onClick={() => setIsClick(false)}>🏡 마이페이지</Link></li>

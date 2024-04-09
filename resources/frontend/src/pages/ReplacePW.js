@@ -65,6 +65,10 @@ const ReplacePW = () => {
             const response = await axios.patch('https://www.healthintalk.net/user', {
                 "pw": beforePW,
                 "newPW": newPW
+            }, {
+                headers: {
+                    "Content-Type": "application/json",
+                },
             });
             alert("비밀번호 변경이 완료되었습니다.");
             deleteSession();

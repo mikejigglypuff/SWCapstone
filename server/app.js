@@ -67,15 +67,8 @@ app.use(session({
   }
 }));
 
-const whiteList = [`https://${domain}`, `http://${domain}`];
 app.use(cors({
-  origin: (origin, callback) => {
-    if(whiteList.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
-  }
+  origin: `https://${domain}`,
 }));
 app.use(validateXSS);
 

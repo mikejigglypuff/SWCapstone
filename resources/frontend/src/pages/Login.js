@@ -24,16 +24,13 @@ const Login = () => {
                 const response = await axios.post('https://www.healthintalk.net/login/auth', {
                     "id": id,
                     "pw": password,
+                }, {
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
                 });
 
                 console.log(response);
-
-                const cookies = response.headers['set-cookie'];
-                console.log(cookies);
-
-                if(cookies){
-                    localStorage.setItem('sessionCookies', JSON.stringify(cookies));
-                }
 
                 const userId = response.data.user_id; // user 아이디 로컬스토리지에 저장
                 if (userId){
