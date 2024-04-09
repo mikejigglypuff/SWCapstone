@@ -46,6 +46,7 @@ app.set("port", config[nodeEnv].httpsPort || 443);
 app.set("view engine", "html");
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use(express.json());
 app.use(cookies());
 app.use(session({
   secret: sessionConfig.key,
