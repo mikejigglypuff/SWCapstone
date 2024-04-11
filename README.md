@@ -22,7 +22,7 @@
 ![register](document/media/joinMembership.png)
 
 중복된 아이디인지 먼저 검증해 새 아이디만 사용할 수 있도록 하였다.
-![uniqueID](document/media/checkUniqueID.mp4)
+![uniqueID](document/media/checkUniqueID.gif)
 
 이메일 인증 버튼 클릭 시 이메일 주소를 사용하는 회원이 존재하는지 확인 후 없다면 아래와 같이 토큰을 발급하고 해당 주소로 인증 메일이 전송된다.
 ![emailAuth1](document/media/emailverify1.png)
@@ -51,7 +51,7 @@
 ![loginDropdown](document/media/dropdownAfterLogin.png)
 
 로그아웃 시 드롭다운이 초기 상태로 바뀐다.
-![logoutDropdown](document/media/logoutDropdown.mp4)
+![logoutDropdown](document/media/logoutDropdown.gif)
 
 ### 커뮤니티 기능
 메인화면의 게시글을 클릭하거나 헤더의 게시판을 클릭해 게시글 및 댓글을 확인할 수 있다.
@@ -78,6 +78,9 @@
 
 ![myPostDelete1](document/media/deletePost.png)
 ![myPostDelete2](document/media/afterDeletePost.png)
+
+게시글 버튼을 클릭해 게시글을 추천할 수 있고 한 번 더 클릭 시 추천을 취소할 수 있다.
+![likeAndCancel](document/media/cancelLike.gif)
 
 
 다른 사람이 작성한 게시물은 수정 및 삭제할 수 없다.
