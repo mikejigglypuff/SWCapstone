@@ -126,7 +126,8 @@
 
 - [프로젝트 작업 관리](https://hypnotic-smoke-0d2.notion.site/3ce9d5c6bc644660850f46176c6e64bf?v=c2bb2aefd70f4a3380fb3342bddeec19&pvs=4)
 - [API 문서](https://hypnotic-smoke-0d2.notion.site/API-a69e1f251feb4954bb98ae3addc15c43?pvs=4)
-- [ERD 다이어그램](document/media/ERD.png)
+- ERD 다이어그램
+  [ERD](document/media/ERD.png)
 
 
 
